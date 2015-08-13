@@ -1,0 +1,175 @@
+/*@import "bootstrap";*/
+
+$darkgrey :  #333333;
+$blue: #003871;
+
+@mixin asap($weight) {
+    font-family: 'Asap';
+    font-weight: $weight;
+}
+
+@mixin roboto-condensed($weight) {
+    font-family: 'Roboto Condensed';
+    font-weight: $weight;
+}
+
+@mixin border-radius ($radius) {
+    @include border-top-radius($radius);
+    @include border-bottom-radius($radius);
+}
+
+/******************************** BASE ********************************/
+
+h1 {
+    @include asap(400);
+    font-style: italic;
+    font-size: 32px;
+    color: $darkgrey;
+}
+
+h2 {
+    @include roboto-condensed(300);
+    font-size: 24px;
+    color: #222222;
+}
+
+h3 {
+    @include roboto-condensed(400);
+    font-size: 17px;
+    color: $darkgrey;
+}
+
+body {
+    @include roboto-condensed(300);
+    font-size: 17px;
+    color: $darkgrey;
+    line-height: 1.4em;
+}
+
+p {
+    @include roboto-condensed(300);
+    font-size: 17px;
+    color: $darkgrey;
+    line-height: 1.4em;
+    a {
+        @include roboto-condensed(400);
+        font-size: 17px;
+        color: $blue;
+    }
+}
+
+.resources {
+    float: left;
+    width: 200px;
+    height: 100px;
+    border: 1px blue solid;
+}
+
+div.selected-resources ol, div.selected-processes ol {
+
+    width: 100%;
+    height: 100%;
+    border: 1px solid green;
+    
+    li {
+        list-style-type: none;
+    }
+    
+}
+
+.process-box, .resource-box {
+    float: left;
+    list-style-type: none;
+    cursor: move;
+}
+
+.process-box {
+    border: 1px orange solid;
+}
+
+.resource-box {
+    border: 1px orange solid;
+}
+
+div.process-list, div.resource-list {
+    
+    p {
+        float: left;
+        width: 100%;
+    }
+    
+}
+
+.regular {
+    font-weight: 400;
+}
+
+.blue {
+    color: $blue;
+}
+
+h1.alap {
+    background-color: red;
+    color: blue;
+}
+
+body {
+    background-color: #ffe088;
+}
+
+div.main {
+    margin: 10px;
+
+    div.header {
+        margin-bottom: 10px;
+    }
+    
+    div.content {
+        background-image: url('/img/tt2.jpg');
+        background-position: 0 -570px;
+        height: 470px;
+        box-shadow: 0 0 1pt 1pt #554400;
+        border-radius: 5px;
+    }
+
+    div.search-container {
+        margin: 150px 0 0 0;
+        padding: 20px 5% 40px 5%;
+        background-color: #ffffff;
+        box-shadow: 0 0 1pt 1pt #554400;
+        border-radius: 10px;
+        
+        input.search {
+            width: 100%;
+            padding: 0px 20px 0px 20px;
+            font-size: 200%;
+            line-height: 200%;
+            color: #222222;
+            border: 0 #222222 solid;
+/*            box-shadow: 0 0 1pt 1pt #554400;*/
+            border-radius: 10px;
+            outline: 0;
+            background: none;
+             
+            &:focus {
+                background-color: #eeeeee;
+                transition: border linear .2s, box-shadow linear .2s;
+                transition-property: border, box-shadow;
+                transition-duration: 0.2s, 0.2s;
+                transition-timing-function: linear, linear;
+                transition-delay: initial, initial;            
+            }
+        }
+        
+    }
+
+    div.logo-center-container {
+        margin: 10px 0 0 0;
+        
+        div.logo-center {
+            background-image: url('/img/logo-center.png');
+            
+        }
+    }
+
+}

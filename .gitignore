@@ -1,0 +1,7 @@
+/docroot/node_modules
+/docroot/data
+/docroot/public/javascripts/lib
+/docroot/public/fonts
+/docroot/public/stylesheets/bootstrap.min.css
+/docroot/public/stylesheets/site.css
+/npm-debug.log

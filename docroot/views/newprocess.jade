@@ -1,0 +1,41 @@
+extends layout
+
+block head
+    script(type='text/javascript' src='/javascripts/newprocess.js')
+
+block content
+    h1= title
+    form#formAddProcess(name="addprocess",method="post",action="/addprocess")
+        p new process
+        input#inputName(type="text", placeholder="name", name="name")
+        input#inputParameters(type="text", placeholder="parameters", name="parameters")
+        input#inputResources(type="text", placeholder="resources", name="resources")
+        input#inputProcesses(type="text", placeholder="processes", name="processes")
+        div.selected-processes
+            p selected processes
+            ol
+                li.placeholder add your items here
+        div.selected-resources
+            p selected resources
+            ol
+                li.placeholder add your items here
+        input#inputDuration(type="text", placeholder="duration", name="duration")
+        input#inputResult(type="text", placeholder="result", name="result")
+        button#btnSubmit(type="submit") submit
+    form#formAddResource(name="addresource",method="post",action="/addresource")
+        p new resource
+        input#inputName(type="text", placeholder="name", name="name")
+        input#inputParameters(type="text", placeholder="parameters", name="parameters")
+        button#btnSubmit(type="submit") submit
+    div.process-list
+        p process list
+        ul.process-list
+            each process, i in processlist
+                li(class="process-box")
+                    = process.name
+    div.resource-list
+        p resource list
+        ul.resource-list
+            each resource, i in resourcelist
+                li(class="resource-box")
+                    = resource.name

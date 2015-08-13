@@ -1,0 +1,13 @@
+tutorial
+    http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/
+
+start mongodb
+    mongod --dbpath d:\Langs\php_project\cook\docroot\data
+    mongod --dbpath d:\Norbert\src\cook\docroot\data
+    
+start mongo client
+    mongo
+    
+start node app
+    npm start
+    

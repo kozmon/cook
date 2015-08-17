@@ -1,3 +1,18 @@
+recipe
+    step        
+        liszt tálba
+        resources:
+            liszt
+            tál
+        
+            
+
+
+
+
+
+
+
 process
     name
     resources

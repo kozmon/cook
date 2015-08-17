@@ -1,9 +1,12 @@
 tutorial
-    http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/
+    http:\\cwbuecheler.com\web\tutorials\2013\node-express-mongo\
 
 start mongodb
-    mongod --dbpath d:/Langs/php_project/cook/docroot/data
-    mongod --dbpath d:/Norbert/src/cook/docroot/data
+    home desktop computer:
+        mongod --dbpath d:\\Langs\\projects\\cook\\docroot\\data
+        
+    totaldeluxe office computer:
+        mongod --dbpath d:\\Norbert\\src\\cook\\docroot\\data
     
 start mongo client
     mongo

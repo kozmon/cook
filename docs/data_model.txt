@@ -1,15 +1,17 @@
 pizza by Norberto
     description: ...
     ingredients:
-        leavened dough
+        leavened dough by Norberto
             parameters:
                 amount of flour: 50 dkg
         tomato sauce
             amount: 20 dkg
         mozzarella
             amount: 20 dkg
-
-leavened dough
+    instructions:
+        ...
+        
+leavened dough - by Norberto
     description: ...
     ingredients:
         flour
@@ -95,7 +97,7 @@ tomato sauce
             text: 
                 en: put the tomatoes into the boiling water and wait 2 minutes
             duration: 3 minutes
-            attendance rate: 33%
+            attendance rate: 33%            
         step 2.
             text: 
                 en: peel the tomatoes
@@ -106,6 +108,8 @@ tomato sauce
                 en: put olive oil in the pan and heat it
             duration: 2 minutes
             attendance rate: 50%
+            resource needs:
+                pan, id to the resource (resource id or place id in the current resource list)
         step 4.
             text:
                 en: peel the garlic and put it in the pan with the hot olive oil, then roast them for 1 minutes
@@ -121,4 +125,8 @@ tomato sauce
                 en: add the basil to the mix and cook it for 2 minutes together
             duration: 2.5 minutes
             attendance rate: 66%
+            resource stops:
+                pan
                 
+if a resource has a start and a stop need time that it will be reserved for that time. Washing it may need additional time.
+else the resource will be reserved until the whole process.

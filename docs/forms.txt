@@ -1,0 +1,66 @@
+new ingredient
+    fields
+        name: text, autocomplete
+        description: text
+
+new resource
+    fields
+        name: text, autocomplete
+        description: text
+
+add ingredient
+    fields
+        id: hidden
+            has value if autocomplete is selected
+            if empty, redirects to the new ingredient window on name field focus leave (or popup or side div)
+        display only: icon if recipe or atomic ingredient
+        name: text, autocomplete
+        amount: text
+        unit: text, autocomplete
+        comment (small icon gets bigger with an input field on click): text
+        temperature (same): text
+        optional: checkbox
+
+add resource
+    fields
+        id: hidden
+            has value if autocomplete is selected
+            if empty, redirects to the new resource window on name field focus leave (or popup or side div)
+        name: text, autocomplete
+        amount: text
+        comment (small icon gets bigger with an input field on click): text
+        optional: checkbox
+    
+add instruction step
+    fields
+        text: text
+        duration: text
+        attendance rate: integer
+        resourse needs start times, list:
+            resource name: list of recipes resources + text, autocomplete
+            if resource is not in the resource list
+                if there is no existing resource with the typed name then open a new resource window
+                add resource to resource list
+                if an entity of the selected resource is in use
+                    add a new instance of the resource to the resource list
+            if resource need is started
+                suggests its removal
+        ingredients, list:
+            [added ingredients]
+            [add ingredient form]
+            if ingredient was not in the recipes ingredientlist, or it was with a smaller amount
+                add to that, or modify the amount
+    
+new recipe
+    fields
+        name: text, autocomplete
+        description: text
+        ingredients, list:
+            [added ingredients]
+            [add ingredient form]
+        resources, list:
+            [added resources]
+            [add resource form]
+        instructions, list:
+            [added instructions]
+            [add instruction form]

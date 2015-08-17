@@ -8,6 +8,7 @@
   "dependencies": {
     "body-parser": "~1.13.2",
     "bson": "^0.4.11",
+    "busboy": "^0.2.9",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "express": "~4.13.1",
@@ -15,6 +16,7 @@
     "mongodb": "~2.0.33",
     "monk": "~1.0.1",
     "morgan": "~1.6.1",
+    "multer": "^1.0.3",
     "node-sass-middleware": "^0.9.0",
     "serve-favicon": "~2.3.0"
   }

@@ -1,0 +1,10 @@
+uj recept
+    név: rántott csirkemell
+    kategoriák: hús előkészítése, panírozás, hús sütése
+    
+műveletek:
+    név: hús előkészítése
+    mennyiség: 1 kg
+    leírás: felvágni, megsózni ...
+    idő: 20 perc
+        

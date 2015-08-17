@@ -1,0 +1,124 @@
+pizza by Norberto
+    description: ...
+    ingredients:
+        leavened dough
+            parameters:
+                amount of flour: 50 dkg
+        tomato sauce
+            amount: 20 dkg
+        mozzarella
+            amount: 20 dkg
+
+leavened dough
+    description: ...
+    ingredients:
+        flour
+            amount: 50 dkg
+            parameters
+                comment: 
+                    en: "can be mixed from different types of flour"
+        salt
+            amount: 5 g
+        water
+            amount: 2.6 dl
+            parameters
+                temperature: 30 'C
+        yeast
+            amount: 2 dkg
+        olive oil
+            amount: 5 cl
+            parameters
+                minimum: 2cl
+                maximum: 10 cl
+    resources:
+        bowl
+            amount: 1 pc
+        dish towel
+            amount: 1 pc
+        fork
+            amount: 1 pc
+            parameters
+                optional: true
+    instructions:
+        step 1.
+            text: 
+                en: knead the flour with the yeast and the water!
+            duration: 5 minutes
+            attendance rate: 100%
+        step 2.
+            text: 
+                en:  add the others and continue kneading!
+            duration: 5 minutes
+            attendance rate: 100%
+        step 3.
+            text: 
+                en: cover the bowl of pasta with a dish towel and leave it on a cold and dry place!
+            duration: 45 minutes
+            attendance rate: 1%
+            
+tomato sauce
+    description: ...
+    ingredients:
+        tomato: 50 dkg
+            parameters
+                comment: 
+                    en: "fine Italian San Marzano"
+        garlic
+            amount: 5 dkg
+        salt
+            amount: 5 g
+        sugar
+            amount: 5 g
+            optional: true
+        ground black pepper
+            amount: 2 g
+            optional: true
+        fresh basil
+            amount: 10 g
+            substitute
+                dry basil
+        olive oil
+            amount: 2 cl
+        hot water
+            amount: 1 l
+    resources:
+        stove
+            amount: 1 pc
+        pan
+            amount: 1 pc
+        wooden spoon
+            amount: 1 pc
+            parameters
+                optional: true
+    instructions:
+        step 1.
+            text: 
+                en: put the tomatoes into the boiling water and wait 2 minutes
+            duration: 3 minutes
+            attendance rate: 33%
+        step 2.
+            text: 
+                en: peel the tomatoes
+            duration: 5 minutes
+            attendance rate: 100%
+        step 3.
+            text:
+                en: put olive oil in the pan and heat it
+            duration: 2 minutes
+            attendance rate: 50%
+        step 4.
+            text:
+                en: peel the garlic and put it in the pan with the hot olive oil, then roast them for 1 minutes
+            duration: 5 minutes
+            attendance rate: 80%
+        step 5.
+            text:
+                en: put the tomatoes, the salt and the sugar and the pepper into the pan and boil it for 5 minutes
+            duration: 6 minutes
+            attendance rate: 66%
+        step 6.
+            text:
+                en: add the basil to the mix and cook it for 2 minutes together
+            duration: 2.5 minutes
+            attendance rate: 66%
+                

@@ -1,7 +1,17 @@
 /*@import "bootstrap";*/
 
-$darkgrey :  #333333;
-$blue: #003871;
+$color00 :  #ff8500;
+$color01 :  #f78000;
+$color02 :  #e98fe2;
+$color03 :  #ffe100;
+$color04 :  #f7d900;
+$color05 :  #e9d32e;
+$color06 :  #d80062;
+$color07 :  #cf005e;
+$color08 :  #c4276e;
+$color09 :  #0478a4;
+$color10 :  #01709b;
+$color11 :  #227392;
 
 @mixin asap($weight) {
     font-family: 'Asap';
@@ -24,38 +34,65 @@ h1 {
     @include asap(400);
     font-style: italic;
     font-size: 32px;
-    color: $darkgrey;
+    color: $color03;
 }
 
 h2 {
     @include roboto-condensed(300);
     font-size: 24px;
-    color: #222222;
+    color: $color03;
 }
 
 h3 {
     @include roboto-condensed(400);
     font-size: 17px;
-    color: $darkgrey;
+    color: $color03;
 }
 
 body {
     @include roboto-condensed(300);
     font-size: 17px;
-    color: $darkgrey;
+    color: $color03;
     line-height: 1.4em;
 }
 
 p {
     @include roboto-condensed(300);
     font-size: 17px;
-    color: $darkgrey;
     line-height: 1.4em;
+
     a {
         @include roboto-condensed(400);
         font-size: 17px;
-        color: $blue;
+        color: $color09;
     }
+}
+
+.form-add-recipe input {
+    margin-bottom: 1em;
+}
+
+.box-ingredient {    
+    background-color: $color03;
+    color: $color00;
+    
+    pre {
+        background-color: #ffffff;
+        border-color: #000000;
+        color: $color00;
+    }
+}
+
+div.new-resource, div.new-ingredient, div.add-instruction-step {
+    float: left;
+    width: 400px;
+    height: 100px;
+    border: 1px green solid;
+    display: none;
+}
+
+.recipe-head input[type=text] {
+    width: 100%;
 }
 
 .resources {
@@ -65,25 +102,40 @@ p {
     border: 1px blue solid;
 }
 
-div.selected-resources ol, div.selected-processes ol {
+div.instruction-steps {
+    background-color: $color06;
+}
 
-    width: 100%;
-    height: 100%;
-    border: 1px solid green;
-    
+p.drop-box-comment {
+    color: #555;
+    font-size: 13px;
+    line-height: 1.42857143;
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+div.selected-resources ol, div.selected-ingredients ol, div.instruction-steps ol {
+
     li {
         list-style-type: none;
     }
     
 }
 
-.process-box, .resource-box {
+div.form-instruction-step {
+    border: 1px solid #998877;
+}
+
+div.instruction-step-resources {
+    border: 1px solid #998877;
+}
+
+.ingredient-box, .resource-box {
     float: left;
     list-style-type: none;
     cursor: move;
 }
 
-.process-box {
+.ingredient-box {
     border: 1px orange solid;
 }
 
@@ -91,7 +143,7 @@ div.selected-resources ol, div.selected-processes ol {
     border: 1px orange solid;
 }
 
-div.process-list, div.resource-list {
+div.ingredient-list, div.resource-list {
     
     p {
         float: left;
@@ -105,7 +157,7 @@ div.process-list, div.resource-list {
 }
 
 .blue {
-    color: $blue;
+    color: $color03;
 }
 
 h1.alap {
@@ -114,7 +166,7 @@ h1.alap {
 }
 
 body {
-    background-color: #ffe088;
+    background-color: $color00;
 }
 
 div.main {

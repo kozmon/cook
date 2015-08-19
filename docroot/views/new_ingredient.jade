@@ -1,0 +1,10 @@
+form.form-new-ingredient(name="new-ingredient",method="post",action="/newingredient")
+    h2 new ingredient
+    div.input
+        span.label name
+        input(type="text", name="name")
+    div.input
+        span.label description
+        input(type="text", name="description")
+    div.actions
+        input(type="submit", value="add new ingredient")

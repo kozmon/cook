@@ -1,0 +1,10 @@
+form.form-new-resource(name="new-resource",method="post",action="/newresource")
+    h2 new resource
+    div.input
+        span.label name
+        input(type="text", name="name")
+    div.input
+        span.label description
+        input(type="text", name="description")
+    div.actions
+        input(type="submit", value="add new resource")

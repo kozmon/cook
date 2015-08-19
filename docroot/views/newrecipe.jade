@@ -1,0 +1,66 @@
+extends layout
+
+block head
+    script(type='text/javascript' src='/javascripts/newrecipe.js')
+
+block content
+    div(class='container-fluid')
+        div(class='row')
+            div(class='col-xs-12')
+                form.form-add-recipe(name="new-recipe", method="post", action="/newrecipe")
+                    div(class='row')
+                        div(class='col-xs-4 form-group box-recipe-head')
+                            p tell us about your recipe
+                            div(class='row')
+                                div(class='col-xs-12')
+                                    input(type="text", class="form-control input-name", placeholder="name", name="name")
+                            div(class='row')
+                                div(class='col-xs-12')
+                                    textarea(class="form-control input-description", placeholder="description", name="description")
+                    
+                        div(class='col-xs-8 box-ingredient')
+                            div.selected-ingredients
+                                p selected ingredients
+                                pre
+                                    p(class="drop-box-comment") move your items here
+                                    ol
+                            
+                            div.selected-resources
+                                p selected resources
+                                pre
+                                    p(class="drop-box-comment") move your items here
+                                    ol
+                                    
+                    div(class='row')
+                        div(class='col-xs-12 instruction-steps')
+                            p instructions
+                            ol.instruction-steps
+                            include ./add_instruction_step.jade                    
+                            
+                    button.btn-submit-add-process(type="submit") submit
+                    
+        div(class='row')
+            div(class='col-xs-6')
+                div.ingredient-list
+                    p available ingredients
+                    ul.ingredient-list
+                        each element, i in ingredientList
+                            li(class="ingredient-box")
+                                = element.name
+                                
+            div(class='col-xs-6')
+                div.resource-list
+                    p available resources
+                    ul.resource-list
+                        each element, i in resourceList
+                            li(class="resource-box", data-id="#{element.id}")
+                                = element.name
+
+        div(class='row')
+            div(class='col-xs-6')
+                div.new-resource
+                    include ./new_resource.jade
+                
+            div(class='col-xs-6')
+                div.new-ingredient
+                    include ./new_ingredient.jade

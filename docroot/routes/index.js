@@ -3,24 +3,20 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'PaloFcooK' });
 });
 
 module.exports = router;
 
-/* GET Hello World page. */
-router.get('/helloworld', function(req, res) {
-    res.render('helloworld', { title: 'Hello, World!' });
-});
-
 /* GET Userlist page. */
-router.get('/userlist', function(req, res) {
+router.get('/resourcelist', function(req, res) {
     var db = req.db;
-    var collection = db.get('usercollection');
-    collection.find({},{},function(e,docs){
-        res.render('userlist', {
-            "userlist" : docs
-        });
+    var text = req.query.q;
+    var resourceCollection = db.get('resource');
+    
+//    resourceCollection.find({ 'name': {$regex : ".*" + text + ".*"} },{},function(e,docs){
+    resourceCollection.find({ 'name': {$regex : ".*" + text + ".*"} },{},function(e,docs){
+        res.json(docs);
     });
 });
 
@@ -59,47 +55,42 @@ router.post('/adduser', function(req, res) {
 });
 
 /* GET New User page. */
-router.get('/newprocess', function(req, res) {
+router.get('/newrecipe', function(req, res) {
 
     // Set our internal DB variable
     var db = req.db;
 
-    var processCollection = db.get('process');
+    var ingredientCollection = db.get('ingredient');
     var resourceCollection = db.get('resource');
     
-    processCollection.find({},{},function(e,processlist){
-        resourceCollection.find({},{},function(e,resourcelist){
-            res.render('newprocess', {
-                "processlist" : processlist,
-                "resourcelist" : resourcelist
+    ingredientCollection.find({},{},function(e, ingredientList){
+        resourceCollection.find({},{},function(e, resourceList){
+            res.render('newrecipe', {
+                "ingredientList" : ingredientList,
+                "resourceList" : resourceList
             });
         });
     });
 });
 
 /* POST to Add Process Service */
-router.post('/addprocess', function(req, res) {
+router.post('/newingredient', function(req, res) {
 
     // Set our internal DB variable
     var db = req.db;
 
     // Get our form values. These rely on the "name" attributes
     var name = req.body.name;
-    var parameters = req.body.parameters;
-    var resources = req.body.resources;
-    var duration = req.body.duration;
-    var result = req.body.result;
+    var description = req.body.description;
 
     // Set our collection
-    var collection = db.get('process');
+    var collection = db.get('ingredient');
 
     // Submit to the DB
     collection.insert({
+        "id" : name,
         "name" : name,
-        "parameters" : parameters,
-        "resources" : resources,
-        "duration" : duration,
-        "result" : result
+        "description" : description,
     }, function (err, doc) {
         if (err) {
             // If it failed, return error
@@ -107,28 +98,29 @@ router.post('/addprocess', function(req, res) {
         }
         else {
             // And forward to success page
-            res.redirect("newprocess");
+            res.redirect("newrecipe");
         }
     });
 });
 
 /* POST to Add Resource Service */
-router.post('/addresource', function(req, res) {
+router.post('/newresource', function(req, res) {
 
     // Set our internal DB variable
     var db = req.db;
 
     // Get our form values. These rely on the "name" attributes
     var name = req.body.name;
-    var parameters = req.body.parameters;
+    var description = req.body.description;
 
     // Set our collection
     var collection = db.get('resource');
 
     // Submit to the DB
     collection.insert({
+        "id" : name,
         "name" : name,
-        "parameters" : parameters
+        "description" : description,
     }, function (err, doc) {
         if (err) {
             // If it failed, return error
@@ -136,7 +128,7 @@ router.post('/addresource', function(req, res) {
         }
         else {
             // And forward to success page
-            res.redirect("newprocess");
+            res.redirect("newrecipe");
         }
     });
 });

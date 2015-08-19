@@ -1,0 +1,32 @@
+div(class='row')
+    div(class='col-xs-12 form-instruction-step')
+        div.input
+            span.label text
+            input(type="textarea", class="form-data", name="text")
+        div.input
+            span.label duration
+            input(type="text", class="form-data", name="duration")
+        div.input
+            span.label attendance rate
+            input(type="text", class="form-data", name="attendance-rate")
+            
+        div.instruction-step-ingredients
+            div.selected-ingredients
+                p selected ingredients
+                ol
+                    li.placeholder add your items here
+                        
+            div.input
+                input.input-add-ingredient(type="button", value="new ingredient")
+
+        div.instruction-step-resources
+            div.selected-resources
+                p selected resources
+                ol
+                    li.placeholder add your items here
+
+            div.input
+                input.input-add-resource(type="button", value="new resource")
+
+        div.actions
+            input(type="button", class="submit", value="add step")

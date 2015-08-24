@@ -108,7 +108,7 @@ $(document).ready(function() {
     });
 */
 
-    $( "div.selected-ingredients pre" ).droppable({
+    $( "div.selected-ingredients pre, div.instruction-step-ingredients pre" ).droppable({
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
         //accept: ":not(.ui-sortable-helper), .ingredient-box",
@@ -137,7 +137,7 @@ $(document).ready(function() {
         }
     });
     
-    $( "div.selected-resources pre" ).droppable({
+    $( "div.selected-resources pre, div.instruction-step-resources pre" ).droppable({
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
         //accept: ":not(.ui-sortable-helper), .resource-box",

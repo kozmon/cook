@@ -52,7 +52,7 @@ h3 {
 body {
     @include roboto-condensed(300);
     font-size: 17px;
-    color: $color03;
+    background-color: #000000;
     line-height: 1.4em;
 }
 
@@ -67,12 +67,55 @@ p {
         color: $color09;
     }
 }
-
-.form-add-recipe input {
-    margin-bottom: 1em;
+/*
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+*/
+div.content {
+    background-color: #ffffff;
 }
 
-.box-ingredient {    
+/* main boxes */
+div.recipe-head {
+    height: 100%;
+    background-color: $color00;
+    color: $color03;
+    
+    input[type=text] {
+        width: 100%;
+    }
+}
+    
+div.add-instruction-step {
+    height: 100%;
+    background-color: $color06;
+    color: $color03;
+
+    div.instruction-step-head {
+        input[type=text] {
+            width: 100%;
+        }
+    }
+    
+    pre {
+        background-color: #ffffff;
+        border-color: #000000;
+        color: $color00;
+    }
+}
+
+div.instruction-step-list {
+    height: 100%;
+    background-color: $color09;
+    color: $color03;
+}
+
+div.ingredients-resources {    
+    height: 100%;
     background-color: $color03;
     color: $color00;
     
@@ -83,27 +126,11 @@ p {
     }
 }
 
-div.new-resource, div.new-ingredient, div.add-instruction-step {
-    float: left;
-    width: 400px;
-    height: 100px;
-    border: 1px green solid;
-    display: none;
-}
-
-.recipe-head input[type=text] {
-    width: 100%;
-}
-
 .resources {
     float: left;
     width: 200px;
     height: 100px;
     border: 1px blue solid;
-}
-
-div.instruction-steps {
-    background-color: $color06;
 }
 
 p.drop-box-comment {
@@ -119,14 +146,6 @@ div.selected-resources ol, div.selected-ingredients ol, div.instruction-steps ol
         list-style-type: none;
     }
     
-}
-
-div.form-instruction-step {
-    border: 1px solid #998877;
-}
-
-div.instruction-step-resources {
-    border: 1px solid #998877;
 }
 
 .ingredient-box, .resource-box {

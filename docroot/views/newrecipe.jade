@@ -4,21 +4,21 @@ block head
     script(type='text/javascript' src='/javascripts/newrecipe.js')
 
 block content
-    div(class='container-fluid')
+    div(class='container-fluid content')
         div(class='row')
             div(class='col-xs-12')
                 form.form-add-recipe(name="new-recipe", method="post", action="/newrecipe")
-                    div(class='row')
-                        div(class='col-xs-4 form-group box-recipe-head')
+                    div(class='row row-eq-height')
+                        div(class='col-md-4 col-xs-12 form-group recipe-head')
                             p tell us about your recipe
                             div(class='row')
                                 div(class='col-xs-12')
                                     input(type="text", class="form-control input-name", placeholder="name", name="name")
                             div(class='row')
                                 div(class='col-xs-12')
-                                    textarea(class="form-control input-description", placeholder="description", name="description")
+                                    textarea(class="form-control", placeholder="description", name="description")
                     
-                        div(class='col-xs-8 box-ingredient')
+                        div(class='col-md-8 col-xs-12 ingredients-resources')
                             div.selected-ingredients
                                 p selected ingredients
                                 pre
@@ -31,11 +31,11 @@ block content
                                     p(class="drop-box-comment") move your items here
                                     ol
                                     
-                    div(class='row')
-                        div(class='col-xs-12 instruction-steps')
-                            p instructions
-                            ol.instruction-steps
-                            include ./add_instruction_step.jade                    
+                    div(class='row row-eq-height')
+                        div(class='col-md-6 col-xs-12 add-instruction-step')
+                            include ./add_instruction_step.jade
+                        div(class='col-md-6 col-xs-12 instruction-step-list')
+                            include ./instruction_step_list.jade
                             
                     button.btn-submit-add-process(type="submit") submit
                     

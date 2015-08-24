@@ -55,6 +55,8 @@ block content
                         each element, i in resourceList
                             li(class="resource-box", data-id="#{element.id}")
                                 = element.name
+                                if element.image
+                                    img(src="#{element.image.path}")
 
         div(class='row')
             div(class='col-xs-6')

@@ -5,14 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware')
+var multer  = require('multer');
 
 // db
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/cook');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -29,22 +27,26 @@ app.use(
         prefix: '/prefix'
     })
 );
-  
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+var upload = multer({
+    dest: './public/uploads/'
+});
+
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var routes = require('./routes/index')(app, db, upload);
+
 app.use(function(req,res,next){
     req.db = db;
     next();
 });
 
-app.use('/', routes);
-app.use('/users', users);
+//app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,7 +54,16 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+/*
+var done = false;
 
+app.post('/api/photo', function(req,res){
+    if (done==true) {
+        console.log(req.files);
+        res.end("File uploaded.");
+    }
+});
+*/
 // error handlers
 
 // development error handler

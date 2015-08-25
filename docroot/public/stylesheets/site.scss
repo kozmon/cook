@@ -76,10 +76,12 @@ p {
 }
 */
 div.content {
-    background-color: #ffffff;
+    background-color: #A0A0A0;
 }
 
+/**************/
 /* main boxes */
+/**************/
 div.recipe-head {
     height: 100%;
     background-color: $color00;
@@ -126,11 +128,40 @@ div.ingredients-resources {
     }
 }
 
+div.available-ingredient-list {
+    background-color: $color09;
+    color: $color03;
+}
+
+div.available-resource-list {
+    background-color: $color03;
+    color: $color00;
+}
+
+div.new-resource {
+    background-color: $color00;
+    color: $color03;
+}
+
+div.new-ingredient {
+    background-color: $color06;
+    color: $color03;
+}
+
+div.instruction-step-ingredients ol li {
+    list-style-type: none;
+}
+
+/*******************/
 .resources {
     float: left;
     width: 200px;
     height: 100px;
     border: 1px blue solid;
+}
+
+.row {
+    overflow: hidden;
 }
 
 p.drop-box-comment {
@@ -148,10 +179,22 @@ div.selected-resources ol, div.selected-ingredients ol, div.instruction-steps ol
     
 }
 
-.ingredient-box, .resource-box {
+.available-ingredient, .available-resource {
     float: left;
     list-style-type: none;
     cursor: move;
+}
+
+.available-ingredient {
+    background-color: $color09;
+    color: $color03;
+    border: 1px solid $color03;
+}
+
+.available-resource {
+    background-color: $color03;
+    color: $color00;
+    border: 1px solid $color00;
 }
 
 .ingredient-box {
@@ -160,15 +203,6 @@ div.selected-resources ol, div.selected-ingredients ol, div.instruction-steps ol
 
 .resource-box {
     border: 1px orange solid;
-}
-
-div.ingredient-list, div.resource-list {
-    
-    p {
-        float: left;
-        width: 100%;
-    }
-    
 }
 
 .regular {

@@ -28,21 +28,18 @@ $(document).ready(function() {
         }
     });
     
-    $( ".form-instruction-step input.submit" ).on( "click", function(e) {
-        
-        var form = $(e.toElement).parents( ".form-instruction-step" );
+    $( ".add-instruction-step input.submit" ).on( "click", function(e) {
+        var form = $('div.add-instruction-step');
         var data = {
             text: $(form).find('input[name=text]').val(),
             duration: $(form).find('input[name=duration]').val(),
             attendanceRate: $(form).find('input[name=attendance-rate]').val()
         };
-        var element = $("<li></li>").appendTo($( "ol.instruction-steps" ));
+        var row = $('<div class="row"></div>').appendTo($("<li></li>").appendTo($( "div.instruction-step-list ol" )));
+        $('<div class="col-md-2">').appendTo(row).append('<p><span class="text">' + data.text + '</span> (<span class="duration">' + data.duration + ' min</span>)</p>');
+        $('<div class="col-md-2">').appendTo(row).append('<span class="attendance-rate">' + data.attendanceRate + '</span>');
+        var ingredientList = $('<ul></ul>').appendTo($('<div class="col-md-8">').appendTo(row));
         
-        $(element).append("<p>todo:<span class='text'>" + data.text + "</span>(<span class='duration'>" + data.duration + "</span>)</p>");
-        $(element).append("<span class='attendance-rate'>" + data.attendanceRate + "</span>");
-        
-        var ingredientList = $("<ul></ul>").appendTo($(element));
-            console.log($(form).find(".instruction-step-ingredients ol"));
         $(form).find(".instruction-step-ingredients ol li:not(.placeholder)").each(function(key, value) {
             var data = {
                 text: $(value).find('.text').html(),
@@ -50,26 +47,17 @@ $(document).ready(function() {
                 unit: $(value).find('.unit').val(),
                 comment: $(value).find('.comment').val()
             };
-            
             var content = "<li>";
-            content += 'text:';
-            content += '<span class="text">' + data.text + '</span><br/>';
-            content += 'amount:';
-            content += '<span class="amount">' + data.amount + '</span><br/>';
-            content += 'unit:';
-            content += '<span class="unit">' + data.unit + '</span><br/>';
-            content += 'comment:';
-            content += '<span class="comment">' + data.comment + '</span><br/>';
-            
+            content += '<span class="amount">' + data.amount + '</span> ';
+            content += '<span class="unit">' + data.unit + '</span> of ';
+            content += '<span class="text">' + data.text + '</span>';
+            content += '<span class="comment"> (' + data.comment + ')</span>';
             content += "</li>";
             
             $(ingredientList).append(content);
         });
         
-        //console.log($(form .instruction-step-ingredients ol));
-        
         $( "ol.instruction-steps" ).sortable("refresh");
-        //$( "div.instruction-steps ol" ).append("<li><p>" + data.name + " (" + data.duration + " mins)</p></li>");
         
     });
     
@@ -112,23 +100,22 @@ $(document).ready(function() {
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
         //accept: ":not(.ui-sortable-helper), .ingredient-box",
-        accept: ".ingredient-box",
+        accept: ".available-ingredient",
         drop: function( event, ui ) {
-            var content = "<span class='text' >" + (ui.draggable.text() + "</span>");
-            var row = $( "<li></li>" ).html(content).appendTo($(this).find('ol'));
+            var li = $( "<li></li>" ).appendTo($(this).find('ol'));
+            var row = $( "<div class='row'></div>" ).appendTo($(li));
 
-            $(row).append("<input type='text' class='amount' placeholder='amount' />");
-            $(row).append("<input type='text' class='unit' placeholder='unit' />");
-            $(row).append("<input type='text' class='comment' placeholder='comment'/>");
-            // todo: replace id, this can be non-unique
-            $(row).append("<label for='selected-ingredient-" + ($(row).index()) + "-" + (ui.draggable.attr('data-id')) + "'>optional</label>");
-            $(row).append("<input type='checkbox' class='optional' id='selected-ingredient-" + ($(row).index()) + "-" + (ui.draggable.attr('data-id')) + "' />");
-            $("<input type='button' class='remove' value='remove' />").appendTo($(row)).on("click", function() {
-                $(row).remove();
+            $('<div class="col-md-2"></div>').append( "<span class='text' >" + (ui.draggable.text()) + "</span>" ).appendTo(row);
+            $('<div class="col-md-1"></div>').append( "<input type='text' class='amount form-control' placeholder='amount' />" ).appendTo(row);
+            $('<div class="col-md-1"></div>').append( "<input type='text' class='unit form-control' placeholder='unit' />" ).appendTo(row);
+            $('<div class="col-md-4"></div>').append( "<input type='text' class='comment form-control' placeholder='comment'/>" ).appendTo(row);
+            $('<div class="col-md-2"></div>').append( "<label for='selected-ingredient-" + $(row).index() + "-" + ui.draggable.attr('data-id') + "'>optional</label><input type='checkbox' class='optional checkbox-inline' id='selected-ingredient-" + ($(row).index()) + "-" + (ui.draggable.attr('data-id')) + "' />" ).appendTo(row);
+            $('<div class="col-md-2"></div>').append( "<input type='button' class='remove form-control' value='remove' />" ).appendTo(row).on("click", function() {
+                $(li).remove();
             });
-            $(row).append("<input type='hidden' class='id' value='" + ui.draggable.attr('data-id') + "' />");
             
-            $( '.input-ingredients' ).val($( '.input-ingredients' ).val() + ' ' + (ui.draggable.text()));
+            $(li).append( "<input type='hidden' class='id' value='" + ui.draggable.attr('data-id') + "' />" );
+            //$( '.input-ingredients' ).val($( '.input-ingredients' ).val() + ' ' + (ui.draggable.text()));
         }
     }).sortable({
         items: "li:not(.placeholder)",
@@ -141,10 +128,11 @@ $(document).ready(function() {
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
         //accept: ":not(.ui-sortable-helper), .resource-box",
-        accept: ".resource-box",
+        accept: ".available-resource",
         drop: function( event, ui ) {
             var content = "<span class='text'>" + (ui.draggable.text() + "</span>");
             var row = $( "<li></li>" ).html(content).appendTo($(this).find('ol'));
+            row = $( "<div class='row'></div>" ).html(row).appendTo($(row));
 
             $(row).append("<input type='text' class='comment' placeholder='comment'/>");
             // todo: replace id, this can be non-unique

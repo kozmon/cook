@@ -37,32 +37,28 @@ block content
                         div(class='col-md-6 col-xs-12 instruction-step-list')
                             include ./instruction_step_list.jade
                             
-                    button.btn-submit-add-process(type="submit") submit
+                    button(type="submit" class="btn-submit-add-process form-control") submit
                     
         div(class='row')
-            div(class='col-xs-6')
-                div.ingredient-list
-                    p available ingredients
-                    ul.ingredient-list
-                        each element, i in ingredientList
-                            li(class="ingredient-box")
-                                = element.name
+            div(class='col-xs-6 available-ingredient-list')
+                p available ingredients
+                ul.ingredient-list
+                    each element, i in ingredientList
+                        li(class="available-ingredient", data-id="#{element.id}")
+                            = element.name
                                 
-            div(class='col-xs-6')
-                div.resource-list
-                    p available resources
-                    ul.resource-list
-                        each element, i in resourceList
-                            li(class="resource-box", data-id="#{element.id}")
-                                = element.name
-                                if element.image
-                                    img(src="#{element.image.path}")
+            div(class='col-xs-6 available-resource-list')
+                p available resources
+                ul.resource-list
+                    each element, i in resourceList
+                        li(class="available-resource", data-id="#{element.id}")
+                            = element.name
+                            if element.image
+                                img(src="#{element.image.path}")
 
         div(class='row')
-            div(class='col-xs-6')
-                div.new-resource
-                    include ./new_resource.jade
+            div(class='col-xs-6 new-resource')
+                include ./new_resource.jade
                 
-            div(class='col-xs-6')
-                div.new-ingredient
-                    include ./new_ingredient.jade
+            div(class='col-xs-6 new-ingredient')
+                include ./new_ingredient.jade

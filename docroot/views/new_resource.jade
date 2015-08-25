@@ -1,13 +1,6 @@
-form.form-new-resource(name="new-resource", method="post", action="/newresource", enctype="multipart/form-data")
-    h2 new resource
-    div.input
-        span.label name
-        input(type="text", name="name")
-    div.input
-        span.label description
-        input(type="text", name="description")
-    div.input
-        span.label image
-        input(type="file", name="image")
-    div.actions
-        input(type="submit", value="add new resource")
+p new resource
+form(class="new-resource", name="new-resource", method="post", action="/newresource", enctype="multipart/form-data")
+    input(type="text", name="name", class="form-control", placeholder="name")
+    input(type="text", name="description", class="form-control", placeholder="description")
+    input(type="file", name="image", class="form-control", placeholder="image")
+    input(type="submit", value="add new resource", class="form-control")

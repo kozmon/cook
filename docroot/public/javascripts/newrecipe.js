@@ -26,7 +26,7 @@ $(document).ready(function() {
         $('.new-ingredient').show();
     });
     
-    $( "ol.instruction-steps" ).sortable({
+    $( "ul.instruction-steps" ).sortable({
         sort: function() {
             // gets added unintentionally by droppable interacting with sortable
             // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
@@ -42,7 +42,7 @@ $(document).ready(function() {
             duration: $(form).find('input[name=duration]').val(),
             attendanceRate: $(form).find('input[name=attendance-rate]').val()
         };
-        var li = $('<li class="instruction-step"></li>').appendTo($( 'div.instruction-step-list ol' ));
+        var li = $('<li class="instruction-step list-group-item"></li>').appendTo($( 'div.instruction-step-list ul' ));
         var row = $('<div class="row"></div>').appendTo($(li).draggable({
             appendTo: "body",
             helper: "clone"
@@ -54,7 +54,7 @@ $(document).ready(function() {
         var ingredientList = $('<ul class="ingredient-list"></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
         var resourceList = $('<ul class="resource-list"></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
         
-        $(form).find(".instruction-step-ingredients ol li:not(.placeholder)").each(function(key, value) {
+        $(form).find(".instruction-step-ingredients ul li:not(.placeholder)").each(function(key, value) {
             var data = {
                 text: $(value).find('.text').html(),
                 amount: $(value).find('.amount').val(),
@@ -71,7 +71,7 @@ $(document).ready(function() {
             $(ingredientList).append(content);
         });
         
-        $(form).find(".instruction-step-resources ol li:not(.placeholder)").each(function(key, value) {
+        $(form).find(".instruction-step-resources ul li:not(.placeholder)").each(function(key, value) {
             var data = {
                 text: $(value).find('.text').html(),
                 amount: $(value).find('.amount').val(),
@@ -88,7 +88,7 @@ $(document).ready(function() {
             $(ingredientList).append(content);
         });
         
-        $( "ol.instruction-steps" ).sortable("refresh");
+        $( "ul.instruction-steps" ).sortable("refresh");
         
     });
     
@@ -134,7 +134,7 @@ $(document).ready(function() {
         //accept: ":not(.ui-sortable-helper), .ingredient-box",
         accept: ".available-ingredient",
         drop: function( event, ui ) {
-            var li = $( "<li></li>" ).appendTo($(this).find('ol'));
+            var li = $( "<li></li>" ).appendTo($(this).find('ul'));
             var row = $( "<div class='row'></div>" ).appendTo($(li));
 
             $('<div class="col-md-2"></div>').append( "<span class='text' >" + (ui.draggable.text()) + "</span>" ).appendTo(row);
@@ -163,7 +163,7 @@ $(document).ready(function() {
         //accept: ":not(.ui-sortable-helper), .ingredient-box",
         accept: ".available-resource",
         drop: function( event, ui ) {
-            var li = $( "<li></li>" ).appendTo($(this).find('ol'));
+            var li = $( "<li></li>" ).appendTo($(this).find('ul'));
             var row = $( "<div class='row'></div>" ).appendTo($(li));
 
             $('<div class="col-md-2"></div>').append( "<span class='text' >" + (ui.draggable.text()) + "</span>" ).appendTo(row);

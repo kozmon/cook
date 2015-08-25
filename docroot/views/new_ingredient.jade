@@ -1,5 +1,6 @@
 p new ingredient
-form(class="new-ingredient", name="new-ingredient",method="post",action="/newingredient")
+form(class="new-ingredient", name="new-ingredient",method="post",action="/newingredient", enctype="multipart/form-data")
     input(type="text", name="name", class="form-control", placeholder="name")
     input(type="text", name="description", class="form-control", placeholder="description")
+    input(type="file", name="image", class="form-control", placeholder="image")
     input(type="submit", value="add new ingredient", class="form-control")

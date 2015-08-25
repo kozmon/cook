@@ -1,4 +1,4 @@
-module.exports = function(app, db, upload) {
+module.exports = function(app, db, upload, easyimage) {
 
     /* GET home page. */
     app.get('/', function(req, res, next) {
@@ -53,10 +53,6 @@ module.exports = function(app, db, upload) {
 
     /* GET New User page. */
     app.get('/newrecipe', function(req, res) {
-
-        // Set our internal DB variable
-        //var db = req.db;
-
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
         
@@ -70,11 +66,28 @@ module.exports = function(app, db, upload) {
         });
     });
 
-    /* POST to Add Process Service */
-    app.post('/newingredient', function(req, res) {
+    app.post('/newrecipe', function(req, res) {
+            console.log('1');
+        if (req.body !== undefined) {
+            console.log('itt');
+            console.log(req.body);
+        }
+        
+        var ingredientCollection = db.get('ingredient');
+        var resourceCollection = db.get('resource');
+        
+        ingredientCollection.find({},{},function(e, ingredientList){
+            resourceCollection.find({},{},function(e, resourceList){
+                res.render('newrecipe', {
+                    "ingredientList" : ingredientList,
+                    "resourceList" : resourceList
+                });
+            });
+        });
+    });
 
-        // Set our internal DB variable
-        var db = req.db;
+    /* POST to Add Ingredient Service */
+    app.post('/newingredient', upload.single('image'), function(req, res, next) {
 
         // Get our form values. These rely on the "name" attributes
         var name = req.body.name;
@@ -88,6 +101,7 @@ module.exports = function(app, db, upload) {
             "id" : name,
             "name" : name,
             "description" : description,
+            "image" : req.file
         }, function (err, doc) {
             if (err) {
                 // If it failed, return error
@@ -103,15 +117,35 @@ module.exports = function(app, db, upload) {
     /* POST to Add Resource Service */
     app.post('/newresource', upload.single('image'), function(req, res, next) {
 
-        // Set our internal DB variable
-        //var db = req.db;
-
         // Get our form values. These rely on the "name" attributes
         var name = req.body.name;
         var description = req.body.description;
 
         // Set our collection
         var collection = db.get('resource');
+
+        if (req.file !== undefined) {
+            var imgInfo = easyimage.info(req.file.path);
+            easyimage.rescrop({
+                 src: req.file.path, 
+                 dst: req.file.destination + 'small/' + req.file.filename,
+                 width: 100,
+                 height: 100,
+                 cropwidth: 64,
+                 cropheight: 64,
+                 x: imgInfo.width / 2 - 32,
+                 y: imgInfo.height / 2 - 32
+            }).then(
+                function(image) {
+                    console.log('Resized and cropped: ' + image.width + ' x ' + image.height);
+                    req.file.destination = req.file.destination + 'small/' + req.file.filename;
+                    req.file.filename = req.file.destination + 'small/' + req.file.filename;
+                },
+                function (err) {
+                    console.log(err);
+                }
+            )
+        }
 
         // Submit to the DB
         collection.insert({

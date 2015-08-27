@@ -121,17 +121,23 @@ div.add-instruction-step {
     div.box-container {
         background-color: $color06;
     }
-    
+
+        div.instruction-step-resources ul {
+            list-style-type: none;
+        }
+        
+        div.instruction-step-ingredients ul {
+            list-style-type: none;
+        }
 }
 
-div.instruction-step-list {
+div.instruction-step-list {    
     color: $color03;
     
     div.box-container {
         background-color: $color09;
         
         ul {
-            
             list-style-type: decimal;
         }
     }
@@ -226,6 +232,15 @@ div.instruction-step-ingredients ul {
     overflow: hidden;
 }
 
+.row.short {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 0.25;
+    width: 90%;
+}
+
 p.drop-box-comment {
     color: #555;
     font-size: 13px;
@@ -268,72 +283,15 @@ div.selected-resources ol, div.selected-ingredients ol, div.instruction-steps ul
     font-weight: 400;
 }
 
-.blue {
-    color: $color03;
-}
+/*******************/
+.icon {
+    /* tile size: 74px */
+    background-image: url('/images/icons_small.png');
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
 
-h1.alap {
-    background-color: red;
-    color: blue;
-}
-
-body {
-    background-color: $color00;
-}
-
-div.main {
-    margin: 10px;
-
-    div.header {
-        margin-bottom: 10px;
+    &.delete {
+        background-position: -97px -161px;
     }
-    
-    div.content {
-        background-image: url('/img/tt2.jpg');
-        background-position: 0 -570px;
-        height: 470px;
-        box-shadow: 0 0 1pt 1pt #554400;
-        border-radius: 5px;
-    }
-
-    div.search-container {
-        margin: 150px 0 0 0;
-        padding: 20px 5% 40px 5%;
-        background-color: #ffffff;
-        box-shadow: 0 0 1pt 1pt #554400;
-        border-radius: 10px;
-        
-        input.search {
-            width: 100%;
-            padding: 0px 20px 0px 20px;
-            font-size: 200%;
-            line-height: 200%;
-            color: #222222;
-            border: 0 #222222 solid;
-/*            box-shadow: 0 0 1pt 1pt #554400;*/
-            border-radius: 10px;
-            outline: 0;
-            background: none;
-             
-            &:focus {
-                background-color: #eeeeee;
-                transition: border linear .2s, box-shadow linear .2s;
-                transition-property: border, box-shadow;
-                transition-duration: 0.2s, 0.2s;
-                transition-timing-function: linear, linear;
-                transition-delay: initial, initial;            
-            }
-        }
-        
-    }
-
-    div.logo-center-container {
-        margin: 10px 0 0 0;
-        
-        div.logo-center {
-            background-image: url('/img/logo-center.png');
-            
-        }
-    }
-
 }

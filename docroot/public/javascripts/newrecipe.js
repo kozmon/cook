@@ -8,12 +8,12 @@ $(document).ready(function() {
         helper: "clone"
     });
 */
-    $( "ul.ingredient-list li" ).draggable({
+    $( "ul.available-resource-list li" ).draggable({
         appendTo: "body",
         helper: "clone"
     });
     
-    $( "ul.resource-list li" ).draggable({
+    $( "ul.available-ingredient-list li" ).draggable({
         appendTo: "body",
         helper: "clone"
     });
@@ -138,11 +138,11 @@ $(document).ready(function() {
             var row = $( "<div class='row'></div>" ).appendTo($(li));
 
             $('<div class="col-md-2"></div>').append( "<span class='text' >" + (ui.draggable.text()) + "</span>" ).appendTo(row);
-            $('<div class="col-md-1"></div>').append( "<input type='text' class='amount form-control' placeholder='amount' />" ).appendTo(row);
-            $('<div class="col-md-1"></div>').append( "<input type='text' class='unit form-control' placeholder='unit' />" ).appendTo(row);
-            $('<div class="col-md-4"></div>').append( "<input type='text' class='comment form-control' placeholder='comment'/>" ).appendTo(row);
+            $('<div class="col-md-2"></div>').append( "<input type='text' class='amount form-control' placeholder='amount' />" ).appendTo(row);
+            $('<div class="col-md-2"></div>').append( "<input type='text' class='unit form-control' placeholder='unit' />" ).appendTo(row);
+            $('<div class="col-md-2"></div>').append( "<input type='text' class='comment form-control' placeholder='comment'/>" ).appendTo(row);
             $('<div class="col-md-2"></div>').append( "<label for='selected-ingredient-" + $(row).index() + "-" + ui.draggable.attr('data-id') + "'>optional</label><input type='checkbox' class='optional checkbox-inline' id='selected-ingredient-" + ($(row).index()) + "-" + (ui.draggable.attr('data-id')) + "' />" ).appendTo(row);
-            $('<div class="col-md-2"></div>').append( "<input type='button' class='remove form-control' value='remove' />" ).appendTo(row).on("click", function() {
+            $('<div class="col-md-2"></div>').append( "<input type='button' class='remove form-control icon delete' value='remove' />" ).appendTo(row).on("click", function() {
                 $(li).remove();
             });
             
@@ -164,14 +164,17 @@ $(document).ready(function() {
         accept: ".available-resource",
         drop: function( event, ui ) {
             var li = $( "<li></li>" ).appendTo($(this).find('ul'));
-            var row = $( "<div class='row'></div>" ).appendTo($(li));
+            
+            var rowTop = $( "<div class='row short'></div>" ).appendTo($(li));
+            $('<div class="col-md-12"></div>').append( "<span class='text' >" + (ui.draggable.text()) + "</span>" ).appendTo(rowTop);
+            
+            var row = $( "<div class='row short'></div>" ).appendTo($(li));
 
-            $('<div class="col-md-2"></div>').append( "<span class='text' >" + (ui.draggable.text()) + "</span>" ).appendTo(row);
-            $('<div class="col-md-1"></div>').append( "<input type='text' class='amount form-control' placeholder='amount' />" ).appendTo(row);
-            $('<div class="col-md-1"></div>').append( "<input type='text' class='unit form-control' placeholder='unit' />" ).appendTo(row);
+            $('<div class="col-md-2"></div>').append( "<input type='text' class='amount form-control' placeholder='amount' />" ).appendTo(row);
+            $('<div class="col-md-2"></div>').append( "<input type='text' class='unit form-control' placeholder='unit' />" ).appendTo(row);
             $('<div class="col-md-4"></div>').append( "<input type='text' class='comment form-control' placeholder='comment'/>" ).appendTo(row);
             $('<div class="col-md-2"></div>').append( "<label for='selected-ingredient-" + $(row).index() + "-" + ui.draggable.attr('data-id') + "'>optional</label><input type='checkbox' class='optional checkbox-inline' id='selected-ingredient-" + ($(row).index()) + "-" + (ui.draggable.attr('data-id')) + "' />" ).appendTo(row);
-            $('<div class="col-md-2"></div>').append( "<input type='button' class='remove form-control' value='remove' />" ).appendTo(row).on("click", function() {
+            $('<div class="col-md-2"></div>').append( "<input type='button' class='remove form-control icon delete ' value='' />" ).appendTo(row).on("click", function() {
                 $(li).remove();
             });
             

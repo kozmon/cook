@@ -1,3 +1,4 @@
+/docroot/mongo_start.sh
 /docroot/node_modules
 /docroot/data
 /docroot/public/javascripts/lib

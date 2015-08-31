@@ -2,12 +2,7 @@ var
     steps;
 
 $(document).ready(function() {
-/*
-    $( "ul.ingredient-list li" ).draggable({
-        appendTo: "body",
-        helper: "clone"
-    });
-*/
+
     $( "ul.available-resource-list li" ).draggable({
         appendTo: "body",
         helper: "clone"
@@ -30,13 +25,6 @@ $(document).ready(function() {
         $('.new-ingredient').show();
     });
     
-    /* submit the new instruction step form */
-    $( ".add-instruction-step input.submit" ).on( "click", function(e) {
-        var rowId = addInstructionStepListRow($('ul.instruction-step-list'));
-        addInstructionStepToList($('div.add-instruction-step'), $('ul.instruction-step-list'), rowId);
-        emptyInstructionStepForm($('div.add-instruction-step'));
-    });
-    
     $( ".instruction-step-ingredients .input-add-ingredient" ).on("click", function() {
         $('.new-ingredient').show();
     });
@@ -45,33 +33,13 @@ $(document).ready(function() {
         $('.new-resource').show();
     });
   
-/*    
-    $( ".form-instruction-step .input-add-resource" ).autocomplete({
-        source: function( request, response ) {
-            $.ajax({
-                url: "/resourcelist",
-                dataType: "jsonp",
-                data: {
-                    q: request.term
-                },
-                success: function( data ) {
-                    response(data);
-                }
-            });
-        },
-        minLength: 2,
-        select: function( event, ui ) {
-            log( ui.item ? "Selected: " + ui.item.label : "Nothing selected, input was " + this.value);
-        },
-        open: function() {
-            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-        },
-        close: function() {
-            $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-        }
+    /* submit the new instruction step form */
+    $( ".add-instruction-step input.submit" ).on( "click", function(e) {
+        var rowId = addInstructionStepListRow($('ul.instruction-step-list'));
+        addInstructionStepToList($('div.add-instruction-step'), $('ul.instruction-step-list'), rowId);
+        emptyInstructionStepForm($('div.add-instruction-step'));
     });
-*/
-
+    
     /* adds an ingredient from the ingredient list to the selected ingredients */
     $( "div.selected-ingredients pre, div.instruction-step-ingredients pre" ).droppable({
         activeClass: "ui-state-default",
@@ -112,8 +80,12 @@ $(document).ready(function() {
         drop: function( event, ui ) {
             var data = {
                 id : '',
-                text : ''
+                text : '',
+                amount: '',
+                unit: '',
+                comment: ''
             };
+            
             addResourceRowToInstructionStepForm($(this).find('ul'), data);
 /*            
             $(this).find('ul li').addClass('border-bottom');
@@ -271,21 +243,26 @@ function addInstructionStepToList(form, list, rowId) {
 function addResourceRowToInstructionStepForm(list, data) {
     $(list).find('li').addClass('border-bottom');
     var li = $( "<li></li>" ).appendTo($(list));
+
+    var optionalValue = ' ';
+    if (data.optional) {
+        optionalValue = 'checked="checked"' + optionalValue;
+    }
     
     var rowTop = $( "<div class='row short'></div>" ).appendTo($(li));
-    $('<div class="col-md-6 col-xs-12"></div>').append( '<span class="text" ></span>' ).appendTo(rowTop);
-    $('<div class="col-md-3 col-xs-12"></div>').append( '<label for="selected-ingredient-' + $(li).index() + '-' + ui.draggable.attr('data-id') + '">optional</label><input type="checkbox" class="optional checkbox-inline" id="selected-ingredient-' + ($(li).index()) + '-' + (ui.draggable.attr('data-id')) + '" />' ).appendTo(rowTop);
-    $('<div class="col-md-3 col-xs-12"></div>').append( '<input type="button" class="remove btn btn-default btn-xs" value="x" />' ).appendTo(rowTop).on("click", function() {
+    $('<div class="col-md-6 col-xs-12"></div>').append($('<span class="text" ></span>').append(data.text)).appendTo(rowTop);
+    $('<div class="col-md-3 col-xs-12"></div>').append('<label for="selected-ingredient-' + $(li).index() + '-' + ui.draggable.attr('data-id') + '">optional</label><input type="checkbox" class="optional checkbox-inline" id="selected-ingredient-' + ($(li).index()) + '-' + (ui.draggable.attr('data-id')) + '" ' + optionalValue + '/>' ).appendTo(rowTop);
+    $('<div class="col-md-3 col-xs-12"></div>').append('<input type="button" class="remove btn btn-default btn-xs" value="" />' ).appendTo(rowTop).on("click", function() {
         $(li).remove();
     });
     
     var row = $( '<div class="row short"></div>' ).appendTo($(li));
 
-    $('<div class="col-md-4"></div>').append( '<input type="text" class="amount form-control" placeholder="amount" />' ).appendTo(row);
-    $('<div class="col-md-4"></div>').append( '<input type="text" class="unit form-control" placeholder="unit" />' ).appendTo(row);
-    $('<div class="col-md-4"></div>').append( '<input type="text" class="comment form-control" placeholder="comment" />' ).appendTo(row);
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="amount form-control" placeholder="amount" value="' + data.amount + '" />' ).appendTo(row);
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="unit form-control" placeholder="unit" value="' + data.unit + '" />' ).appendTo(row);
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="comment form-control" placeholder="comment" value="' + data.comment + '" />' ).appendTo(row);
     
-    $(li).append( '<input type="hidden" class="id" value="' + ui.draggable.attr('data-id') + '" />' );
+    $(li).append('<input type="hidden" class="id" value="' + data.id + '" />');
 }
 
 /**
@@ -320,3 +297,31 @@ function fillFormFromInstructionStep(form, li) {
     console.log($(li).find('ul.resource-list'));
     console.log($(li).find('ul.ingredient-list'));
 }
+
+/*    
+    $( ".form-instruction-step .input-add-resource" ).autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url: "/resourcelist",
+                dataType: "jsonp",
+                data: {
+                    q: request.term
+                },
+                success: function( data ) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 2,
+        select: function( event, ui ) {
+            log( ui.item ? "Selected: " + ui.item.label : "Nothing selected, input was " + this.value);
+        },
+        open: function() {
+            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+        },
+        close: function() {
+            $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+        }
+    });
+*/
+

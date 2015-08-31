@@ -17,6 +17,25 @@ $(document).ready(function() {
         revert: true
     });
     
+    $('div.add-instruction-step').find('div.instruction-step-controls input.save').on('click', function() {
+        var form = $('div.add-instruction-step');
+        copyInstructionStepDataToList(form, $('ul.instruction-step-list'), $(form).find('input[name="loaded-instruction-step"]').val());
+        emptyInstructionStepForm(form);
+        
+        $(form).find('div.instruction-step-controls input.submit').removeClass('hidden');
+        $(form).find('div.instruction-step-controls input.save').addClass('hidden');
+        $(form).find('div.instruction-step-controls input.cancel').addClass('hidden');
+    });
+    
+    $('div.add-instruction-step').find('div.instruction-step-controls input.cancel').on('click', function() {
+        var form = $('div.add-instruction-step');
+        emptyInstructionStepForm(form);
+        
+        $(form).find('div.instruction-step-controls input.submit').removeClass('hidden');
+        $(form).find('div.instruction-step-controls input.save').addClass('hidden');
+        $(form).find('div.instruction-step-controls input.cancel').addClass('hidden');
+    });
+    
     $( ".input-add-resource" ).on( "enter", function() {
         $('.new-resource').show();
     });
@@ -35,8 +54,8 @@ $(document).ready(function() {
   
     /* submit the new instruction step form */
     $( ".add-instruction-step input.submit" ).on( "click", function(e) {
-        var rowId = addInstructionStepListRow($('ul.instruction-step-list'));
-        addInstructionStepToList($('div.add-instruction-step'), $('ul.instruction-step-list'), rowId);
+        var rowId = createInstructionStepListRow($('ul.instruction-step-list'));
+        copyInstructionStepDataToList($('div.add-instruction-step'), $('ul.instruction-step-list'), rowId);
         emptyInstructionStepForm($('div.add-instruction-step'));
     });
     
@@ -44,23 +63,18 @@ $(document).ready(function() {
     $( "div.selected-ingredients pre, div.instruction-step-ingredients pre" ).droppable({
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
-        //accept: ":not(.ui-sortable-helper), .ingredient-box",
         accept: ".available-ingredient",
         drop: function( event, ui ) {
-            var li = $( "<li></li>" ).appendTo($(this).find('ul'));
-            var row = $( "<div class='row'></div>" ).appendTo($(li));
-
-            $('<div class="col-md-2"></div>').append( "<span class='text' >" + (ui.draggable.text()) + "</span>" ).appendTo(row);
-            $('<div class="col-md-2"></div>').append( "<input type='text' class='amount form-control' placeholder='amount' />" ).appendTo(row);
-            $('<div class="col-md-2"></div>').append( "<input type='text' class='unit form-control' placeholder='unit' />" ).appendTo(row);
-            $('<div class="col-md-2"></div>').append( "<input type='text' class='comment form-control' placeholder='comment'/>" ).appendTo(row);
-            $('<div class="col-md-2"></div>').append( "<label for='selected-ingredient-" + $(row).index() + "-" + ui.draggable.attr('data-id') + "'>optional</label><input type='checkbox' class='optional checkbox-inline' id='selected-ingredient-" + ($(row).index()) + "-" + (ui.draggable.attr('data-id')) + "' />" ).appendTo(row);
-            $('<div class="col-md-2"></div>').append( "<input type='button' class='remove form-control icon delete' value='remove' />" ).appendTo(row).on("click", function() {
-                $(li).remove();
-            });
+            var data = {
+                id : ui.draggable.attr('data-id'),
+                text : ui.draggable.attr('data-name'),
+                amount: '',
+                unit: '',
+                comment: '',
+                optional: false
+            };
             
-            $(li).append( "<input type='hidden' class='id' value='" + ui.draggable.attr('data-id') + "' />" );
-            //$( '.input-ingredients' ).val($( '.input-ingredients' ).val() + ' ' + (ui.draggable.text()));
+            addIngredientRowToInstructionStepForm($(this).find('ul'), data);
         }
     });
     
@@ -75,40 +89,22 @@ $(document).ready(function() {
     $( "div.selected-resources pre, div.instruction-step-resources pre" ).droppable({
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
-        //accept: ":not(.ui-sortable-helper), .ingredient-box",
         accept: ".available-resource",
         drop: function( event, ui ) {
             var data = {
-                id : '',
-                text : '',
+                id : ui.draggable.attr('data-id'),
+                text : ui.draggable.attr('data-name'),
                 amount: '',
                 unit: '',
-                comment: ''
+                comment: '',
+                optional: false
             };
             
             addResourceRowToInstructionStepForm($(this).find('ul'), data);
-/*            
-            $(this).find('ul li').addClass('border-bottom');
-            var li = $( "<li></li>" ).appendTo($(this).find('ul'));
-            
-            var rowTop = $( "<div class='row short'></div>" ).appendTo($(li));
-            $('<div class="col-md-6 col-xs-12"></div>').append( "<span class='text' >" + (ui.draggable.text()) + "</span>" ).appendTo(rowTop);
-            $('<div class="col-md-3 col-xs-12"></div>').append( "<label for='selected-ingredient-" + $(li).index() + "-" + ui.draggable.attr('data-id') + "'>optional</label><input type='checkbox' class='optional checkbox-inline' id='selected-ingredient-" + ($(li).index()) + "-" + (ui.draggable.attr('data-id')) + "' />" ).appendTo(rowTop);
-            $('<div class="col-md-3 col-xs-12"></div>').append( "<input type='button' class='remove btn btn-default btn-xs' value='x' />" ).appendTo(rowTop).on("click", function() {
-                $(li).remove();
-            });
-            
-            var row = $( "<div class='row short'></div>" ).appendTo($(li));
-
-            $('<div class="col-md-4"></div>').append( "<input type='text' class='amount form-control' placeholder='amount' />" ).appendTo(row);
-            $('<div class="col-md-4"></div>').append( "<input type='text' class='unit form-control' placeholder='unit' />" ).appendTo(row);
-            $('<div class="col-md-4"></div>').append( "<input type='text' class='comment form-control' placeholder='comment'/>" ).appendTo(row);
-            
-            $(li).append( "<input type='hidden' class='id' value='" + ui.draggable.attr('data-id') + "' />" );
-            //$( '.input-ingredients' ).val($( '.input-ingredients' ).val() + ' ' + (ui.draggable.text()));
-*/
         }
-    }).sortable({
+    });
+    
+    $( "div.selected-resources ul, div.instruction-step-resources ul" ).sortable({
         items: "li:not(.placeholder)",
         sort: function() {
             $( this ).removeClass( "ui-state-default" );
@@ -122,16 +118,13 @@ $(document).ready(function() {
         accept: ".instruction-step",
         drop: function( event, ui ) {
             var form = this;
+            
+            emptyInstructionStepForm(form);
             fillFormFromInstructionStep(form, ui.draggable);
-/*            
-            $(form).find('div.instruction-step-controls input.submit').show().on('click', function() {
-                
-            });
-
-            $('<input type="button", class="form-control cancel", value="cancel" />').appendTo($(this).find('div.instruction-step-controls')).on('click', function() {
-                emptyInstructionStepForm(that);
-            });
-*/
+            
+            $(form).find('div.instruction-step-controls input.submit').addClass('hidden');
+            $(form).find('div.instruction-step-controls input.save').removeClass('hidden');
+            $(form).find('div.instruction-step-controls input.cancel').removeClass('hidden');
         }
     });
     
@@ -142,7 +135,7 @@ $(document).ready(function() {
  * 
  * returns: id of the inserted row
  */
-function addInstructionStepListRow(list) {
+function createInstructionStepListRow(list) {
     // get and set the id of the last inserted row
     var lastId = parseInt($(list).find('input.lastId').val()) + 1;
     $(list).find('input.lastId').val(lastId);
@@ -161,7 +154,7 @@ function addInstructionStepListRow(list) {
     }));
 
     $('<div class="col-md-1 move-box">').appendTo(row).append('<p>M</p>');
-    $('<div class="col-md-2">').appendTo(row).append('<p><span class="text"></span>(<span class="duration"></span>)</p>');
+    $('<div class="col-md-2">').appendTo(row).append('<p><span class="text"></span></p>');
     $('<div class="col-md-1">').appendTo(row).append('<span class="attendance-rate"></span>');
     var listContainer = $('<div class="col-md-7">').appendTo(row);
     $('<div class="col-md-1">').appendTo(row).append('<input type="button" class="remove form-control icon delete" value="" />').on("click", function() {
@@ -181,7 +174,7 @@ function addInstructionStepListRow(list) {
  * 
  * returns: id of the inserted row
  */
-function addInstructionStepToList(form, list, rowId) {
+function copyInstructionStepDataToList(form, list, rowId) {
     var data = {
         text: $(form).find('textarea[name=text]').val(),
         duration: $(form).find('input[name=duration]').val(),
@@ -194,40 +187,72 @@ function addInstructionStepToList(form, list, rowId) {
     $(li).find('input.duration').val(data.duration);
     $(li).find('input.attendance-rate').val(data.attendanceRate);
 
-    $(li).find('span.text').html(data.text + ' (' + data.duration + ' min) ' + data.attendanceRate + '%');
+    var text = data.text + ' (' + data.duration + ' min)';
+    if (data.attendanceRate) {
+        text += ' ' + data.attendanceRate + '%';
+    }
+    
+    $(li).find('span.text').html(text);
     
     var ingredientList = $(li).find('ul.ingredient-list');
     var resourceList = $(li).find('ul.resource-list');
     
-    $(form).find(".instruction-step-ingredients ul li:not(.placeholder)").each(function(key, value) {
+    $(ingredientList).html('');
+    $(resourceList).html('');
+    
+    // filling the resource and the ingredient list
+    $(form).find(".instruction-step-ingredients ul li:not(.placeholder)").each(function(key, element) {
         var ingredientData = {
-            text: $(value).find('.text').html(),
-            amount: $(value).find('.amount').val(),
-            unit: $(value).find('.unit').val(),
-            comment: $(value).find('.comment').val()
+            id: $(element).find('input.id').val(),
+            text: $(element).find('span.text').html(),
+            optional: $(element).find('input.optional').prop('checked'),
+            amount: $(element).find('.amount').val(),
+            unit: $(element).find('.unit').val(),
+            comment: $(element).find('.comment').val()
         };
-        var content = "<li>";
+        var content = '<li>';
+        content += '<input type="hidden" class="id" value="' + ingredientData.id + '" />';
+        content += '<input type="hidden" class="text" value="' + ingredientData.text + '" />';
+        content += '<input type="hidden" class="amount" value="' + ingredientData.amount + '" />';
+        content += '<input type="hidden" class="unit" value="' + ingredientData.unit + '" />';
+        content += '<input type="hidden" class="comment" value="' + ingredientData.comment + '" />';
+        content += '<input type="hidden" class="optional" value="' + ingredientData.optional + '" />';
+        
         content += '<span class="amount">' + ingredientData.amount + '</span> ';
         content += '<span class="unit">' + ingredientData.unit + '</span> of ';
         content += '<span class="text">' + ingredientData.text + '</span>';
-        content += '<span class="comment"> (' + ingredientData.comment + ')</span>';
+        if (ingredientData.comment) {
+            content += '<span class="comment"> (' + ingredientData.comment + ')</span>';
+        }
         content += "</li>";
         
         $(ingredientList).append(content);
     });
     
-    $(form).find(".instruction-step-resources ul li:not(.placeholder)").each(function(key, value) {
+    // ... the resources    
+    $(form).find(".instruction-step-resources ul li:not(.placeholder)").each(function(key, element) {
         var resourceData = {
-            text: $(value).find('.text').html(),
-            amount: $(value).find('.amount').val(),
-            unit: $(value).find('.unit').val(),
-            comment: $(value).find('.comment').val()
+            id: $(element).find('input.id').val(),
+            text: $(element).find('span.text').html(),
+            optional: $(element).find('input.optional').prop('checked'),
+            amount: $(element).find('.amount').val(),
+            unit: $(element).find('.unit').val(),
+            comment: $(element).find('.comment').val()
         };
-        var content = "<li>";
+        var content = '<li>';
+        content += '<input type="hidden" class="id" value="' + resourceData.id + '" />';
+        content += '<input type="hidden" class="text" value="' + resourceData.text + '" />';
+        content += '<input type="hidden" class="amount" value="' + resourceData.amount + '" />';
+        content += '<input type="hidden" class="unit" value="' + resourceData.unit + '" />';
+        content += '<input type="hidden" class="comment" value="' + resourceData.comment + '" />';
+        content += '<input type="hidden" class="optional" value="' + resourceData.optional + '" />';
+        
         content += '<span class="amount">' + resourceData.amount + '</span> ';
         content += '<span class="unit">' + resourceData.unit + '</span> of ';
         content += '<span class="text">' + resourceData.text + '</span>';
-        content += '<span class="comment"> (' + resourceData.comment + ')</span>';
+        if (resourceData.comment) {
+            content += '<span class="comment"> (' + resourceData.comment + ')</span>';
+        }
         content += "</li>";
         
         $(resourceList).append(content);
@@ -236,9 +261,7 @@ function addInstructionStepToList(form, list, rowId) {
 }
 
 /**
- * creates a new empty row in the instruction step list's resource list
- * 
- * returns: id of the inserted row
+ * creates and fills a row in the instruction step form's resourcelist
  */
 function addResourceRowToInstructionStepForm(list, data) {
     $(list).find('li').addClass('border-bottom');
@@ -251,8 +274,36 @@ function addResourceRowToInstructionStepForm(list, data) {
     
     var rowTop = $( "<div class='row short'></div>" ).appendTo($(li));
     $('<div class="col-md-6 col-xs-12"></div>').append($('<span class="text" ></span>').append(data.text)).appendTo(rowTop);
-    $('<div class="col-md-3 col-xs-12"></div>').append('<label for="selected-ingredient-' + $(li).index() + '-' + ui.draggable.attr('data-id') + '">optional</label><input type="checkbox" class="optional checkbox-inline" id="selected-ingredient-' + ($(li).index()) + '-' + (ui.draggable.attr('data-id')) + '" ' + optionalValue + '/>' ).appendTo(rowTop);
-    $('<div class="col-md-3 col-xs-12"></div>').append('<input type="button" class="remove btn btn-default btn-xs" value="" />' ).appendTo(rowTop).on("click", function() {
+    $('<div class="col-md-3 col-xs-12"></div>').append('<label for="selected-resource-' + $(li).index() + '-' + data.id + '">optional</label><input type="checkbox" class="optional checkbox-inline" id="selected-resource-' + ($(li).index()) + '-' + data.id + '" ' + optionalValue + '/>' ).appendTo(rowTop);
+    $('<div class="col-md-3 col-xs-12"></div>').append('<input type="button" class="icon delete btn btn-default btn-xs" value="" />' ).appendTo(rowTop).on("click", function() {
+        $(li).remove();
+    });
+    
+    var row = $( '<div class="row short"></div>' ).appendTo($(li));
+
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="amount form-control" placeholder="amount" value="' + data.amount + '" />' ).appendTo(row);
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="unit form-control" placeholder="unit" value="' + data.unit + '" />' ).appendTo(row);
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="comment form-control" placeholder="comment" value="' + data.comment + '" />' ).appendTo(row);
+    
+    $(li).append('<input type="hidden" class="id" value="' + data.id + '" />');
+}
+
+/**
+ * creates and fills a row in the instruction step form's ingredientlist
+ */
+function addIngredientRowToInstructionStepForm(list, data) {
+    $(list).find('li').addClass('border-bottom');
+    var li = $( "<li></li>" ).appendTo($(list));
+
+    var optionalValue = ' ';
+    if (data.optional) {
+        optionalValue = 'checked="checked"' + optionalValue;
+    }
+    
+    var rowTop = $( "<div class='row short'></div>" ).appendTo($(li));
+    $('<div class="col-md-6 col-xs-12"></div>').append($('<span class="text" ></span>').append(data.text)).appendTo(rowTop);
+    $('<div class="col-md-3 col-xs-12"></div>').append('<label for="selected-ingredient-' + $(li).index() + '-' + data.id + '">optional</label><input type="checkbox" class="optional checkbox-inline" id="selected-ingredient-' + ($(li).index()) + '-' + data.id + '" ' + optionalValue + '/>' ).appendTo(rowTop);
+    $('<div class="col-md-3 col-xs-12"></div>').append('<input type="button" class="icon delete btn btn-default btn-xs" value="" />' ).appendTo(rowTop).on("click", function() {
         $(li).remove();
     });
     
@@ -267,8 +318,6 @@ function addResourceRowToInstructionStepForm(list, data) {
 
 /**
  * empty the form fields
- * 
- * returns: id of the inserted row
  */
 function emptyInstructionStepForm(form) {
     $(form).find('textarea[name=text]').val('');
@@ -280,22 +329,38 @@ function emptyInstructionStepForm(form) {
 }
 
 /**
- * copy data from a list row to the form fields
- * 
- * returns: id of the inserted row
+ * copy data from a list row to the instruction step form's fields
  */
 function fillFormFromInstructionStep(form, li) {
     $(form).find('input[name="loaded-instruction-step"]').val($(li).attr('data-id'));
     $(form).find('textarea[name="text"]').val($(li).find('input.text').val());
     $(form).find('input[name="duration"]').val($(li).find('input.duration').val());
     $(form).find('input[name="attendance-rate"]').val($(li).find('input.attendance-rate').val());
-    
+        
     $(li).find('ul.resource-list li').each(function() {
-        console.log(this);
+        var data = {
+            id : $(this).find('input.id').val(),
+            text : $(this).find('input.text').val(),
+            amount: $(this).find('input.amount').val(),
+            unit: $(this).find('input.unit').val(),
+            comment: $(this).find('input.comment').val(),
+            optional: $(this).find('input.optional').val()
+        };
+        addResourceRowToInstructionStepForm($(form).find('div.instruction-step-resources ul'), data);
     });
     
-    console.log($(li).find('ul.resource-list'));
-    console.log($(li).find('ul.ingredient-list'));
+    $(li).find('ul.ingredient-list li').each(function() {
+        var data = {
+            id : $(this).find('input.id').val(),
+            text : $(this).find('input.text').val(),
+            amount: $(this).find('input.amount').val(),
+            unit: $(this).find('input.unit').val(),
+            comment: $(this).find('input.comment').val(),
+            optional: $(this).find('input.optional').val()
+        };
+        addIngredientRowToInstructionStepForm($(form).find('div.instruction-step-ingredients ul'), data);
+    });
+    
 }
 
 /*    

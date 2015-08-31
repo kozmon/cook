@@ -55,7 +55,7 @@ block content
                         ul.available-ingredient-list
                             if ingredientList
                                 each element, i in ingredientList
-                                    li(class="available-ingredient", data-id="#{element.id}")
+                                    li(class="available-ingredient", data-id="#{element.id}" data-name="#{element.name}")
                                         = element.name
                                         if element.image
                                             img(src="/uploads/#{element.image.filename}")
@@ -67,7 +67,7 @@ block content
                         ul.available-resource-list
                             if resourceList
                                 each element, i in resourceList
-                                    li(class="available-resource", data-id="#{element.id}")
+                                    li(class="available-resource", data-id="#{element.id}" data-name="#{element.name}")
                                         = element.name
                                         if element.image
                                             img(src="/uploads/#{element.image.filename}")

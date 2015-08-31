@@ -55,9 +55,12 @@ module.exports = function(app, db, upload, easyimage) {
     app.get('/newrecipe', function(req, res) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
-        
-        ingredientCollection.find({},{},function(e, ingredientList){
-            resourceCollection.find({},{},function(e, resourceList){
+        console.log('hejj');
+        console.log('ingredientCollection', ingredientCollection);
+        console.log('ingredientCollectionFind', ingredientCollection.find({}, {}));
+        ingredientCollection.find({}, {}, function(e, ingredientList){
+            resourceCollection.find({}, {}, function(e, resourceList){
+                console.log('resourceList', resourceList);
                 res.render('newrecipe', {
                     "ingredientList" : ingredientList,
                     "resourceList" : resourceList
@@ -146,7 +149,7 @@ module.exports = function(app, db, upload, easyimage) {
                 }
             )
         }
-
+console.log(collection);
         // Submit to the DB
         collection.insert({
             "id" : name,
@@ -155,6 +158,7 @@ module.exports = function(app, db, upload, easyimage) {
             "image" : req.file
         }, function (err, doc) {
             if (err) {
+                console.log('err', err);
                 // If it failed, return error
                 res.send("There was a problem adding the information to the database.");
             }

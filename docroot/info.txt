@@ -5,6 +5,9 @@ start mongodb
     home desktop computer:
         mongod --dbpath d:\\Langs\\projects\\cook\\docroot\\data
         
+    msi laptop:
+        mongod --dbpath c:\\Langs\\projects\\cook\\docroot\\data
+        
     totaldeluxe office computer:
         mongod --dbpath d:\\Norbert\\src\\cook\\docroot\\data
     

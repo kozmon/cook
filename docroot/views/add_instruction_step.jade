@@ -1,14 +1,14 @@
 div(class='form-group instruction-step-head')
+    input(type="hidden", class="", name="loaded-instruction-step", value="" )
     p add instruction step
-    div.input
-        //span.label text
-        input(type="textarea", class="form-control form-data", name="text", placeholder="text")
-    div.input
-        //span.label duration
-        input(type="text", class="form-control form-data", name="duration", placeholder="duration")
-    div.input
-        //span.label attendance rate
-        input(type="text", class="form-control form-data", name="attendance-rate", placeholder="attendance rate")
+    textarea(class="form-control form-data", name="text", placeholder="explain the instructions")
+    div(class="row")
+        div(class='col-md-6 col-xs-11')
+            input(type="text", class="form-control form-data", name="duration", placeholder="duration")
+        div(class='col-md-5 col-xs-11')
+            input(type="text", class="form-control form-data", name="attendance-rate", placeholder="attendance rate")
+        div(class='col-md-1 col-xs-1')
+            p %
         
 div(class='form-group instruction-step-ingredients-resources')
     div.instruction-step-ingredients
@@ -29,6 +29,8 @@ div(class='form-group instruction-step-ingredients-resources')
         div.input
             input.input-add-resource(type="button", class="form-control", value="new resource")
 
-div(class='form-group')
+div(class='form-group instruction-step-controls')
     div.actions
-        input(type="button", class="form-control submit", value="add step")
+        input(type="button", class="btn btn-primary submit", value="add step")
+        input(type="button", class="btn btn-primary save hidden", value="save")
+        input(type="button", class="btn btn-primary cancel hidden", value="cancel")

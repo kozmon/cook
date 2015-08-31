@@ -11,67 +11,74 @@ block content
                     div(class='row row-eq-height')
                         div(class='col-md-4 col-xs-12 form-group recipe-head')
                             div(class='box-container')
-                                p tell us about your recipe
-                                div(class='row')
-                                    div(class='col-xs-12')
-                                        input(type="text", class="form-control input-name", placeholder="name", name="name")
-                                div(class='row')
-                                    div(class='col-xs-12')
-                                        textarea(class="form-control", placeholder="description", name="description")
+                                div(class='box-inner')
+                                    p tell us about your recipe
+                                    input(type="text", class="form-control input-name", placeholder="name", name="name")
+                                    textarea(class="form-control", placeholder="description", name="description")
                     
                         div(class='col-md-8 col-xs-12 ingredients-resources')
                             div(class='box-container')
-                                div.selected-ingredients
-                                    p selected ingredients
-                                    pre
-                                        p(class="drop-box-comment") move your items here
-                                        ul
+                                div(class='box-inner')
+                                    div.selected-ingredients
+                                        p selected ingredients
+                                        pre
+                                            p(class="drop-box-comment") move your items here
+                                            ul
                                 
-                                div.selected-resources
-                                    p selected resources
-                                    pre
-                                        p(class="drop-box-comment") move your items here
-                                        ul
+                                    div.selected-resources
+                                        p selected resources
+                                        pre
+                                            p(class="drop-box-comment") move your items here
+                                            ul
                                     
                     div(class='row row-eq-height')
                         div(class='col-md-6 col-xs-12 add-instruction-step')
                             div(class='box-container')
-                                include ./add_instruction_step.jade
+                                div(class='box-inner')
+                                    include ./add_instruction_step.jade
                         div(class='col-md-6 col-xs-12 instruction-step-list')
                             div(class='box-container')
-                                include ./instruction_step_list.jade
+                                div(class='box-inner')
+                                    include ./instruction_step_list.jade
                             
                     div(class='row row-eq-height')
                         div(class='col-xs-12  new-recipe-submit')
                             div(class='box-container')
-                                button(type="submit" class="submit-add-recipe form-control") submit
+                                div(class='box-inner')
+                                    button(type="submit" class="submit-add-recipe form-control") submit
                     
         div(class='row')
             div(class='col-xs-6 available-ingredient-list')
                 div(class='box-container')
-                    p available ingredients
-                    ul.available-ingredient-list
-                        each element, i in ingredientList
-                            li(class="available-ingredient", data-id="#{element.id}")
-                                = element.name
-                                if element.image
-                                    img(src="/uploads/#{element.image.filename}")
+                    div(class='box-inner')
+                        p available ingredients
+                        ul.available-ingredient-list
+                            if ingredientList
+                                each element, i in ingredientList
+                                    li(class="available-ingredient", data-id="#{element.id}")
+                                        = element.name
+                                        if element.image
+                                            img(src="/uploads/#{element.image.filename}")
                                     
             div(class='col-xs-6 available-resource-list')
                 div(class='box-container')
-                    p available resources
-                    ul.available-resource-list
-                        each element, i in resourceList
-                            li(class="available-resource", data-id="#{element.id}")
-                                = element.name
-                                if element.image
-                                    img(src="/uploads/#{element.image.filename}")
+                    div(class='box-inner')
+                        p available resources
+                        ul.available-resource-list
+                            if resourceList
+                                each element, i in resourceList
+                                    li(class="available-resource", data-id="#{element.id}")
+                                        = element.name
+                                        if element.image
+                                            img(src="/uploads/#{element.image.filename}")
 
         div(class='row')
             div(class='col-xs-6 new-resource')
                 div(class='box-container')
-                    include ./new_resource.jade
+                    div(class='box-inner')
+                        include ./new_resource.jade
                 
             div(class='col-xs-6 new-ingredient')
                 div(class='box-container')
-                    include ./new_ingredient.jade
+                    div(class='box-inner')
+                        include ./new_ingredient.jade

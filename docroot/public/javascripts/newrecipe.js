@@ -162,8 +162,9 @@ function createInstructionStepListRow(list) {
         $(li).remove();
     });
 
-    var ingredientList = $('<ul class="ingredient-list"></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
-    var resourceList = $('<ul class="resource-list"></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
+    // todo: lastId-s here
+    var ingredientList = $('<ul class="ingredient-list"></ul>').appendTo($('<div class="col-md-12"></div>').append('<input type="hidden" class="last-ingredient-id" value="" />').appendTo($('<div class="row"></div>').appendTo(listContainer)));
+    var resourceList = $('<ul class="resource-list"></ul>').appendTo($('<div class="col-md-12"></div>').append('<input type="hidden" class="last-resource-id" value="" />').appendTo($('<div class="row"></div>').appendTo(listContainer)));
     
     $(list).sortable("refresh");
     
@@ -209,15 +210,16 @@ function copyInstructionStepDataToList(form, list, rowId) {
             comment: $(element).find('.comment').val()
         };
         var ingredientRow = $('<li></li>').appendTo($(ingredientList));
+        var ingIndex = $(ingredientRow).index();
         
         var content = '';
-        content += '<input type="hidden" class="index" value="' + $(ingredientRow).index() + '" />';
-        content += '<input type="hidden" class="id" name="instruction-step-ingredient-id[' + rowId + ']" value="' + ingredientData.id + '" />';
-        content += '<input type="hidden" class="text" name="instruction-step-ingredient-text[' + rowId + ']" value="' + ingredientData.text + '" />';
-        content += '<input type="hidden" class="amount" name="instruction-step-ingredient-amount[' + rowId + ']" value="' + ingredientData.amount + '" />';
-        content += '<input type="hidden" class="unit" name="instruction-step-ingredient-unit[' + rowId + ']" value="' + ingredientData.unit + '" />';
-        content += '<input type="hidden" class="comment" name="instruction-step-ingredient-comment[' + rowId + ']" value="' + ingredientData.comment + '" />';
-        content += '<input type="hidden" class="optional" name="instruction-step-ingredient-optional[' + rowId + ']" value="' + ingredientData.optional + '" />';
+        content += '<input type="hidden" class="index" value="' + ingIndex + '" />';
+        content += '<input type="hidden" class="id" name="instruction-step-ingredient-id[' + rowId + '][' + ingIndex + ']" value="' + ingredientData.id + '" />';
+        content += '<input type="hidden" class="text" name="instruction-step-ingredient-text[' + rowId + '][' + ingIndex + ']" value="' + ingredientData.text + '" />';
+        content += '<input type="hidden" class="amount" name="instruction-step-ingredient-amount[' + rowId + '][' + ingIndex + ']" value="' + ingredientData.amount + '" />';
+        content += '<input type="hidden" class="unit" name="instruction-step-ingredient-unit[' + rowId + '][' + ingIndex + ']" value="' + ingredientData.unit + '" />';
+        content += '<input type="hidden" class="comment" name="instruction-step-ingredient-comment[' + rowId + '][' + ingIndex + ']" value="' + ingredientData.comment + '" />';
+        content += '<input type="hidden" class="optional" name="instruction-step-ingredient-optional[' + rowId + '][' + ingIndex + ']" value="' + ingredientData.optional + '" />';
         
         content += '<span class="amount">' + ingredientData.amount + '</span> ';
         content += '<span class="unit">' + ingredientData.unit + '</span> of ';
@@ -243,14 +245,16 @@ function copyInstructionStepDataToList(form, list, rowId) {
             comment: $(element).find('.comment').val()
         };
         var resourceRow = $('<li></li>').appendTo($(resourceList));
+        var resIndex = $(resourceRow).index();
+        
         var content = '';
-        content += '<input type="hidden" class="index" value="1" />';
-        content += '<input type="hidden" class="id" name="instruction-step-resource-id[' + rowId + ']" value="' + resourceData.id + '" />';
-        content += '<input type="hidden" class="text" name="instruction-step-resource-text[' + rowId + ']" value="' + resourceData.text + '" />';
-        content += '<input type="hidden" class="amount" name="instruction-step-resource-amount[' + rowId + ']" value="' + resourceData.amount + '" />';
-        content += '<input type="hidden" class="unit" name="instruction-step-resource-unit[' + rowId + ']" value="' + resourceData.unit + '" />';
-        content += '<input type="hidden" class="comment" name="instruction-step-resource-comment[' + rowId + ']" value="' + resourceData.comment + '" />';
-        content += '<input type="hidden" class="optional" name="instruction-step-resource-optional[' + rowId + ']" value="' + resourceData.optional + '" />';
+        content += '<input type="hidden" class="index" value="' + resIndex + '" />';
+        content += '<input type="hidden" class="id" name="instruction-step-resource-id[' + rowId + '][' + resIndex + ']" value="' + resourceData.id + '" />';
+        content += '<input type="hidden" class="text" name="instruction-step-resource-text[' + rowId + '][' + resIndex + ']" value="' + resourceData.text + '" />';
+        content += '<input type="hidden" class="amount" name="instruction-step-resource-amount[' + rowId + '][' + resIndex + ']" value="' + resourceData.amount + '" />';
+        content += '<input type="hidden" class="unit" name="instruction-step-resource-unit[' + rowId + '][' + resIndex + ']" value="' + resourceData.unit + '" />';
+        content += '<input type="hidden" class="comment" name="instruction-step-resource-comment[' + rowId + '][' + resIndex + ']" value="' + resourceData.comment + '" />';
+        content += '<input type="hidden" class="optional" name="instruction-step-resource-optional[' + rowId + '][' + resIndex + ']" value="' + resourceData.optional + '" />';
         
         content += '<span class="amount">' + resourceData.amount + '</span> ';
         content += '<span class="unit">' + resourceData.unit + '</span> of ';
@@ -258,9 +262,8 @@ function copyInstructionStepDataToList(form, list, rowId) {
         if (resourceData.comment) {
             content += '<span class="comment"> (' + resourceData.comment + ')</span>';
         }
-        content += "</li>";
         
-        $(resourceList).append(content);
+        $(resourceRow).append(content);
     });
     
 }

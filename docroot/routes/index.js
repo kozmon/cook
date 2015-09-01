@@ -70,7 +70,7 @@ module.exports = function(app, db, upload, easyimage) {
     });
 
     app.post('/newrecipe', function(req, res) {
-            console.log('1');
+            console.log('req', req.body);
         if (req.body !== undefined) {
             console.log('itt');
             console.log(req.body);

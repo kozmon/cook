@@ -5,53 +5,16 @@ module.exports = function(app, db, upload, easyimage) {
       res.render('index', { title: 'PaloFcooK' });
     });
 
-    /* GET Userlist page. */
     app.get('/resourcelist', function(req, res) {
         //var db = req.db;
         var text = req.query.q;
         var resourceCollection = db.get('resource');
         
-    //    resourceCollection.find({ 'name': {$regex : ".*" + text + ".*"} },{},function(e,docs){
         resourceCollection.find({ 'name': {$regex : ".*" + text + ".*"} },{},function(e,docs){
             res.json(docs);
         });
     });
 
-    /* GET New User page. */
-    app.get('/newuser', function(req, res) {
-        res.render('newuser', { title: 'Add New User' });
-    });
-
-    /* POST to Add User Service */
-    app.post('/adduser', function(req, res) {
-
-        // Set our internal DB variable
-        //var db = req.db;
-
-        // Get our form values. These rely on the "name" attributes
-        var userName = req.body.username;
-        var userEmail = req.body.useremail;
-
-        // Set our collection
-        var collection = db.get('usercollection');
-
-        // Submit to the DB
-        collection.insert({
-            "username" : userName,
-            "email" : userEmail
-        }, function (err, doc) {
-            if (err) {
-                // If it failed, return error
-                res.send("There was a problem adding the information to the database.");
-            }
-            else {
-                // And forward to success page
-                res.redirect("userlist");
-            }
-        });
-    });
-
-    /* GET New User page. */
     app.get('/newrecipe', function(req, res) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
@@ -70,22 +33,26 @@ module.exports = function(app, db, upload, easyimage) {
     });
 
     app.post('/newrecipe', function(req, res) {
-            console.log('req', req.body);
+        var data;
         if (req.body !== undefined) {
-            console.log('itt');
-            console.log(req.body);
+            console.log('req.body', req.body);
+            data = req.body;
+            data.slug = data.text;
+            console.log('data', data);
         }
         
-        var ingredientCollection = db.get('ingredient');
-        var resourceCollection = db.get('resource');
-        
-        ingredientCollection.find({},{},function(e, ingredientList){
-            resourceCollection.find({},{},function(e, resourceList){
-                res.render('newrecipe', {
-                    "ingredientList" : ingredientList,
-                    "resourceList" : resourceList
-                });
-            });
+        var processCollection = db.get('process');
+
+        // Submit to the DB
+        processCollection.insert(data, function (err, doc) {
+            if (err) {
+                // If it failed, return error
+                res.send("There was a problem adding the information to the database.");
+            }
+            else {
+                // And forward to success page
+                res.redirect("newrecipe");
+            }
         });
     });
 

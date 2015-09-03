@@ -178,9 +178,9 @@ function createInstructionStepListRow(list) {
  */
 function copyInstructionStepDataToList(form, list, rowId) {
     var data = {
-        text: $(form).find('textarea[name=text]').val(),
-        duration: $(form).find('input[name=duration]').val(),
-        attendanceRate: $(form).find('input[name=attendance-rate]').val()
+        text: $(form).find('textarea.text').val(),
+        duration: $(form).find('input.duration').val(),
+        attendanceRate: $(form).find('input.attendance-rate').val()
     };
 
     var li = $(list).find('li[data-id="' + rowId + '"]');
@@ -328,9 +328,9 @@ function addIngredientRowToInstructionStepForm(list, data) {
  * empty the form fields
  */
 function emptyInstructionStepForm(form) {
-    $(form).find('textarea[name=text]').val('');
-    $(form).find('input[name=duration]').val('');
-    $(form).find('input[name=attendance-rate]').val('');
+    $(form).find('textarea.text').val('');
+    $(form).find('input.duration').val('');
+    $(form).find('input.attendance-rate').val('');
     
     $(form).find('div.instruction-step-ingredients ul').html('');
     $(form).find('div.instruction-step-resources ul').html('');
@@ -340,10 +340,10 @@ function emptyInstructionStepForm(form) {
  * copy data from a list row to the instruction step form's fields
  */
 function fillFormFromInstructionStep(form, li) {
-    $(form).find('input[name="loaded-instruction-step"]').val($(li).attr('data-id'));
-    $(form).find('textarea[name="text"]').val($(li).find('input.text').val());
-    $(form).find('input[name="duration"]').val($(li).find('input.duration').val());
-    $(form).find('input[name="attendance-rate"]').val($(li).find('input.attendance-rate').val());
+    $(form).find('input.loaded-instruction-step').val($(li).attr('data-id'));
+    $(form).find('textarea.text').val($(li).find('input.text').val());
+    $(form).find('input.duration').val($(li).find('input.duration').val());
+    $(form).find('input.attendance-rate').val($(li).find('input.attendance-rate').val());
         
     $(li).find('ul.resource-list li').each(function() {
         var data = {

@@ -137,15 +137,14 @@ $(document).ready(function() {
  */
 function createInstructionStepListRow(list) {
     // get and set the id of the last inserted row
-    var lastId = parseInt($(list).attr('data-last-id')) + 1;
-    $(list).attr('data-last-id', lastId);
+    var lastId = parseInt($(list).attr('data-last-id'));
     
     var li = $('<li class="instruction-step list-group-item" data-id="' + lastId + '"></li>').appendTo($(list));
     
     // add hidden fields to store the data
-    $(li).append('<input type="hidden" class="text" name="instruction-step-text[' + lastId + ']" value="" />');
-    $(li).append('<input type="hidden" class="duration" name="instruction-step-duration[' + lastId + ']" value="" />');
-    $(li).append('<input type="hidden" class="attendance-rate" name="instruction-step-attendance-rate[' + lastId + ']" value="" />');
+    $(li).append('<input type="hidden" class="text" name="step[' + lastId + '][text]" value="" />');
+    $(li).append('<input type="hidden" class="duration" name="step[' + lastId + '][duration]" value="" />');
+    $(li).append('<input type="hidden" class="attendance-rate" name="step[' + lastId + '][attendance]" value="" />');
 
     var row = $('<div class="row"></div>').appendTo($(li).draggable({
         appendTo: "body",
@@ -165,6 +164,7 @@ function createInstructionStepListRow(list) {
     var resourceList = $('<ul class="resource-list" data-last-id="0"></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
     
     $(list).sortable("refresh");
+    $(list).attr('data-last-id', lastId + 1);
     
     return lastId;
 }
@@ -181,7 +181,6 @@ function copyInstructionStepDataToList(form, list, stepId) {
         duration: $(form).find('input.duration').val(),
         attendanceRate: $(form).find('input.attendance-rate').val()
     };
-console.log('copyInstructionStepDataToList', data);
 
     // finds the needed step from the list
     var li = $(list).find('li[data-id="' + stepId + '"]');
@@ -239,17 +238,16 @@ console.log('copyInstructionStepDataToList', data);
  * adds a new resource list element to the requested instruction step
  */
 function addResourceToInstructionStep(stepId, list, data) {
-    var lastId = parseInt($(list).attr('data-last-id')) + 1;
-    $(list).attr('data-last-id', lastId);
+    var lastId = parseInt($(list).attr('data-last-id'));
     
     var row = $('<li></li>').appendTo($(list));
     var content = '';
-    content += '<input type="hidden" class="id" name="instruction-step-resource-id[' + stepId + '][' + lastId + ']" value="' + data.id + '" />';
-    content += '<input type="hidden" class="text" name="instruction-step-resource-text[' + stepId + '][' + lastId + ']" value="' + data.text + '" />';
-    content += '<input type="hidden" class="amount" name="instruction-step-resource-amount[' + stepId + '][' + lastId + ']" value="' + data.amount + '" />';
-    content += '<input type="hidden" class="unit" name="instruction-step-resource-unit[' + stepId + '][' + lastId + ']" value="' + data.unit + '" />';
-    content += '<input type="hidden" class="comment" name="instruction-step-resource-comment[' + stepId + '][' + lastId + ']" value="' + data.comment + '" />';
-    content += '<input type="hidden" class="optional" name="instruction-step-resource-optional[' + stepId + '][' + lastId + ']" value="' + data.optional + '" />';
+    content += '<input type="hidden" class="id" name="step[' + stepId + '][resource][' + lastId + '][id]" value="' + data.id + '" />';
+    content += '<input type="hidden" class="text" name="step[' + stepId + '][resource][' + lastId + '][title]" value="' + data.text + '" />';
+    content += '<input type="hidden" class="amount" name="step[' + stepId + '][resource][' + lastId + '][amount]" value="' + data.amount + '" />';
+    content += '<input type="hidden" class="unit" name="step[' + stepId + '][resource][' + lastId + '][unit]" value="' + data.unit + '" />';
+    content += '<input type="hidden" class="comment" name="step[' + stepId + '][resource][' + lastId + '][comment]" value="' + data.comment + '" />';
+    content += '<input type="hidden" class="optional" name="step[' + stepId + '][resource][' + lastId + '][optional]" value="' + data.optional + '" />';
     
     content += '<span class="amount">' + data.amount + '</span> ';
     content += '<span class="unit">' + data.unit + '</span> of ';
@@ -259,6 +257,7 @@ function addResourceToInstructionStep(stepId, list, data) {
     }
     
     $(row).append(content);
+    $(list).attr('data-last-id', lastId + 1);
     
     return row;
 }
@@ -267,17 +266,16 @@ function addResourceToInstructionStep(stepId, list, data) {
  * adds a new ingredient list element to the requested instruction step
  */
 function addIngredientToInstructionStep(stepId, list, data) {
-    var lastId = parseInt($(list).attr('data-last-id')) + 1;
-    $(list).attr('data-last-id', lastId);
+    var lastId = parseInt($(list).attr('data-last-id'));
     
     var row = $('<li></li>').appendTo($(list));
     var content = '';
-    content += '<input type="hidden" class="id" name="instruction-step-ingredient-id[' + stepId + '][' + lastId + ']" value="' + data.id + '" />';
-    content += '<input type="hidden" class="text" name="instruction-step-ingredient-text[' + stepId + '][' + lastId + ']" value="' + data.text + '" />';
-    content += '<input type="hidden" class="amount" name="instruction-step-ingredient-amount[' + stepId + '][' + lastId + ']" value="' + data.amount + '" />';
-    content += '<input type="hidden" class="unit" name="instruction-step-ingredient-unit[' + stepId + '][' + lastId + ']" value="' + data.unit + '" />';
-    content += '<input type="hidden" class="comment" name="instruction-step-ingredient-comment[' + stepId + '][' + lastId + ']" value="' + data.comment + '" />';
-    content += '<input type="hidden" class="optional" name="instruction-step-ingredient-optional[' + stepId + '][' + lastId + ']" value="' + data.optional + '" />';
+    content += '<input type="hidden" class="id" name="step[' + stepId + '][ingredient][' + lastId + '][id]" value="' + data.id + '" />';
+    content += '<input type="hidden" class="text" name="step[' + stepId + '][ingredient][' + lastId + '][title]" value="' + data.text + '" />';
+    content += '<input type="hidden" class="amount" name="step[' + stepId + '][ingredient][' + lastId + '][amount]" value="' + data.amount + '" />';
+    content += '<input type="hidden" class="unit" name="step[' + stepId + '][ingredient][' + lastId + '][unit]" value="' + data.unit + '" />';
+    content += '<input type="hidden" class="comment" name="step[' + stepId + '][ingredient][' + lastId + '][comment]" value="' + data.comment + '" />';
+    content += '<input type="hidden" class="optional" name="step[' + stepId + '][ingredient][' + lastId + '][optional]" value="' + data.optional + '" />';
     
     content += '<span class="amount">' + data.amount + '</span> ';
     content += '<span class="unit">' + data.unit + '</span> of ';
@@ -287,6 +285,7 @@ function addIngredientToInstructionStep(stepId, list, data) {
     }
     
     $(row).append(content);
+    $(list).attr('data-last-id', lastId + 1);
     
     return row;
 }

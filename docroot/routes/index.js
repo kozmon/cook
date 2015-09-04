@@ -18,12 +18,8 @@ module.exports = function(app, db, upload, easyimage) {
     app.get('/newrecipe', function(req, res) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
-        console.log('hejj');
-        console.log('ingredientCollection', ingredientCollection);
-        console.log('ingredientCollectionFind', ingredientCollection.find({}, {}));
         ingredientCollection.find({}, {}, function(e, ingredientList){
             resourceCollection.find({}, {}, function(e, resourceList){
-                console.log('resourceList', resourceList);
                 res.render('edit_process', {
                     "ingredientList" : ingredientList,
                     "resourceList" : resourceList
@@ -32,28 +28,71 @@ module.exports = function(app, db, upload, easyimage) {
         });
     });
 
+    app.get('/editrecipe/:slug', function(req, res) {
+        var ingredientCollection = db.get('ingredient');
+        var resourceCollection = db.get('resource');
+        var processCollection = db.get('process');
+        
+        processCollection.findOne({'title': req.params.slug}, {}, function(e, process){
+            ingredientCollection.find({}, {}, function(e, ingredientList){
+                resourceCollection.find({}, {}, function(e, resourceList){
+                    res.render('edit_process', {
+                        "paramProcess" : process,
+                        "ingredientList" : ingredientList,
+                        "resourceList" : resourceList
+                    });
+                });
+            });
+        });
+    });
+
     app.post('/addprocess', function(req, res) {
-        var data;
+        var formData;
+        var data = {};
         if (req.body !== undefined) {
-            console.log('req.body', req.body);
-            data = req.body;
-            data.slug = data.text;
-            console.log('data', data);
+            formData = req.body;
+            data.slug = data.title;
+            data.title = formData.title;
+            data.description = formData.description;
+        } else {
+            // todo: some error
         }
         
+        console.log(formData);
+        
+        // todo: validation, formatting
+/*        
+        console.log('**********************');
+        console.log(formData.instruction_step_text[1]);
+        console.log('**********************');
+        for (var i=0;i<formData['instruction_step_text'].length;i++) {
+            console.log(i, formData['instruction-step-text'][i]);
+        }
+        console.log('**********************');
+*/
         var processCollection = db.get('process');
 
-        // Submit to the DB
-        processCollection.insert(data, function (err, doc) {
+        processCollection.update({ title: formData.title }, formData, {upsert: true}, function (err, doc) {
             if (err) {
                 // If it failed, return error
                 res.send("There was a problem adding the information to the database.");
             }
             else {
                 // And forward to success page
-                res.redirect("newrecipe");
+                res.redirect("editrecipe/" + formData.title);
             }
         });
+
+        // processCollection.insert(formData, function (err, doc) {
+            // if (err) {
+                // // If it failed, return error
+                // res.send("There was a problem adding the information to the database.");
+            // }
+            // else {
+                // // And forward to success page
+                // res.redirect("newrecipe");
+            // }
+        // });
     });
 
     /* POST to Add Ingredient Service */

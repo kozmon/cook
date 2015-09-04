@@ -1,9 +1,11 @@
 extends layout
 
 block head
+    script(type='text/javascript').
+        var params =!{JSON.stringify(paramProcess)}
     script(type='text/javascript' src='/javascripts/edit_process.js')
 
-block content
+block content        
     div(class='container-fluid content')
         div(class='row')
             div(class='col-xs-12')

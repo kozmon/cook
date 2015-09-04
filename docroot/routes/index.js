@@ -21,6 +21,7 @@ module.exports = function(app, db, upload, easyimage) {
         ingredientCollection.find({}, {}, function(e, ingredientList){
             resourceCollection.find({}, {}, function(e, resourceList){
                 res.render('edit_process', {
+                    "paramProcess" : '',
                     "ingredientList" : ingredientList,
                     "resourceList" : resourceList
                 });
@@ -28,6 +29,10 @@ module.exports = function(app, db, upload, easyimage) {
         });
     });
 
+    app.get('/editrecipe', function(req, res) {
+        res.redirect("newrecipe");
+    });
+    
     app.get('/editrecipe/:slug', function(req, res) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');

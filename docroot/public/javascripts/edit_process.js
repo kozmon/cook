@@ -1,133 +1,11 @@
 $(document).ready(function() {
 
-    $( "li.available-resource" ).draggable({
-        appendTo: "body",
-        helper: "clone"
-    });
+    initFields();
     
-    $( "li.available-ingredient" ).draggable({
-        appendTo: "body",
-        helper: "clone"
-    });
- 
-    $('.instruction-step-list').sortable({
-        revert: true
-    });
-    
-    $('div.add-instruction-step').find('div.controls input.save').on('click', function() {
-        var form = $('div.add-instruction-step');
-        copyInstructionStepDataToList(form, $('div.instruction-step-list ul.instruction-step-list'), $(form).find('input.loaded-instruction-step').val());
-        emptyInstructionStepForm(form);
-        
-        $(form).find('div.controls input.submit').removeClass('hidden');
-        $(form).find('div.controls input.save').addClass('hidden');
-        $(form).find('div.controls input.cancel').addClass('hidden');
-    });
-    
-    $('div.add-instruction-step').find('div.controls input.cancel').on('click', function() {
-        var form = $('div.add-instruction-step');
-        emptyInstructionStepForm(form);
-        
-        $(form).find('div.controls input.submit').removeClass('hidden');
-        $(form).find('div.controls input.save').addClass('hidden');
-        $(form).find('div.controls input.cancel').addClass('hidden');
-    });
-    
-    $( ".input-add-resource" ).on( "enter", function() {
-        $('.new-resource').show();
-    });
-    
-    $( ".input-add-ingredient" ).on( "enter", function() {
-        $('.new-ingredient').show();
-    });
-    
-    $( ".instruction-step-ingredients .input-add-ingredient" ).on("click", function() {
-        $('.new-ingredient').show();
-    });
-  
-    $( ".instruction-step-resources .input-add-resource" ).on("click", function() {
-        $('.new-resource').show();
-    });
-  
-    /* submit the new instruction step form */
-    $( ".add-instruction-step input.submit" ).on( "click", function(e) {
-        var rowId = createInstructionStepListRow($('div.instruction-step-list ul.instruction-step-list'));
-        copyInstructionStepDataToList($('div.add-instruction-step'), $('ul.instruction-step-list'), rowId);
-        emptyInstructionStepForm($('div.add-instruction-step'));
-    });
-    
-    /* adds an ingredient from the ingredient list to the selected ingredients */
-    $( "div.add-instruction-step div.ingredient-list pre" ).droppable({
-        activeClass: "ui-state-default",
-        hoverClass: "ui-state-hover",
-        accept: ".available-ingredient",
-        drop: function( event, ui ) {
-            var data = {
-                id : ui.draggable.attr('data-id'),
-                text : ui.draggable.attr('data-name'),
-                amount: '',
-                unit: '',
-                comment: '',
-                optional: false
-            };
-            
-            addIngredientRowToInstructionStepForm($(this).find('ul'), data);
-        }
-    });
-    
-    $( "div.selected-ingredients ul, div.instruction-step-ingredients ul" ).sortable({
-        items: "li:not(.placeholder)",
-        sort: function() {
-            $( this ).removeClass( "ui-state-default" );
-        }
-    });
-    
-    /* adds a resource from the resource list to the selected resources */
-    $( "div.add-instruction-step div.resource-list pre" ).droppable({
-        activeClass: "ui-state-default",
-        hoverClass: "ui-state-hover",
-        accept: ".available-resource",
-        drop: function( event, ui ) {
-            var data = {
-                id : ui.draggable.attr('data-id'),
-                text : ui.draggable.attr('data-name'),
-                amount: '',
-                unit: '',
-                comment: '',
-                optional: false
-            };
-            
-            addResourceRowToInstructionStepForm($(this).find('ul'), data);
-        }
-    });
-    
-    $( "div.add-instruction-step div.ingredient-list ul, div.add-instruction-step div.resource-list ul" ).sortable({
-        items: "li:not(.placeholder)",
-        sort: function() {
-            $( this ).removeClass( "ui-state-default" );
-        }
-    });
+    if (params) {
+        addInstructionStepsFromRequest();
+    }
 
-    // loads instruction step form from list
-    $( "div.add-instruction-step" ).droppable({
-        activeClass: "ui-state-default",
-        hoverClass: "ui-state-hover",
-        accept: ".instruction-step",
-        drop: function( event, ui ) {
-            var form = this;
-            
-            emptyInstructionStepForm(form);
-            fillFormFromInstructionStep(form, ui.draggable);
-            
-            $(form).find('div.controls input.submit').addClass('hidden');
-            $(form).find('div.controls input.save').removeClass('hidden');
-            $(form).find('div.controls input.cancel').removeClass('hidden');
-        }
-    });
-    
-    $('input.submit-add-recipe').on('click', function() {
-        submitRecipeForm();
-    });
 });
 
 /**
@@ -182,6 +60,19 @@ function copyInstructionStepDataToList(form, list, stepId) {
         attendanceRate: $(form).find('input.attendance-rate').val()
     };
 
+    $(form).find("div.ingredient-list ul li:not(.placeholder)").each(function(key, element) {
+        var ingredientData = {
+            id: $(element).find('input.id').val(),
+            text: $(element).find('span.text').html(),
+            optional: $(element).find('input.optional').prop('checked'),
+            amount: $(element).find('.amount').val(),
+            unit: $(element).find('.unit').val(),
+            comment: $(element).find('.comment').val()
+        };
+        
+        addIngredientToInstructionStep(stepId, resourceList, ingredientData);
+    });
+    
     // finds the needed step from the list
     var li = $(list).find('li[data-id="' + stepId + '"]');
     
@@ -393,8 +284,145 @@ function fillFormFromInstructionStep(form, li) {
     
 }
 
-function submitRecipeForm() {
+function addInstructionStepsFromRequest() {
+    $(params.step).each(function() {
+        console.log(this);
+        var rowId = createInstructionStepListRow($('div.instruction-step-list ul.instruction-step-list'));
+    });
+}
+
+function initFields() {
+    $( "li.available-resource" ).draggable({
+        appendTo: "body",
+        helper: "clone"
+    });
     
+    $( "li.available-ingredient" ).draggable({
+        appendTo: "body",
+        helper: "clone"
+    });
+ 
+    $('.instruction-step-list').sortable({
+        revert: true
+    });
+    
+    $('div.add-instruction-step').find('div.controls input.save').on('click', function() {
+        var form = $('div.add-instruction-step');
+        var formData = {
+        };
+        
+        copyInstructionStepDataToList(form, $('div.instruction-step-list ul.instruction-step-list'), $(form).find('input.loaded-instruction-step').val());
+        emptyInstructionStepForm(form);
+        
+        $(form).find('div.controls input.submit').removeClass('hidden');
+        $(form).find('div.controls input.save').addClass('hidden');
+        $(form).find('div.controls input.cancel').addClass('hidden');
+    });
+    
+    $('div.add-instruction-step').find('div.controls input.cancel').on('click', function() {
+        var form = $('div.add-instruction-step');
+        emptyInstructionStepForm(form);
+        
+        $(form).find('div.controls input.submit').removeClass('hidden');
+        $(form).find('div.controls input.save').addClass('hidden');
+        $(form).find('div.controls input.cancel').addClass('hidden');
+    });
+    
+    $( ".input-add-resource" ).on( "enter", function() {
+        $('.new-resource').show();
+    });
+    
+    $( ".input-add-ingredient" ).on( "enter", function() {
+        $('.new-ingredient').show();
+    });
+    
+    $( ".instruction-step-ingredients .input-add-ingredient" ).on("click", function() {
+        $('.new-ingredient').show();
+    });
+  
+    $( ".instruction-step-resources .input-add-resource" ).on("click", function() {
+        $('.new-resource').show();
+    });
+  
+    /* submit the new instruction step form */
+    $( ".add-instruction-step input.submit" ).on( "click", function(e) {
+        var rowId = createInstructionStepListRow($('div.instruction-step-list ul.instruction-step-list'));
+        copyInstructionStepDataToList($('div.add-instruction-step'), $('ul.instruction-step-list'), rowId);
+        emptyInstructionStepForm($('div.add-instruction-step'));
+    });
+    
+    /* adds an ingredient from the ingredient list to the selected ingredients */
+    $( "div.add-instruction-step div.ingredient-list pre" ).droppable({
+        activeClass: "ui-state-default",
+        hoverClass: "ui-state-hover",
+        accept: ".available-ingredient",
+        drop: function( event, ui ) {
+            var data = {
+                id : ui.draggable.attr('data-id'),
+                text : ui.draggable.attr('data-name'),
+                amount: '',
+                unit: '',
+                comment: '',
+                optional: false
+            };
+            
+            addIngredientRowToInstructionStepForm($(this).find('ul'), data);
+        }
+    });
+    
+    $( "div.selected-ingredients ul, div.instruction-step-ingredients ul" ).sortable({
+        items: "li:not(.placeholder)",
+        sort: function() {
+            $( this ).removeClass( "ui-state-default" );
+        }
+    });
+    
+    /* adds a resource from the resource list to the selected resources */
+    $( "div.add-instruction-step div.resource-list pre" ).droppable({
+        activeClass: "ui-state-default",
+        hoverClass: "ui-state-hover",
+        accept: ".available-resource",
+        drop: function( event, ui ) {
+            var data = {
+                id : ui.draggable.attr('data-id'),
+                text : ui.draggable.attr('data-name'),
+                amount: '',
+                unit: '',
+                comment: '',
+                optional: false
+            };
+            
+            addResourceRowToInstructionStepForm($(this).find('ul'), data);
+        }
+    });
+    
+    $( "div.add-instruction-step div.ingredient-list ul, div.add-instruction-step div.resource-list ul" ).sortable({
+        items: "li:not(.placeholder)",
+        sort: function() {
+            $( this ).removeClass( "ui-state-default" );
+        }
+    });
+
+    // loads instruction step form from list
+    $( "div.add-instruction-step" ).droppable({
+        activeClass: "ui-state-default",
+        hoverClass: "ui-state-hover",
+        accept: ".instruction-step",
+        drop: function( event, ui ) {
+            var form = this;
+            
+            emptyInstructionStepForm(form);
+            fillFormFromInstructionStep(form, ui.draggable);
+            
+            $(form).find('div.controls input.submit').addClass('hidden');
+            $(form).find('div.controls input.save').removeClass('hidden');
+            $(form).find('div.controls input.cancel').removeClass('hidden');
+        }
+    });
+    
+    $('input.submit-add-recipe').on('click', function() {
+        submitRecipeForm();
+    });
 }
 
 /*    
@@ -423,4 +451,3 @@ function submitRecipeForm() {
         }
     });
 */
-

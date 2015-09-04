@@ -11,7 +11,7 @@ var easyimg = require('easyimage');
 // db
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/cook');
+var db = monk('127.0.0.1:27017/cook');
 var app = express();
 
 // view engine setup

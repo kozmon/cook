@@ -163,8 +163,8 @@ function createInstructionStepListRow(list) {
     });
 
     // todo: lastId-s here
-    var ingredientList = $('<ul class="ingredient-list"></ul>').appendTo($('<div class="col-md-12"></div>').append('<input type="hidden" class="last-ingredient-id" value="" />').appendTo($('<div class="row"></div>').appendTo(listContainer)));
-    var resourceList = $('<ul class="resource-list"></ul>').appendTo($('<div class="col-md-12"></div>').append('<input type="hidden" class="last-resource-id" value="" />').appendTo($('<div class="row"></div>').appendTo(listContainer)));
+    var ingredientList = $('<ul class="ingredient-list"></ul>').appendTo($('<div class="col-md-12"></div>').append('<input type="hidden" class="last-ingredient-id" value="0" />').appendTo($('<div class="row"></div>').appendTo(listContainer)));
+    var resourceList = $('<ul class="resource-list"></ul>').appendTo($('<div class="col-md-12"></div>').append('<input type="hidden" class="last-resource-id" value="0" />').appendTo($('<div class="row"></div>').appendTo(listContainer)));
     
     $(list).sortable("refresh");
     
@@ -197,7 +197,7 @@ function copyInstructionStepDataToList(form, list, rowId) {
     $(li).find('span.text').html(text);
     
     // filling the resource and the ingredient list
-    var ingredientList = $(li).find('ul.ingredient-list');    
+    var ingredientList = $(li).find('ul.ingredient-list');
     $(ingredientList).html('');
     
     $(form).find(".instruction-step-ingredients ul li:not(.placeholder)").each(function(key, element) {
@@ -244,6 +244,9 @@ function copyInstructionStepDataToList(form, list, rowId) {
             unit: $(element).find('.unit').val(),
             comment: $(element).find('.comment').val()
         };
+        
+        addResourceToInstructionStep(li, resourceData);
+/*        
         var resourceRow = $('<li></li>').appendTo($(resourceList));
         var resIndex = $(resourceRow).index();
         
@@ -264,8 +267,34 @@ function copyInstructionStepDataToList(form, list, rowId) {
         }
         
         $(resourceRow).append(content);
+*/        
     });
     
+}
+
+function addResourceToInstructionStep(instructionStep, data) {
+    var resourceList = $(instructionStep).find('ul.resource-list');
+    var lastId = $(resourceList).find('input.last-resource-id').val();
+    var resourceRow = $('<li></li>').appendTo($(list));
+    var resIndex = $(list).index();
+    
+    var content = '';
+    //content += '<input type="hidden" class="index" value="' + resIndex + '" />';
+    content += '<input type="hidden" class="id" name="instruction-step-resource-id[' + rowId + '][' + resIndex + ']" value="' + resourceData.id + '" />';
+    content += '<input type="hidden" class="text" name="instruction-step-resource-text[' + rowId + '][' + resIndex + ']" value="' + resourceData.text + '" />';
+    content += '<input type="hidden" class="amount" name="instruction-step-resource-amount[' + rowId + '][' + resIndex + ']" value="' + resourceData.amount + '" />';
+    content += '<input type="hidden" class="unit" name="instruction-step-resource-unit[' + rowId + '][' + resIndex + ']" value="' + resourceData.unit + '" />';
+    content += '<input type="hidden" class="comment" name="instruction-step-resource-comment[' + rowId + '][' + resIndex + ']" value="' + resourceData.comment + '" />';
+    content += '<input type="hidden" class="optional" name="instruction-step-resource-optional[' + rowId + '][' + resIndex + ']" value="' + resourceData.optional + '" />';
+    
+    content += '<span class="amount">' + resourceData.amount + '</span> ';
+    content += '<span class="unit">' + resourceData.unit + '</span> of ';
+    content += '<span class="text">' + resourceData.text + '</span>';
+    if (resourceData.comment) {
+        content += '<span class="comment"> (' + resourceData.comment + ')</span>';
+    }
+    
+    $(resourceRow).append(content);
 }
 
 /**

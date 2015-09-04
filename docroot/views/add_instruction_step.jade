@@ -1,36 +1,40 @@
-div(class='form-group instruction-step-head')
+div(class='form-horizontal')
     input(type="hidden", class="loaded-instruction-step", value="" )
     p add instruction step
-    textarea(class="form-control form-data text", placeholder="explain the instructions")
-    div(class="row")
-        div(class='col-md-6 col-xs-11')
-            input(type="text", class="form-control form-data duration", placeholder="duration")
-        div(class='col-md-5 col-xs-11')
-            input(type="text", class="form-control form-data attendance-rate", placeholder="attendance rate")
-        div(class='col-md-1 col-xs-1')
-            p %
-        
-div(class='form-group instruction-step-ingredients-resources')
-    div.instruction-step-ingredients
-        p selected ingredients
-        pre
-            p(class="drop-box-comment") move your items here
-            ul
     
-        div.input
-            input.input-add-ingredient(type="button", class="form-control", value="new ingredient")
-            
-    div.instruction-step-resources
-        p selected resources
-        pre
-            p(class="drop-box-comment") move your items here
-            ul
-                    
-        div.input
-            input.input-add-resource(type="button", class="form-control", value="new resource")
+    div(class='form-group')
+        label(for="add-instruction-step-text", class="col-md-2 control-label") text
+        div(class='col-md-10')
+            textarea(id="add-instruction-step-text", class="form-control no-post text ", placeholder="explain the instructions")
+        
+    div(class="form-group")
+        label(for="add-instruction-step-duration", class="col-md-2 control-label") duration
+        div(class='col-md-4')
+            input(type="text", class="form-control no-post duration", placeholder="duration")
 
-div(class='form-group instruction-step-controls')
-    div.actions
-        input(type="button", class="btn btn-primary submit", value="add step")
-        input(type="button", class="btn btn-primary save hidden", value="ok")
-        input(type="button", class="btn btn-primary cancel hidden", value="cancel")
+        label(for="add-instruction-step-attendance-rate", class="col-md-2 control-label") attendance
+        div(class='col-md-4')
+            input(type="text", class="form-control no-post attendance-rate", placeholder="attendance rate")
+        
+div(class="ingredient-list")
+    p selected ingredients
+    pre
+        p(class="drop-box-comment") move your items here
+        ul
+
+    div.input
+        input(type="button", class="btn btn-default no-post add-ingredient ", value="new ingredient")
+        
+div(class="resource-list")
+    p selected resources
+    pre
+        p(class="drop-box-comment") move your items here
+        ul
+                
+    div.input
+        input(type="button", class="btn btn-default no-post add-resource ", value="new resource")
+
+div(class="controls")
+    input(type="button", class="btn btn-default no-post submit ", value="add step")
+    input(type="button", class="btn btn-default no-post save hidden ", value="ok")
+    input(type="button", class="btn btn-default no-post cancel hidden ", value="cancel")

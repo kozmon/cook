@@ -64,3 +64,12 @@ new recipe
         instructions, list:
             [added instructions]
             [add instruction form]
+
+instruction step list
+    ul.instruction-step-list, attr(data-last-id)
+        li.instruction-step, attr(data-id)
+            hidden input fields for step head data (text, duration etc.)
+            display data values
+            ul.ingredient-list, attr(data-last-id)
+                li.
+            ul.resource-list, attr(data-last-id)

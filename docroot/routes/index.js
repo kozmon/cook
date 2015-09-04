@@ -24,7 +24,7 @@ module.exports = function(app, db, upload, easyimage) {
         ingredientCollection.find({}, {}, function(e, ingredientList){
             resourceCollection.find({}, {}, function(e, resourceList){
                 console.log('resourceList', resourceList);
-                res.render('newrecipe', {
+                res.render('edit_process', {
                     "ingredientList" : ingredientList,
                     "resourceList" : resourceList
                 });
@@ -32,7 +32,7 @@ module.exports = function(app, db, upload, easyimage) {
         });
     });
 
-    app.post('/newrecipe', function(req, res) {
+    app.post('/addprocess', function(req, res) {
         var data;
         if (req.body !== undefined) {
             console.log('req.body', req.body);
@@ -57,7 +57,7 @@ module.exports = function(app, db, upload, easyimage) {
     });
 
     /* POST to Add Ingredient Service */
-    app.post('/newingredient', upload.single('image'), function(req, res, next) {
+    app.post('/addingredient', upload.single('image'), function(req, res, next) {
 
         // Get our form values. These rely on the "name" attributes
         var name = req.body.name;
@@ -85,7 +85,7 @@ module.exports = function(app, db, upload, easyimage) {
     });
 
     /* POST to Add Resource Service */
-    app.post('/newresource', upload.single('image'), function(req, res, next) {
+    app.post('/addresource', upload.single('image'), function(req, res, next) {
 
         // Get our form values. These rely on the "name" attributes
         var name = req.body.name;
@@ -116,7 +116,7 @@ module.exports = function(app, db, upload, easyimage) {
                 }
             )
         }
-console.log(collection);
+        
         // Submit to the DB
         collection.insert({
             "id" : name,

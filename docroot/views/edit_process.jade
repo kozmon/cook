@@ -1,20 +1,18 @@
 extends layout
 
 block head
-    script(type='text/javascript' src='/javascripts/newrecipe.js')
+    script(type='text/javascript' src='/javascripts/edit_process.js')
 
 block content
     div(class='container-fluid content')
         div(class='row')
             div(class='col-xs-12')
-                form.form-add-recipe(name="new-recipe", method="post", action="/newrecipe")
-                    div(class='row row-eq-height')
-                        div(class='col-md-4 col-xs-12 form-group recipe-head')
+                form(method="post", action="/addprocess")
+                    div(class='row')
+                        div(class='col-md-4 col-xs-12 process-head')
                             div(class='box-container')
                                 div(class='box-inner')
-                                    p tell us about your recipe
-                                    input(type="text", class="form-control input-name", placeholder="name", name="name")
-                                    textarea(class="form-control", placeholder="description", name="description")
+                                    include ./process_head.jade
                     
                         div(class='col-md-8 col-xs-12 ingredients-resources')
                             div(class='box-container')
@@ -31,17 +29,18 @@ block content
                                             p(class="drop-box-comment") move your items here
                                             ul
                                     
-                    div(class='row row-eq-height')
+                    div(class='row')
                         div(class='col-md-6 col-xs-12 add-instruction-step')
                             div(class='box-container')
                                 div(class='box-inner')
                                     include ./add_instruction_step.jade
+                                    
                         div(class='col-md-6 col-xs-12 instruction-step-list')
                             div(class='box-container')
                                 div(class='box-inner')
                                     include ./instruction_step_list.jade
                             
-                    div(class='row row-eq-height')
+                    div(class='row')
                         div(class='col-xs-12  new-recipe-submit')
                             div(class='box-container')
                                 div(class='box-inner')

@@ -104,12 +104,8 @@ div.box-container {
 
 }
 
-div.recipe-head {
+div.process-head {
     color: $color03;
-    
-    input[type=text] {
-        width: 100%;
-    }
     
     div.box-container {
         background-color: $color00;
@@ -119,12 +115,6 @@ div.recipe-head {
     
 div.add-instruction-step {
     color: $color03;
-
-    div.instruction-step-head {
-        input[type=text] {
-            width: 100%;
-        }
-    }
     
     pre {
         background-color: #ffffff;
@@ -136,14 +126,10 @@ div.add-instruction-step {
         background-color: $color06;
     }
 
-        div.instruction-step-resources ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
+    div.resource-list ul,  div.ingredient-list ul {
+        list-style-type: none;
+    }
         
-        div.instruction-step-ingredients ul {
-            list-style-type: none;            
-        }
 }
 
 div.instruction-step-list {    

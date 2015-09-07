@@ -1,6 +1,6 @@
 p new resource
 form(class="new-resource", name="new-resource", method="post", action="/newresource", enctype="multipart/form-data")
-    input(type="text", name="name", class="form-control", placeholder="name")
-    input(type="text", name="description", class="form-control", placeholder="description")
-    input(type="file", name="image", class="form-control", placeholder="image")
-    input(type="submit", value="add new resource", class="form-control")
+    input(type="text", name="title", class="form-control title", placeholder="name")
+    input(type="text", name="description", class="form-control description", placeholder="description")
+    input(type="file", name="image", class="form-control image", placeholder="image")
+    input(type="button", value="add new resource", class="form-control no-post submit")

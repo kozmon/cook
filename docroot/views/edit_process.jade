@@ -55,11 +55,9 @@ block content
                         p available ingredients
                         ul.available-ingredient-list
                             if ingredientList
-                                each element, i in ingredientList
-                                    li(class="available-ingredient", data-id="#{element.id}" data-title="#{element.name}")
-                                        = element.name
-                                        if element.image
-                                            img(src="/uploads/#{element.image.filename}")
+                                each object, i in ingredientList
+                                    li
+                                        include ./ingredient_box.jade
                                     
             div(class='col-xs-6 available-resource-list')
                 div(class='box-container')
@@ -67,11 +65,9 @@ block content
                         p available resources
                         ul.available-resource-list
                             if resourceList
-                                each element, i in resourceList
-                                    li(class="available-resource", data-id="#{element.id}" data-title="#{element.name}")
-                                        = element.name
-                                        if element.image
-                                            img(src="/uploads/#{element.image.filename}")
+                                each object, i in resourceList
+                                    li
+                                        include ./resource_box.jade
 
         div(class='row')
             div(class='col-xs-6 new-resource')

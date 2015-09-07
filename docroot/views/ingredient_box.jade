@@ -1,0 +1,4 @@
+div(class="available-ingredient", data-id="#{object.id}", data-title="#{object.title}")
+    p=object.title
+    if object.image
+        img(src="/uploads/#{object.image.filename}")

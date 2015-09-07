@@ -253,12 +253,12 @@ function addInstructionStepsFromRequest() {
 }
 
 function initFields() {
-    $( "li.available-resource" ).draggable({
+    $( "div.available-resource" ).draggable({
         appendTo: "body",
         helper: "clone"
     });
     
-    $( "li.available-ingredient" ).draggable({
+    $( "div.available-ingredient" ).draggable({
         appendTo: "body",
         helper: "clone"
     });
@@ -267,8 +267,12 @@ function initFields() {
         revert: true
     });
 
-    $('form.new-ingredient input.submit-new-ingredient').on('click', function() {
-        saveNewIngredient();
+    $('form.new-ingredient input.submit').on('click', function() {
+        addIngredient();
+    });
+        
+    $('form.new-resource input.submit').on('click', function() {
+        addResource();
     });
         
     $('div.add-instruction-step').find('div.controls input.save').on('click', function() {
@@ -428,7 +432,7 @@ function collectDataFromInstructionStepForm(form) {
 function submitProcessForm() {
 }
 
-function saveNewIngredient() {
+function addIngredient() {
     var data = {
         title : $('form.new-ingredient input[name="title"]').val(),
         description : $('form.new-ingredient input[name="description"]').val()
@@ -440,7 +444,36 @@ function saveNewIngredient() {
         dataType: "json",
         data: data,
         success: function(res) {
-            console.log('result', res.result);
+            $('form.new-ingredient input.title').val('');
+            $('form.new-ingredient input.description').val('');
+
+            $('ul.available-ingredient-list').append($('<li></li>').append($(res.html).draggable({
+                appendTo: "body",
+                helper: "clone"
+            })));
+        }
+    });
+}
+
+function addResource() {
+    var data = {
+        title : $('form.new-resource input[name="title"]').val(),
+        description : $('form.new-resource input[name="description"]').val()
+    };
+
+    $.ajax({
+        url: "/addresource",
+        type : "POST",
+        dataType: "json",
+        data: data,
+        success: function(res) {
+            $('form.new-resource input.title').val('');
+            $('form.new-resource input.description').val('');
+            
+            $('ul.available-resource-list').append($('<li></li>').append($(res.html).draggable({
+                appendTo: "body",
+                helper: "clone"
+            })));
         }
     });
 }

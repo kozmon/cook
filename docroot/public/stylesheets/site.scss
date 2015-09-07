@@ -204,6 +204,10 @@ div.available-resource-list {
         background-color: $color03;
     }
     
+    ul {
+        list-style-type: none;
+    }
+    
 }
 
 div.new-resource {
@@ -211,6 +215,10 @@ div.new-resource {
     
     div.box-container {
         background-color: $color00;
+    }
+    
+    ul {
+        list-style-type: none;
     }
     
 }
@@ -262,18 +270,18 @@ div.selected-resources ol, div.selected-ingredients ol, div.instruction-steps ul
     
 }
 
-.available-ingredient, .available-resource {
-    display: inline;
+div.available-ingredient, div.available-resource {
+    display: block;
     cursor: move;
 }
 
-.available-ingredient {
+div.available-ingredient {
     background-color: $color09;
     color: $color03;
     border: 1px solid $color03;
 }
 
-.available-resource {
+div.available-resource {
     background-color: $color03;
     color: $color00;
     border: 1px solid $color00;

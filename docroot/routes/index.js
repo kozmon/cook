@@ -119,37 +119,86 @@ module.exports = function(app, db, upload, easyimage) {
         // });
     });
 
-    /* POST to Add Ingredient Service */
+    app.post('/uploadtemporaryimage', upload.single('image'), function(req, res, next) {
+        if (req.file !== undefined) {
+            var imgInfo = easyimage.info(req.file.path);
+            easyimage.rescrop({
+                 src: req.file.path, 
+                 dst: req.file.destination + 'small/' + req.file.filename,
+                 width: 100,
+                 height: 100,
+                 cropwidth: 64,
+                 cropheight: 64,
+                 x: imgInfo.width / 2 - 32,
+                 y: imgInfo.height / 2 - 32
+            }).then(
+                function(image) {
+                    console.log('Resized and cropped: ' + image.width + ' x ' + image.height);
+                    req.file.destination = req.file.destination + 'small/' + req.file.filename;
+                    req.file.filename = req.file.destination + 'small/' + req.file.filename;
+                },
+                function (err) {
+                    console.log(err);
+                }
+            )
+        }
+    });
+    
     app.post('/addingredient', function(req, res, next) {
-        // Get our form values. These rely on the "name" attributes
         var title = req.body.title;
         var description = req.body.description;
 
-        // Set our collection
         var collection = db.get('ingredient');
 
-        // Submit to the DB
         collection.insert({
             "id" : title,
-            "name" : title,
+            "title" : title,
             "description" : description
         }, function (err, doc) {
             if (err) {
-                // If it failed, return error
                 res.send("There was a problem adding the information to the database.");
             }
             else {
-                // And forward to success page
-                //res.redirect("newrecipe");
-                res.send({
-                    result : 1
+                // http://stackoverflow.com/questions/18065812/render-view-into-a-variable-in-expressjs-for-ajax-response
+                app.render('ingredient_box', {object: doc, layout: false}, function(err, html){
+                    var response = {
+                        result: 1,
+                        html: html
+                    };
+                    res.send(response);
+                });
+            }
+        });
+    });
+
+    app.post('/addresource', function(req, res, next) {
+        var title = req.body.title;
+        var description = req.body.description;
+
+        var collection = db.get('resource');
+
+        collection.insert({
+            "id" : title,
+            "title" : title,
+            "description" : description
+        }, function (err, doc) {
+            if (err) {
+                res.send("There was a problem adding the information to the database.");
+            }
+            else {
+                app.render('resource_box', {object: doc, layout: false}, function(err, html){
+                    var response = {
+                        result: 1,
+                        html: html
+                    };
+                    res.send(response);
                 });
             }
         });
     });
 
     /* POST to Add Resource Service */
-    app.post('/addresource', upload.single('image'), function(req, res, next) {
+    app.post('/addresource2', upload.single('image'), function(req, res, next) {
 
         // Get our form values. These rely on the "name" attributes
         var name = req.body.name;

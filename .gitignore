@@ -1,6 +1,7 @@
 /docroot/mongo_start.sh
 /docroot/node_modules
 /docroot/data
+/docroot/public/uploads 
 /docroot/public/javascripts/lib
 /docroot/public/fonts
 /docroot/public/stylesheets/bootstrap.min.css

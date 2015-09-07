@@ -29,10 +29,29 @@ module.exports = function(app, db, upload, easyimage) {
         });
     });
 
+    app.get('/recipes', function(req, res) {
+        var processCollection = db.get('process');
+        processCollection.find({}, {}, function(e, processList){
+            res.render('process_list', {
+                "processList" : processList
+            });
+        });
+    });
+
     app.get('/editrecipe', function(req, res) {
         res.redirect("newrecipe");
     });
     
+    app.get('/recipe/:slug', function(req, res) {
+        var processCollection = db.get('process');
+        
+        processCollection.findOne({'title': req.params.slug}, {}, function(e, process){
+            res.render('view_process', {
+                "paramProcess" : process,
+            });
+        });
+    });
+
     app.get('/editrecipe/:slug', function(req, res) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
@@ -84,7 +103,7 @@ module.exports = function(app, db, upload, easyimage) {
             }
             else {
                 // And forward to success page
-                res.redirect("editrecipe/" + formData.title);
+                res.redirect("recipe/" + formData.title);
             }
         });
 

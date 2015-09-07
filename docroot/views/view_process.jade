@@ -1,0 +1,46 @@
+extends layout
+
+block head
+    script(type='text/javascript' src='/javascripts/lib/mespeak/mespeak.js')
+    script(type='text/javascript' src='/javascripts/view_process.js')
+
+block content        
+    div(class='container-fluid content')
+        div(class='row')
+            div(class='col-xs-12')
+                p #{paramProcess.title}
+                p #{paramProcess.description}
+                
+        div(class='row')
+            div(class='col-xs-12')
+                h2 instructions
+                ul.step-list
+                    each step, i in paramProcess.step
+                        li(class="step")
+                            if (step.resource)
+                                h3 resources:                            
+                                ul.step-resource-list
+                                    each resource, i in step.resource
+                                        li(class="resource")
+                                            p #{resource.title}: #{resource.amount} #{resource.unit} #{resource.comment != '' ? '(' + resource.comment + ')' : ''}
+                            
+                            if (step.ingredient)
+                                h3 ingredients:
+                                ul.step-ingredient-list
+                                    each ingredient, i in step.ingredient
+                                        li(class="ingredient")
+                                            p #{ingredient.title}: #{ingredient.amount} #{ingredient.unit} #{ingredient.comment != '' ? '(' + ingredient.comment + ')' : ''}
+                            
+                            h3 instructions:
+                            p(class='text') #{step.text}
+                            p #{step.duration} min.
+                            p #{step.attendance} %                
+                        
+        div(class='row')
+            div(class='col-xs-12')
+                input(type="button", class="read", value="read it out, baby!")
+                
+        div(class='row')
+            div(class='col-xs-12')
+                a(href="/editrecipe/" + paramProcess.title) edit
+                

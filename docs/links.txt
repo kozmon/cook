@@ -1,0 +1,4 @@
+android speech recognization
+    http://www.techrepublic.com/blog/software-engineer/make-your-next-android-app-a-good-listener/
+    
+    http://cmusphinx.sourceforge.net/wiki/tutorialandroid

@@ -11,26 +11,11 @@ block content
             div(class='col-xs-12')
                 form(method="post", action="/addprocess")
                     div(class='row')
-                        div(class='col-md-4 col-xs-12 process-head')
+                        div(class='col-md-12 process-head')
                             div(class='box-container')
                                 div(class='box-inner')
                                     include ./process_head.jade
                     
-                        div(class='col-md-8 col-xs-12 ingredients-resources')
-                            div(class='box-container')
-                                div(class='box-inner')
-                                    div.selected-ingredients
-                                        p selected ingredients
-                                        pre
-                                            p(class="drop-box-comment") move your items here
-                                            ul
-                                
-                                    div.selected-resources
-                                        p selected resources
-                                        pre
-                                            p(class="drop-box-comment") move your items here
-                                            ul
-                                    
                     div(class='row')
                         div(class='col-md-6 col-xs-12 add-instruction-step')
                             div(class='box-container')
@@ -58,6 +43,11 @@ block content
                                 each object, i in ingredientList
                                     li
                                         include ./ingredient_box.jade
+                            
+                            if processList
+                                each object, i in processList
+                                    li
+                                        include ./process_box.jade
                                     
             div(class='col-xs-6 available-resource-list')
                 div(class='box-container')
@@ -70,12 +60,13 @@ block content
                                         include ./resource_box.jade
 
         div(class='row')
+            div(class='col-xs-6 new-ingredient')
+                div(class='box-container')
+                    div(class='box-inner')
+                        include ./new_ingredient.jade
+
             div(class='col-xs-6 new-resource')
                 div(class='box-container')
                     div(class='box-inner')
                         include ./new_resource.jade
                 
-            div(class='col-xs-6 new-ingredient')
-                div(class='box-container')
-                    div(class='box-inner')
-                        include ./new_ingredient.jade

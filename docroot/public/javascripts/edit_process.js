@@ -253,6 +253,11 @@ function addInstructionStepsFromRequest() {
 }
 
 function initFields() {
+    $( "div.available-process" ).draggable({
+        appendTo: "body",
+        helper: "clone"
+    });
+    
     $( "div.available-resource" ).draggable({
         appendTo: "body",
         helper: "clone"

@@ -18,12 +18,35 @@ module.exports = function(app, db, upload, easyimage) {
     app.get('/newrecipe', function(req, res) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
-        ingredientCollection.find({}, {}, function(e, ingredientList){
-            resourceCollection.find({}, {}, function(e, resourceList){
-                res.render('edit_process', {
-                    "paramProcess" : '',
-                    "ingredientList" : ingredientList,
-                    "resourceList" : resourceList
+        var processCollection = db.get('process');
+
+        processCollection.find({}, {}, function(e, processList){
+            ingredientCollection.find({}, {}, function(e, ingredientList){
+                resourceCollection.find({}, {}, function(e, resourceList){
+                    res.render('edit_process', {
+                        "paramProcess" : '',
+                        "processList" : processList,
+                        "ingredientList" : ingredientList,
+                        "resourceList" : resourceList
+                    });
+                });
+            });
+        });
+    });
+
+    app.get('/editrecipe/:slug', function(req, res) {
+        var ingredientCollection = db.get('ingredient');
+        var resourceCollection = db.get('resource');
+        var processCollection = db.get('process');
+        
+        processCollection.findOne({'title': req.params.slug}, {}, function(e, process){
+            ingredientCollection.find({}, {}, function(e, ingredientList){
+                resourceCollection.find({}, {}, function(e, resourceList){
+                    res.render('edit_process', {
+                        "paramProcess" : process,
+                        "ingredientList" : ingredientList,
+                        "resourceList" : resourceList
+                    });
                 });
             });
         });
@@ -48,24 +71,6 @@ module.exports = function(app, db, upload, easyimage) {
         processCollection.findOne({'title': req.params.slug}, {}, function(e, process){
             res.render('view_process', {
                 "paramProcess" : process,
-            });
-        });
-    });
-
-    app.get('/editrecipe/:slug', function(req, res) {
-        var ingredientCollection = db.get('ingredient');
-        var resourceCollection = db.get('resource');
-        var processCollection = db.get('process');
-        
-        processCollection.findOne({'title': req.params.slug}, {}, function(e, process){
-            ingredientCollection.find({}, {}, function(e, ingredientList){
-                resourceCollection.find({}, {}, function(e, resourceList){
-                    res.render('edit_process', {
-                        "paramProcess" : process,
-                        "ingredientList" : ingredientList,
-                        "resourceList" : resourceList
-                    });
-                });
             });
         });
     });

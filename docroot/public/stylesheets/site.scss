@@ -270,9 +270,15 @@ div.selected-resources ol, div.selected-ingredients ol, div.instruction-steps ul
     
 }
 
-div.available-ingredient, div.available-resource {
+div.available-ingredient, div.available-resource, div.available-process {
     display: block;
     cursor: move;
+}
+
+div.available-process {
+    background-color: $color06;
+    color: $color00;
+    border: 1px solid $color03;
 }
 
 div.available-ingredient {

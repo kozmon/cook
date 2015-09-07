@@ -120,10 +120,9 @@ module.exports = function(app, db, upload, easyimage) {
     });
 
     /* POST to Add Ingredient Service */
-    app.post('/addingredient', upload.single('image'), function(req, res, next) {
-
+    app.post('/addingredient', function(req, res, next) {
         // Get our form values. These rely on the "name" attributes
-        var name = req.body.name;
+        var title = req.body.title;
         var description = req.body.description;
 
         // Set our collection
@@ -131,10 +130,9 @@ module.exports = function(app, db, upload, easyimage) {
 
         // Submit to the DB
         collection.insert({
-            "id" : name,
-            "name" : name,
-            "description" : description,
-            "image" : req.file
+            "id" : title,
+            "name" : title,
+            "description" : description
         }, function (err, doc) {
             if (err) {
                 // If it failed, return error
@@ -142,7 +140,10 @@ module.exports = function(app, db, upload, easyimage) {
             }
             else {
                 // And forward to success page
-                res.redirect("newrecipe");
+                //res.redirect("newrecipe");
+                res.send({
+                    result : 1
+                });
             }
         });
     });

@@ -266,7 +266,11 @@ function initFields() {
     $('.instruction-step-list').sortable({
         revert: true
     });
-    
+
+    $('form.new-ingredient input.submit-new-ingredient').on('click', function() {
+        saveNewIngredient();
+    });
+        
     $('div.add-instruction-step').find('div.controls input.save').on('click', function() {
         var form = $('div.add-instruction-step');
         var formData = collectDataFromInstructionStepForm(form);
@@ -424,7 +428,24 @@ function collectDataFromInstructionStepForm(form) {
 function submitProcessForm() {
 }
 
-/*    
+function saveNewIngredient() {
+    var data = {
+        title : $('form.new-ingredient input[name="title"]').val(),
+        description : $('form.new-ingredient input[name="description"]').val()
+    };
+
+    $.ajax({
+        url: "/addingredient",
+        type : "POST",
+        dataType: "json",
+        data: data,
+        success: function(res) {
+            console.log('result', res.result);
+        }
+    });
+}
+
+/*
     $( ".form-instruction-step .input-add-resource" ).autocomplete({
         source: function( request, response ) {
             $.ajax({

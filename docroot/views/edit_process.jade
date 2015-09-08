@@ -6,71 +6,70 @@ block head
     script(type='text/javascript' src='/javascripts/edit_process.js')
 
 block content        
-    div(class='container-fluid content')
-        div(class='row')
-            div(class='col-md-12')
-                form(method="post", action="/addprocess")
-                    div(class='row')
-                        div(class='col-md-6')
-                            div(class='row')
-                                div(class='col-md-12 process-head')
-                                    div(class='box-container')
-                                        div(class='box-inner')
-                                            include ./process_head.jade
-                            
-                            div(class='row')
-                                div(class='col-md-12 add-instruction-step')
-                                    div(class='box-container')
-                                        div(class='box-inner')
-                                            include ./add_instruction_step.jade
-                                            
-                        div(class='col-md-6')
-                            div(class='row')
-                                div(class='col-md-12 instruction-step-list')
-                                    div(class='box-container')
-                                        div(class='box-inner')
-                                            include ./instruction_step_list.jade
-                                            
-                    div(class='row')
-                        div(class='col-md-12  new-recipe-submit')
-                            div(class='box-container')
-                                div(class='box-inner')
-                                    input(type="submit" class="submit-add-recipe form-control" value="submit")
+    section(class="")
+        div(class='container-fluid content')
+            div(class='row')
+                div(class='col-md-12')
+                    form(method="post", action="/addprocess")
+                        div(class='row')
+                            div(class='col-md-6')
+                                div(class='row')
+                                    div(class='col-md-12 process-head')
+                                        include ./process_head.jade
+                                
+                                div(class='row')
+                                    div(class='col-md-12 add-instruction-step')
+                                        div(class='box-container')
+                                            div(class='box-inner')
+                                                include ./add_instruction_step.jade
+                                                
+                            div(class='col-md-6')
+                                div(class='row')
+                                    div(class='col-md-12 instruction-step-list')
+                                        div(class='box-container')
+                                            div(class='box-inner')
+                                                include ./instruction_step_list.jade
+                                                
+                        div(class='row')
+                            div(class='col-md-12  new-recipe-submit')
+                                div(class='box-container')
+                                    div(class='box-inner')
+                                        input(type="submit" class="submit-add-recipe form-control" value="submit")
+                        
+            div(class='row')
+                div(class='col-md-6 available-ingredient-list')
+                    div(class='box-container')
+                        div(class='box-inner')
+                            p available ingredients
+                            ul.available-ingredient-list
+                                if ingredientList
+                                    each object, i in ingredientList
+                                        li
+                                            include ./ingredient_box.jade
+                                
+                                if processList
+                                    each object, i in processList
+                                        li
+                                            include ./process_box.jade
+                                        
+                div(class='col-md-6 available-resource-list')
+                    div(class='box-container')
+                        div(class='box-inner')
+                            p available resources
+                            ul.available-resource-list
+                                if resourceList
+                                    each object, i in resourceList
+                                        li
+                                            include ./resource_box.jade
+
+            div(class='row')
+                div(class='col-md-6 new-ingredient')
+                    div(class='box-container')
+                        div(class='box-inner')
+                            include ./new_ingredient.jade
+
+                div(class='col-md-6 new-resource')
+                    div(class='box-container')
+                        div(class='box-inner')
+                            include ./new_resource.jade
                     
-        div(class='row')
-            div(class='col-md-6 available-ingredient-list')
-                div(class='box-container')
-                    div(class='box-inner')
-                        p available ingredients
-                        ul.available-ingredient-list
-                            if ingredientList
-                                each object, i in ingredientList
-                                    li
-                                        include ./ingredient_box.jade
-                            
-                            if processList
-                                each object, i in processList
-                                    li
-                                        include ./process_box.jade
-                                    
-            div(class='col-md-6 available-resource-list')
-                div(class='box-container')
-                    div(class='box-inner')
-                        p available resources
-                        ul.available-resource-list
-                            if resourceList
-                                each object, i in resourceList
-                                    li
-                                        include ./resource_box.jade
-
-        div(class='row')
-            div(class='col-md-6 new-ingredient')
-                div(class='box-container')
-                    div(class='box-inner')
-                        include ./new_ingredient.jade
-
-            div(class='col-md-6 new-resource')
-                div(class='box-container')
-                    div(class='box-inner')
-                        include ./new_resource.jade
-                

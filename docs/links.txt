@@ -2,3 +2,9 @@ android speech recognization
     http://www.techrepublic.com/blog/software-engineer/make-your-next-android-app-a-good-listener/
     
     http://cmusphinx.sourceforge.net/wiki/tutorialandroid
+    
+html5 sections
+    http://www.w3.org/wiki/HTML_structural_elements
+    
+kajás képek
+    https://www.facebook.com/marcsi.kalsecz/media_set?set=a.277271172316137.63169.100000997684593&type=3

@@ -10,6 +10,7 @@ $color08 :  #c4276e;
 $color09 :  #0478a4;
 $color10 :  #01709b;
 $color11 :  #227392;
+$black :  #000000;
 
 @mixin asap($weight) {
     font-family: 'Asap';
@@ -27,6 +28,11 @@ $color11 :  #227392;
 }
 
 /******************************** BASE ********************************/
+
+/* for older browsers http://www.w3.org/wiki/HTML_structural_elements */
+article, section, aside, hgroup, nav, header, footer, figure, figcaption {
+    display: block;
+}
 
 h1 {
     @include asap(400);
@@ -50,7 +56,6 @@ h3 {
 body {
     @include roboto-condensed(300);
     font-size: 17px;
-    background-color: #000000;
     line-height: 1.4em;
 }
 
@@ -71,7 +76,24 @@ li.border-bottom {
 }
 
 div.content {
-    background-color: #a0a0a0;
+    background-color: #ffffff;
+}
+
+ul.head-menu {
+    background-color: $color00;
+    color: $color03;
+    list-style-type: none;    
+
+    li {
+        padding: 0;
+        margin: 0;
+    
+        div.item {
+            display: block;
+            background-color: red;
+        }
+    }
+    
 }
 
 /**************/
@@ -96,7 +118,8 @@ div.box-container {
 }
 
 div.process-head {
-    color: $color03;
+    padding: 0.5em;
+    color: $black;
     
     div.box-container {
         background-color: $color00;

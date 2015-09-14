@@ -238,7 +238,6 @@ div.available-ingredient-list {
         list-style-type: none;
         
         li {
-            float: left;
             margin: 2px;
         }
     }
@@ -246,6 +245,7 @@ div.available-ingredient-list {
 }
 
 div.available-resource-list {
+
     div.box-container {
         border-color: #c8c8c8;
     }

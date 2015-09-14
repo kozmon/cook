@@ -168,6 +168,8 @@ function addResourceRowToInstructionStepForm(list, data) {
     $('<div class="col-md-4"></div>').append( '<input type="text" class="comment form-control no-post" placeholder="comment" value="' + data.comment + '" />' ).appendTo(row);
     
     $(li).append('<input type="hidden" class="id no-post" value="' + data.id + '" />');
+    
+    return li;
 }
 
 /**
@@ -196,6 +198,8 @@ function addIngredientRowToInstructionStepForm(list, data) {
     $('<div class="col-md-4"></div>').append( '<input type="text" class="comment form-control no-post" placeholder="comment" value="' + data.comment + '" />' ).appendTo(row);
     
     $(li).append('<input type="hidden" class="id no-post" value="' + data.id + '" />');
+    
+    return li;
 }
 
 /**
@@ -486,42 +490,47 @@ function addResource() {
 }
 
 var ingredientList = [
-    {key: 1, val: 'ecet'},
-    {key: 2, val: 'bor'},
-    {key: 3, val: 'alma'},
-    {key: 4, val: 'körte'}
+    {value: 'alma', label: 'alma', id: 1},
+    {value: 'arany', label: 'arany', id: 2},
+    {value: 'alfa', label: 'alfa', id: 3},
 ];
 
-function initAddInstructionStepAutocompleteFields() {
-    console.log('aa');
-    console.log($( "div.add-instruction-step input.select-ingredient" ));
-    $( "div.add-instruction-step input.add-ingredient" ).autocomplete({
 /*
-        source: function( request, response ) {
-            $.ajax({
-                url: "/resourcelist",
-                dataType: "jsonp",
-                data: {
-                    q: request.term
-                },
-                success: function( data ) {
-                    response(data);
-                }
-            });
-        },
+var ingredientList = [
+    'alma', 'alfa'
+];
 */
+
+function initAddInstructionStepAutocompleteFields() {
+//    console.log(ingredientList);
+    $("div.add-instruction-step input.select-ingredient").autocomplete({
         source: ingredientList,
-        minLength: 2,
-        select: function( event, ui ) {
-            log( ui.item ? "Selected: " + ui.item.label : "Nothing selected, input was " + this.value);
-        },
-        open: function() {
-            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-        },
-        close: function() {
-            $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+        minLength: 1,
+        select: function(event, ui) {
+//            console.log(ui.item);
+            var data = {
+                id : ui.item.id,
+                title : ui.item.label,
+                amount: '',
+                unit: '',
+                comment: '',
+                optional: false
+            };
+            
+            addIngredientRowToInstructionStepForm($('div.add-instruction-step div.ingredient-list ul'), data).find('input.amount').focus();
+//            addResourceRowToInstructionStepForm($(this).find('ul'), data);
         }
     });
+}
+
+function getKeyByValue(list, value) {
+    for (var prop in list) {
+        if (list.hasOwnProperty(prop)) {
+            if (list[prop] === value) {
+                return prop;
+            }
+        }
+    }
 }
 
 /*

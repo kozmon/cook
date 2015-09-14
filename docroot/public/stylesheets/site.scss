@@ -43,20 +43,29 @@ h1 {
 
 h2 {
     @include roboto-condensed(300);
-    font-size: 24px;
-    color: $color03;
+    font-size: 1.2em;
+    color: #606060;
+    font-weight: normal;
+    border-bottom: 1px solid #c8c8c8;
 }
 
 h3 {
     @include roboto-condensed(400);
     font-size: 17px;
-    color: $color03;
+    color: #606060;
+    font-weight: normal;
+    border-bottom: 1px solid #c8c8c8;
 }
 
 body {
     @include roboto-condensed(300);
     font-size: 17px;
     line-height: 1.4em;
+}
+
+label {
+    color: #888888;
+    font-weight: normal;
 }
 
 p {
@@ -80,25 +89,40 @@ div.content {
 }
 
 ul.head-menu {
-    background-color: #c8c8c8;
     color: #ffffff;
+    border-bottom: 1px solid #c8c8c8;
     list-style-type: none;    
-
+    padding-top: 5px;
+    padding-bottom: 5px;
+    
     li {
+        height: 80px;
+        
         &.logo {
-            width: 180px;
-            height: 50px;
+            background-image: url('/images/logo_small.png');
+            background-repeat: no-repeat;
         }
         
-        &.search input.search {
-            margin-top: 8px;
+        &.search {
+            
+            input.search {
+                margin-top: 25px;
+            }
+        }
+
+        &.profil {
+
+            a {
+                display: block;
+                margin-top: 25px;
+                color: #404040;
+                
+                &:hover {
+                    text-decoration: none;
+                }
+            }
         }
         
-        div.item {
-            width: 100%;
-            height: 100%;
-            background-color: black;
-        }
     }
     
 }
@@ -108,11 +132,13 @@ ul.head-menu {
 /**************/
 
 div.box-container {
-/*
     margin: 0.5em 0.5em 0.5em 0.5em;
     padding: 0.5em 0.5em 0.5em 0.5em;
     border-radius: 4px;
-    box-shadow: 5px 5px 5px #888888;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    box-shadow: 4px 4px 4px #c8c8c8;
+/*
 */
     div.box-inner {
         /*
@@ -125,11 +151,9 @@ div.box-container {
 }
 
 div.process-head {
-    padding: 0.5em;
-    color: $black;
-    
+
     div.box-container {
-        background-color: $color00;
+        border-color: #c8c8c8;
     }
     
 }
@@ -139,12 +163,12 @@ div.add-instruction-step {
     
     pre {
         background-color: #ffffff;
-        border-color: #000000;
+        border-color: #c8c8c8;
         color: $color00;
     }
     
     div.box-container {
-        background-color: $color06;
+        border-color: #c8c8c8;
     }
 
     div.resource-list ul,  div.ingredient-list ul {
@@ -154,10 +178,9 @@ div.add-instruction-step {
 }
 
 div.instruction-step-list {    
-    color: $color03;
     
     div.box-container {
-        background-color: $color09;
+        border-color: #c8c8c8;
         
         ul {
             list-style-type: decimal;
@@ -185,7 +208,7 @@ div.new-recipe-submit {
     color: $color03;
     
     div.box-container {
-        background-color: $color00;
+        border-color: #c8c8c8;
     }
     
 }
@@ -200,42 +223,47 @@ div.ingredients-resources {
     }
     
     div.box-container {
-        background-color: $color03;
+        border-color: #c8c8c8;
     }
     
 }
 
 div.available-ingredient-list {
-    color: $color03;
     
     div.box-container {
-        background-color: $color09;
+        border-color: #c8c8c8;
+    }
+    
+    ul.available-ingredient-list {
+        list-style-type: none;
         
-        ul.available-ingredient-list {
-            list-style-type: none;
+        li {
+            float: left;
+            margin: 2px;
         }
     }
     
 }
 
 div.available-resource-list {
-    color: $color00;
-    
     div.box-container {
-        background-color: $color03;
+        border-color: #c8c8c8;
     }
     
-    ul {
+    ul.available-resource-list {
         list-style-type: none;
+        
+        li {
+            margin: 2px;
+        }
     }
     
 }
 
 div.new-resource {
-    color: $color03;
     
     div.box-container {
-        background-color: $color00;
+        border-color: #c8c8c8;
     }
     
     ul {
@@ -248,7 +276,7 @@ div.new-ingredient {
     color: $color03;
     
     div.box-container {
-        background-color: $color06;
+        border-color: #c8c8c8;
     }
     
 }
@@ -297,21 +325,24 @@ div.available-ingredient, div.available-resource, div.available-process {
 }
 
 div.available-process {
-    background-color: $color06;
-    color: $color00;
-    border: 1px solid $color03;
+    background-color: #eeeeee;
+    color: #888888;
+    border: 1px solid #c8c8c8;
+    padding: 2px;
 }
 
 div.available-ingredient {
-    background-color: $color09;
-    color: $color03;
-    border: 1px solid $color03;
+    background-color: #eeeeee;
+    color: #888888;
+    border: 1px solid #c8c8c8;
+    padding: 2px;
 }
 
 div.available-resource {
-    background-color: $color03;
-    color: $color00;
-    border: 1px solid $color00;
+    background-color: #eeeeee;
+    color: #888888;
+    border: 1px solid #c8c8c8;
+    padding: 2px;
 }
 
 .ingredient-box {

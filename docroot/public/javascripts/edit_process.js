@@ -280,6 +280,8 @@ function initFields() {
         addResource();
     });
         
+    initAddInstructionStepAutocompleteFields();
+    
     $('div.add-instruction-step').find('div.controls input.save').on('click', function() {
         var form = $('div.add-instruction-step');
         var formData = collectDataFromInstructionStepForm(form);
@@ -479,6 +481,45 @@ function addResource() {
                 appendTo: "body",
                 helper: "clone"
             })));
+        }
+    });
+}
+
+var ingredientList = [
+    {key: 1, val: 'ecet'},
+    {key: 2, val: 'bor'},
+    {key: 3, val: 'alma'},
+    {key: 4, val: 'körte'}
+];
+
+function initAddInstructionStepAutocompleteFields() {
+    console.log('aa');
+    console.log($( "div.add-instruction-step input.select-ingredient" ));
+    $( "div.add-instruction-step input.add-ingredient" ).autocomplete({
+/*
+        source: function( request, response ) {
+            $.ajax({
+                url: "/resourcelist",
+                dataType: "jsonp",
+                data: {
+                    q: request.term
+                },
+                success: function( data ) {
+                    response(data);
+                }
+            });
+        },
+*/
+        source: ingredientList,
+        minLength: 2,
+        select: function( event, ui ) {
+            log( ui.item ? "Selected: " + ui.item.label : "Nothing selected, input was " + this.value);
+        },
+        open: function() {
+            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+        },
+        close: function() {
+            $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
         }
     });
 }

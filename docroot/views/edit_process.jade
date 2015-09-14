@@ -15,20 +15,22 @@ block content
                             div(class='col-md-6')
                                 div(class='row')
                                     div(class='col-md-12 process-head')
-                                        include ./process_head.jade
-                                
-                                div(class='row')
-                                    div(class='col-md-12 add-instruction-step')
                                         div(class='box-container')
                                             div(class='box-inner')
-                                                include ./add_instruction_step.jade
-                                                
-                            div(class='col-md-6')
+                                                include ./process_head.jade
+                                
                                 div(class='row')
                                     div(class='col-md-12 instruction-step-list')
                                         div(class='box-container')
                                             div(class='box-inner')
                                                 include ./instruction_step_list.jade
+                                                
+                            div(class='col-md-6')
+                                div(class='row')
+                                    div(class='col-md-12 add-instruction-step')
+                                        div(class='box-container')
+                                            div(class='box-inner')
+                                                include ./add_instruction_step.jade
                                                 
                         div(class='row')
                             div(class='col-md-12  new-recipe-submit')
@@ -40,7 +42,7 @@ block content
                 div(class='col-md-6 available-ingredient-list')
                     div(class='box-container')
                         div(class='box-inner')
-                            p available ingredients
+                            h2 available ingredients
                             ul.available-ingredient-list
                                 if ingredientList
                                     each object, i in ingredientList
@@ -55,7 +57,7 @@ block content
                 div(class='col-md-6 available-resource-list')
                     div(class='box-container')
                         div(class='box-inner')
-                            p available resources
+                            h2 available resources
                             ul.available-resource-list
                                 if resourceList
                                     each object, i in resourceList

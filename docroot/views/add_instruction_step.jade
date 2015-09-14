@@ -1,7 +1,9 @@
 div(class='form-horizontal')
-    input(type="hidden", class="loaded-instruction-step", value="" )
-    p add instruction step
+    h2 add instruction step
     
+    input(type="hidden", class="loaded-instruction-step", value="" )
+    
+    h3 directions
     div(class='form-group')
         label(for="add-instruction-step-text", class="col-md-2 control-label") text
         div(class='col-md-10')
@@ -17,23 +19,19 @@ div(class='form-horizontal')
             input(type="text", class="form-control no-post attendance-rate", placeholder="attendance rate")
         
 div(class="ingredient-list")
-    p selected ingredients
+    h3 selected ingredients
     pre
+        input(type="text", class="form-control select-ingredient")
         p(class="drop-box-comment") move your items here
         ul
 
-    div.input
-        input(type="button", class="btn btn-default no-post add-ingredient ", value="new ingredient")
-        
 div(class="resource-list")
-    p selected resources
+    h3 selected resources
     pre
+        input(type="text", class="form-control select-resource")
         p(class="drop-box-comment") move your items here
         ul
                 
-    div.input
-        input(type="button", class="btn btn-default no-post add-resource ", value="new resource")
-
 div(class="controls")
     input(type="button", class="btn btn-default no-post submit ", value="add step")
     input(type="button", class="btn btn-default no-post save hidden ", value="ok")

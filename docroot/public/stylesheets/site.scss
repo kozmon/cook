@@ -111,11 +111,17 @@ ul.head-menu {
             
             div.text {
                 float: left;
-                margin-top: 250px;
+                width: 300px;
+                border-radius: 4px;
+                margin-top: 220px;
                 font-family: "Courier New", Courier, monospace;
                 font-size: 1.5em;
+                font-weight: bold;
                 
-                span.tag1, span.tag2 {
+                .title {
+                    background-color: #ffffff;
+                    padding-top: 2px;
+                    padding-bottom: 2px;
                 }
                 
                 span.tag1 {
@@ -128,15 +134,17 @@ ul.head-menu {
                 
             }
             
+            div.search {
+                float: left;
+                margin-top: 220px;
+            
+                input.search {
+                    margin-top: 25px;
+                }
+            }
+            
         }
         
-        &.search {
-            
-            input.search {
-                margin-top: 25px;
-            }
-        }
-
         &.profil {
 
             a {

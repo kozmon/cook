@@ -34,16 +34,39 @@ article, section, aside, hgroup, nav, header, footer, figure, figcaption {
     display: block;
 }
 
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+    /*border-color: $color00;*/
+    border-color: $color04;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 127, 00, 0.6);
+    outline: 0 none;
+}
+
 h1 {
     @include asap(400);
     font-style: italic;
-    font-size: 32px;
+    font-size: 2.4em;
     color: $color03;
 }
 
 h2 {
     @include roboto-condensed(300);
-    font-size: 1.2em;
+    margin-left: 10px;
+    font-size: 2em;
     color: #606060;
     font-weight: normal;
     border-bottom: 1px solid #c8c8c8;
@@ -51,7 +74,8 @@ h2 {
 
 h3 {
     @include roboto-condensed(400);
-    font-size: 17px;
+    margin-left: 20px;
+    font-size: 1.6em;
     color: #606060;
     font-weight: normal;
     border-bottom: 1px solid #c8c8c8;
@@ -59,7 +83,7 @@ h3 {
 
 body {
     @include roboto-condensed(300);
-    font-size: 17px;
+    font-size: 1.2em;
     line-height: 1.4em;
 }
 
@@ -70,7 +94,7 @@ label {
 
 p {
     @include roboto-condensed(300);
-    font-size: 17px;
+    font-size: 1.4em;
     line-height: 1.4em;
 
     a {
@@ -89,7 +113,6 @@ div.content {
 }
 
 ul.head-menu {
-    color: #ffffff;
     border-bottom: 1px solid #c8c8c8;
     list-style-type: none;    
     padding-top: 5px;
@@ -103,10 +126,14 @@ ul.head-menu {
             background-image: url('/images/logo02c_smaller.png');
             background-repeat: no-repeat;
             
+            @media only screen and (max-width: 768px) {
+                text-align: center;
+            }
+            
             div.image {
                 float: left;
                 width: 300px;
-                height: 100%;
+                height: 100%;                
             }
             
             div.text {
@@ -114,33 +141,94 @@ ul.head-menu {
                 width: 300px;
                 border-radius: 4px;
                 margin-top: 220px;
-                font-family: "Courier New", Courier, monospace;
-                font-size: 1.5em;
-                font-weight: bold;
+                font-family: "Lucida Console", Monaco, monospace;
+                letter-spacing: 1em;
                 
                 .title {
                     background-color: #ffffff;
-                    padding-top: 2px;
-                    padding-bottom: 2px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
                 }
                 
                 span.tag1 {
-                    color: red;
+                    color: $color00;
+                    font-size: 2em;
                 }
                 
                 span.tag2 {
-                    color: green;
+                    color: $color09;
+                    font-size: 1.5em;
                 }
                 
             }
             
-            div.search {
-                float: left;
-                margin-top: 220px;
+            div.head-main {
             
-                input.search {
-                    margin-top: 25px;
+                float: left;
+                margin-top: 10px;
+                margin-left: 20px;
+
+                .search, .advanced-search {
+
+                    @media only screen and (min-width: 768px) {
+                        margin-top: 10px;
+                    }
+                
+                    @media only screen and (max-width: 768px) {
+                        margin-top: 45px;
+                    }
+                
                 }
+                
+                .search {
+                    
+                    input.search {
+                        border-left-width: 15px;
+                        border-radius: 0 4px 4px 0;
+                        font-size: 2em;
+                        color: #606060;
+                        
+                        &:focus {
+                            border: 1px solid #b3a3b0;
+                            border-left-width: 15px;
+                            box-shadow: 0 0 5px rgba(179, 163, 176, 0.5);
+                            /*box-shadow: 0 0 5px rgba(255, 127, 0, 0.5);*/
+                        }
+                    }
+                    
+                }
+
+                .advanced-search {
+                }
+                
+                @media only screen and (max-width: 768px) {
+                    .head-images {
+                        display: none;
+                    }
+                }
+                
+                @media only screen and (min-width: 768px) {
+                    
+                    .head-images {
+
+                        margin-top: 30px;
+                        margin-left: 15px;
+                        border-radius: 4px;
+                        /*background-color: #c8c8c8;*/
+                        background-color: $color00;
+                        
+                        img {
+                            float: left;
+                            width: 230px;
+                            height: 150px;
+                            margin: 5px 20px 5px 0;
+                            border: 2px #ffffff solid;
+                            border-radius: 4px;
+                        }
+                        
+                    }
+                }
+                
             }
             
         }
@@ -149,11 +237,22 @@ ul.head-menu {
 
             a {
                 display: block;
-                margin-top: 25px;
+                width: 54px;
+                margin: 0;
                 color: #404040;
-                
+                border-width: 5px;
+                border-style: solid;
+                border-color: #ffffff;
+                padding: 4px;
+
                 &:hover {
                     text-decoration: none;
+                    border-color: #c8c8c8;
+                }
+                
+                img {
+                    width: 40px;
+                    height: 40px;
                 }
             }
         }

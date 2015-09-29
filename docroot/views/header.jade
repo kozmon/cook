@@ -1,15 +1,26 @@
 header
     ul(class="row head-menu")
-        li(class="col-md-8 logo")
+        li(class="col-md-11 logo")
             div(class="text")
                 div(class="title")
                     span(class="tag1") pal
                     span(class="tag2") of
                     span(class="tag1") cook
-            div(class="search")
-                input(type="text" class="search form-control" placeholder="find recipes")
+                    
+            div(class="head-main")
+                div(class="row")
+                    div(class="col-md-12 head-images")
+                        img(src="/images/kaja01.jpg", class="")
+                        img(src="/images/kaja02.jpg", class="")
+                        img(src="/images/kaja03.jpg", class="")
+                        img(src="/images/kaja04.jpg", class="")
+                        
+                div(class="row")
+                    div(class="col-md-6 search")
+                        input(type="text" class="search form-control" placeholder="find recipes")
+                    div(class="col-md-6 advanced-search")
+                        p advanced
                 
-        li(class="col-md-3 search")
-        
         li(class="col-md-1 profil")
-            a(href="/") profil
+            a(href="/")
+                img(src="/images/profil.png")

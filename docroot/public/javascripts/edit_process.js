@@ -500,7 +500,7 @@ function addResource() {
     });
 }
 
-var ingredientList = [
+var availableIngredientList = [
     {value: 'alma', label: 'alma', id: 1},
     {value: 'arany', label: 'arany', id: 2},
     {value: 'alfa', label: 'alfa', id: 3},
@@ -514,7 +514,7 @@ var ingredientList = [
 
 function setAutocompleteField(field, type) {
     $(field).autocomplete({
-        source: ingredientList,
+        source: availableIngredientList,
         minLength: 1,
         select: function(event, ui) {
             var data = {
@@ -534,7 +534,7 @@ function setAutocompleteField(field, type) {
 function initAddInstructionStepAutocompleteFields() {
 //    console.log(ingredientList);
     $("div.add-instruction-step input.select-ingredient").autocomplete({
-        source: ingredientList,
+        source: availableIngredientList,
         minLength: 1,
         select: function(event, ui) {
 //            console.log(ui.item);

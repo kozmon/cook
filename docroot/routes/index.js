@@ -19,15 +19,24 @@ module.exports = function(app, db, upload, easyimage) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
         var processCollection = db.get('process');
-
+        var templates = [];
+        
         processCollection.find({}, {}, function(e, processList){
             ingredientCollection.find({}, {}, function(e, ingredientList){
                 resourceCollection.find({}, {}, function(e, resourceList){
-                    res.render('edit_process', {
-                        "paramProcess" : '',
-                        "processList" : processList,
-                        "ingredientList" : ingredientList,
-                        "resourceList" : resourceList
+                    app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, html){
+                        templates.push({
+                            name: 'add_instruction_step_ingredient_row',
+                            html: html
+                        });
+                        
+                        res.render('editprocess/edit_process', {
+                            templates : templates,
+                            paramProcess : '',
+                            processList : processList,
+                            ingredientList : ingredientList,
+                            resourceList : resourceList
+                        });
                     });
                 });
             });
@@ -42,7 +51,7 @@ module.exports = function(app, db, upload, easyimage) {
         processCollection.findOne({'title': req.params.slug}, {}, function(e, process){
             ingredientCollection.find({}, {}, function(e, ingredientList){
                 resourceCollection.find({}, {}, function(e, resourceList){
-                    res.render('edit_process', {
+                    res.render('editprocess/edit_process', {
                         "paramProcess" : process,
                         "ingredientList" : ingredientList,
                         "resourceList" : resourceList
@@ -165,7 +174,7 @@ module.exports = function(app, db, upload, easyimage) {
             }
             else {
                 // http://stackoverflow.com/questions/18065812/render-view-into-a-variable-in-expressjs-for-ajax-response
-                app.render('ingredient_box', {object: doc, layout: false}, function(err, html){
+                app.render('editprocess/ingredient_box', {object: doc, layout: false}, function(err, html){
                     var response = {
                         result: 1,
                         html: html
@@ -191,7 +200,7 @@ module.exports = function(app, db, upload, easyimage) {
                 res.send("There was a problem adding the information to the database.");
             }
             else {
-                app.render('resource_box', {object: doc, layout: false}, function(err, html){
+                app.render('editprocess/resource_box', {object: doc, layout: false}, function(err, html){
                     var response = {
                         result: 1,
                         html: html

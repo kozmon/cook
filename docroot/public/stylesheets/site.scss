@@ -85,7 +85,7 @@ li.border-bottom {
 }
 
 div.content {
-    background-color: #ffffff;
+    background-color: #f8f8f8;
 }
 
 ul.head-menu {
@@ -94,12 +94,13 @@ ul.head-menu {
     list-style-type: none;    
     padding-top: 5px;
     padding-bottom: 5px;
+    margin-bottom: 0;
     
     li {
         height: 80px;
         
         &.logo {
-            background-image: url('/images/logo_small.png');
+            background-image: url('/images/kitchen_small.png');
             background-repeat: no-repeat;
         }
         
@@ -132,20 +133,15 @@ ul.head-menu {
 /**************/
 
 div.box-container {
+    background-color: #ffffff;
     margin: 0.5em 0.5em 0.5em 0.5em;
     padding: 0.5em 0.5em 0.5em 0.5em;
     border-radius: 4px;
     border-style: solid;
     border-width: 1px 0 0 1px;
     box-shadow: 4px 4px 4px #c8c8c8;
-/*
-*/
+
     div.box-inner {
-        /*
-        padding: 0.5em 0.5em 0.5em 0.5em;
-        border-radius: 4px;
-        background-color: #ffffff;
-        */
     }
 
 }

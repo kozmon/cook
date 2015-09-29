@@ -21,14 +21,14 @@ div(class='form-horizontal')
 div(class="ingredient-list")
     h3 selected ingredients
     pre
-        input(type="text", class="form-control select-ingredient")
         p(class="drop-box-comment") move your items here
         ul
+            li
+                include ./add_instruction_step_ingredient_row.jade
 
 div(class="resource-list")
     h3 selected resources
     pre
-        input(type="text", class="form-control select-resource")
         p(class="drop-box-comment") move your items here
         ul
                 

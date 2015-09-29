@@ -179,23 +179,32 @@ function addIngredientRowToInstructionStepForm(list, data) {
     $(list).find('li').addClass('border-bottom');
     var li = $( "<li></li>" ).appendTo($(list));
 
+    var hideFields = ' ';
+    if (data.id == undefined) {
+        hideFields = 'hidden ';
+    }
+    
     var optionalValue = ' ';
     if (data.optional === 'true') {
         optionalValue = 'checked="checked"' + optionalValue;
     }
     
     var rowTop = $( "<div class='row short'></div>" ).appendTo($(li));
-    $('<div class="col-md-6 col-xs-12"></div>').append($('<span class="title" ></span>').append(data.title)).appendTo(rowTop);
-    $('<div class="col-md-3 col-xs-12"></div>').append('<label for="selected-ingredient-' + $(li).index() + '-' + data.id + '">optional</label><input type="checkbox" class="optional checkbox-inline no-post" id="selected-ingredient-' + ($(li).index()) + '-' + data.id + '" ' + optionalValue + '/>' ).appendTo(rowTop);
-    $('<div class="col-md-3 col-xs-12"></div>').append('<input type="button" class="icon delete btn btn-default btn-xs no-post" value="" />' ).appendTo(rowTop).on("click", function() {
+    //$('<div class="col-md-6 col-xs-12"></div>').append($('<span class="title" ></span>').append(data.title)).appendTo(rowTop);
+    var titleField = $('<input type="text" class="form-control title no-post" value="" placeholder="add an ingredient" >');
+    $('<div class="col-md-6 col-xs-12"></div>').append($(titleField).append(data.title)).appendTo(rowTop);
+    $('<div class="col-md-3 col-xs-12"></div>').append('<label class="' + hideFields + '" for="selected-ingredient-' + $(li).index() + '-' + data.id + '">optional</label><input type="checkbox" class="optional checkbox-inline no-post ' + hideFields + '" id="selected-ingredient-' + ($(li).index()) + '-' + data.id + '" ' + optionalValue + '/>' ).appendTo(rowTop);
+    $('<div class="col-md-3 col-xs-12"></div>').append('<input type="button" class="icon delete btn btn-default btn-xs no-post ' + hideFields + '" value="" />' ).appendTo(rowTop).on("click", function() {
         $(li).remove();
     });
     
+    setAutocompleteField(titleField, 'ingredient');
+    
     var row = $( '<div class="row short"></div>' ).appendTo($(li));
 
-    $('<div class="col-md-4"></div>').append( '<input type="text" class="amount form-control no-post" placeholder="amount" value="' + data.amount + '" />' ).appendTo(row);
-    $('<div class="col-md-4"></div>').append( '<input type="text" class="unit form-control no-post" placeholder="unit" value="' + data.unit + '" />' ).appendTo(row);
-    $('<div class="col-md-4"></div>').append( '<input type="text" class="comment form-control no-post" placeholder="comment" value="' + data.comment + '" />' ).appendTo(row);
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="amount form-control no-post ' + hideFields + '" placeholder="amount" value="' + data.amount + '" />' ).appendTo(row);
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="unit form-control no-post ' + hideFields + '" placeholder="unit" value="' + data.unit + '" />' ).appendTo(row);
+    $('<div class="col-md-4"></div>').append( '<input type="text" class="comment form-control no-post ' + hideFields + '" placeholder="comment" value="' + data.comment + '" />' ).appendTo(row);
     
     $(li).append('<input type="hidden" class="id no-post" value="' + data.id + '" />');
     
@@ -284,7 +293,7 @@ function initFields() {
         addResource();
     });
         
-    initAddInstructionStepAutocompleteFields();
+//    initAddInstructionStepAutocompleteFields();
     
     $('div.add-instruction-step').find('div.controls input.save').on('click', function() {
         var form = $('div.add-instruction-step');
@@ -307,13 +316,15 @@ function initFields() {
         $(form).find('div.controls input.cancel').addClass('hidden');
     });
     
-    $( ".input-add-resource" ).on( "enter", function() {
-        $('.new-resource').show();
-    });
+    // $( ".input-add-resource" ).on( "enter", function() {
+        // $('.new-resource').show();
+    // });
     
-    $( ".input-add-ingredient" ).on( "enter", function() {
-        $('.new-ingredient').show();
-    });
+    // $( ".input-add-ingredient" ).on( "enter", function() {
+        // $('.new-ingredient').show();
+    // });
+    
+    addIngredientRowToInstructionStepForm($('div.add-instruction-step div.ingredient-list ul'), {});
     
     $( ".instruction-step-ingredients .input-add-ingredient" ).on("click", function() {
         $('.new-ingredient').show();
@@ -500,6 +511,25 @@ var ingredientList = [
     'alma', 'alfa'
 ];
 */
+
+function setAutocompleteField(field, type) {
+    $(field).autocomplete({
+        source: ingredientList,
+        minLength: 1,
+        select: function(event, ui) {
+            var data = {
+                id : ui.item.id,
+                title : ui.item.label,
+                amount: '',
+                unit: '',
+                comment: '',
+                optional: false
+            };
+            
+            addIngredientRowToInstructionStepForm($('div.add-instruction-step div.ingredient-list ul'), data).find('input.amount').focus();
+        }
+    });
+}
 
 function initAddInstructionStepAutocompleteFields() {
 //    console.log(ingredientList);

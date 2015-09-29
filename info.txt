@@ -1,0 +1,84 @@
+process
+    name
+    resources
+    duration
+    results
+    
+i.e.
+    process
+        type
+            pizza
+        name
+            kelttészta begyúrása
+        parameters
+            béla receptje
+        resources
+            liszt: 50 dkg
+            víz: 3.5 dl
+            élesztő: 2 dkg
+            só: 10 g
+            olaj: 0.5 dl
+            tál
+        duration
+            5 perc - 1-ös szintű (profi)
+            9 perc - 2-ös szintű (haladó)
+            15 perc - 3-ös szintű (kezdő)
+        result
+            begyúrt kelttészta
+            
+    process
+        type
+            pizzához
+        name
+            kelttészta kelesztése
+        resources
+            begyúrt kelttészta
+            tál
+            rongy
+        duration
+            50 perc
+        result
+            megkelt kelttészta
+            
+    process
+        type
+            pizzához
+        name
+            kelttészta sütése
+        resources
+            megkelt kelttészta
+            tűzhely
+                parameters
+                    tudjon legalább 240 fokon sütni                    
+        duration
+            10 perc
+        parameters
+            sütési hőfok: 240 fok
+            sütési mód: kemencében
+        descriptions
+            info: előmelegített sütőben süssük
+        result megsült kelttészta
+        
+    process
+        type
+            pizzatészta
+        parameters
+            subtype: béla receptje
+            person count: 4
+        name
+            kelttészta sütése
+        subprocesses
+            kelttészta begyúrása
+                parameters
+                    resources
+                        liszt: 50 dkg
+                        víz: 2.8 dl
+                        só: 10 g
+                        élesztő: 2 dkg
+            kelttészta kelesztése
+            kelttészta sütése
+        descriptions
+            leírás: finom pizza
+            
+           
+        

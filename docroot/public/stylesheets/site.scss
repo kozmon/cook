@@ -96,11 +96,37 @@ ul.head-menu {
     padding-bottom: 5px;
     
     li {
-        height: 80px;
+        height: 300px;
         
         &.logo {
-            background-image: url('/images/logo_small.png');
+            background-image: url('/images/logo02c_smaller.png');
             background-repeat: no-repeat;
+            
+            div.image {
+                float: left;
+                width: 300px;
+                height: 100%;
+            }
+            
+            div.text {
+                float: left;
+                margin-top: 250px;
+                font-family: "Courier New", Courier, monospace;
+                font-size: 1.5em;
+                
+                span.tag1, span.tag2 {
+                }
+                
+                span.tag1 {
+                    color: red;
+                }
+                
+                span.tag2 {
+                    color: green;
+                }
+                
+            }
+            
         }
         
         &.search {

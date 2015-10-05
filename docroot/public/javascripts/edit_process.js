@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     initFields();
     
-    if (params) {
+    if (params.process) {
         addInstructionStepsFromRequest();
     }
 
@@ -178,7 +178,9 @@ function addResourceRowToInstructionStepForm(list, data) {
 function addIngredientRowToInstructionStepForm(list, data) {
     $(list).find('li').addClass('border-bottom');
     var li = $( "<li></li>" ).appendTo($(list));
-
+    $(params.templates['add_instruction_step_ingredient_row'].html).appendTo(li).find('span.title').html(data.title);
+    
+/*
     var hideFields = ' ';
     if (data.id == undefined) {
         hideFields = 'hidden ';
@@ -191,14 +193,14 @@ function addIngredientRowToInstructionStepForm(list, data) {
     
     var rowTop = $( "<div class='row short'></div>" ).appendTo($(li));
     //$('<div class="col-md-6 col-xs-12"></div>').append($('<span class="title" ></span>').append(data.title)).appendTo(rowTop);
-    var titleField = $('<input type="text" class="form-control title no-post" value="" placeholder="add an ingredient" >');
+    //var titleField = $('<input type="text" class="form-control title no-post" value="" placeholder="add an ingredient" >');
     $('<div class="col-md-6 col-xs-12"></div>').append($(titleField).append(data.title)).appendTo(rowTop);
     $('<div class="col-md-3 col-xs-12"></div>').append('<label class="' + hideFields + '" for="selected-ingredient-' + $(li).index() + '-' + data.id + '">optional</label><input type="checkbox" class="optional checkbox-inline no-post ' + hideFields + '" id="selected-ingredient-' + ($(li).index()) + '-' + data.id + '" ' + optionalValue + '/>' ).appendTo(rowTop);
     $('<div class="col-md-3 col-xs-12"></div>').append('<input type="button" class="icon delete btn btn-default btn-xs no-post ' + hideFields + '" value="" />' ).appendTo(rowTop).on("click", function() {
         $(li).remove();
     });
     
-    setAutocompleteField(titleField, 'ingredient');
+    //setAutocompleteField(titleField, 'ingredient');
     
     var row = $( '<div class="row short"></div>' ).appendTo($(li));
 
@@ -207,7 +209,7 @@ function addIngredientRowToInstructionStepForm(list, data) {
     $('<div class="col-md-4"></div>').append( '<input type="text" class="comment form-control no-post ' + hideFields + '" placeholder="comment" value="' + data.comment + '" />' ).appendTo(row);
     
     $(li).append('<input type="hidden" class="id no-post" value="' + data.id + '" />');
-    
+*/    
     return li;
 }
 
@@ -259,9 +261,9 @@ function fillFormFromInstructionStep(form, li) {
 }
 
 function addInstructionStepsFromRequest() {
-    for (var i=0;i<params.step.length;i++) {
+    for (var i=0;i<process.step.length;i++) {
         var rowId = createInstructionStepListRow($('div.instruction-step-list ul.instruction-step-list'));
-        copyInstructionStepDataToList(params.step[i], $('div.instruction-step-list ul.instruction-step-list'), rowId);
+        copyInstructionStepDataToList(process.step[i], $('div.instruction-step-list ul.instruction-step-list'), rowId);
     }
 }
 
@@ -294,6 +296,7 @@ function initFields() {
     });
         
 //    initAddInstructionStepAutocompleteFields();
+    setAutocompleteField($('.ingredient-list input.add-ingredient'), 'ingredient');
     
     $('div.add-instruction-step').find('div.controls input.save').on('click', function() {
         var form = $('div.add-instruction-step');
@@ -324,7 +327,7 @@ function initFields() {
         // $('.new-ingredient').show();
     // });
     
-    addIngredientRowToInstructionStepForm($('div.add-instruction-step div.ingredient-list ul'), {});
+    //addIngredientRowToInstructionStepForm($('div.add-instruction-step div.ingredient-list ul'), {});
     
     $( ".instruction-step-ingredients .input-add-ingredient" ).on("click", function() {
         $('.new-ingredient').show();
@@ -517,6 +520,8 @@ function setAutocompleteField(field, type) {
         source: availableIngredientList,
         minLength: 1,
         select: function(event, ui) {
+            event.preventDefault();
+        
             var data = {
                 id : ui.item.id,
                 title : ui.item.label,
@@ -527,6 +532,9 @@ function setAutocompleteField(field, type) {
             };
             
             addIngredientRowToInstructionStepForm($('div.add-instruction-step div.ingredient-list ul'), data).find('input.amount').focus();
+            
+            console.log($(this).val());
+            $(this).val('');
         }
     });
 }

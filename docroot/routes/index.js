@@ -19,20 +19,24 @@ module.exports = function(app, db, upload, easyimage) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
         var processCollection = db.get('process');
-        var templates = [];
+        var templates = {};
         
         processCollection.find({}, {}, function(e, processList){
             ingredientCollection.find({}, {}, function(e, ingredientList){
                 resourceCollection.find({}, {}, function(e, resourceList){
                     app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, html){
-                        templates.push({
-                            name: 'add_instruction_step_ingredient_row',
+                        // templates.push({
+                            // name: 'add_instruction_step_ingredient_row',
+                            // html: html
+                        // });
+                        templates['add_instruction_step_ingredient_row'] = {
                             html: html
-                        });
+                        };
                         
                         res.render('editprocess/edit_process', {
-                            templates : templates,
-                            paramProcess : '',
+                            jsParams : {
+                                templates : templates
+                            },
                             processList : processList,
                             ingredientList : ingredientList,
                             resourceList : resourceList

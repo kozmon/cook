@@ -18,6 +18,8 @@ $dustywhite : #ccc;
 $linen: #faf0e6;
 $eerie: #1b1b1b;
 
+$basefont: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
 @mixin asap($weight) {
     font-family: 'Asap';
     font-weight: $weight;
@@ -93,9 +95,14 @@ body {
     line-height: 1.4em;
 }
 
+textarea {
+    resize: vertical;
+}
+
 label {
     color: #888888;
     font-weight: normal;
+    font-size: 1.4em;
 }
 
 p {
@@ -131,7 +138,7 @@ ul.head-menu {
     li {
         
         &.logo {
-            background-image: url('/images/cookhat_thin.png');
+            background-image: url('/images/cookhat_b.png');
             background-repeat: no-repeat;
             height: 160px;
             margin-bottom: 10px;
@@ -184,7 +191,7 @@ ul.head-menu {
                             border-radius: 0px;
                             color: $linen;
                             /*font-family: "Lucida Console", Monaco, monospace;*/
-                            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                            font-family: $basefont;
                             
                             
                             &:hover {
@@ -294,8 +301,16 @@ div.add-instruction-step {
         border-color: #c8c8c8;
     }
 
-    div.resource-list ul,  div.ingredient-list ul {
+    div.resource-list ul, div.ingredient-list ul, div.prerequisite-list ul {
         list-style-type: none;
+        
+        span.title {
+            color: #888888;
+            font-weight: normal;
+            font-size: 1.4em;
+        }
+        
+        
     }
         
 }

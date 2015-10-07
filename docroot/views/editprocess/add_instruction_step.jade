@@ -25,9 +25,12 @@ div(class="ingredient-list")
 
 div(class="resource-list")
     h3 selected resources
-    pre
-        p(class="drop-box-comment") move your items here
-        ul
+    ul
+    input(type="text", class="form-control add-resource no-post", placeholder="add a resource")
+                
+div(class="prerequisite-list")
+    h3 prerequisites
+    ul
                 
 div(class="controls")
     input(type="button", class="btn btn-default no-post submit ", value="add step")

@@ -44,8 +44,8 @@ block content
                         div(class='box-inner')
                             h2 available ingredients
                             ul.available-ingredient-list
-                                if ingredientList
-                                    each object, i in ingredientList
+                                if availableIngredientList
+                                    each object, i in availableIngredientList
                                         li
                                             include ./ingredient_box.jade
                                         
@@ -54,8 +54,8 @@ block content
                         div(class='box-inner')
                             h2 available resources
                             ul.available-resource-list
-                                if resourceList
-                                    each object, i in resourceList
+                                if availableResourceList
+                                    each object, i in availableResourceList
                                         li
                                             include ./resource_box.jade
 

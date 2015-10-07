@@ -16,71 +16,79 @@ module.exports = function(app, db, upload, easyimage) {
     });
 
     app.get('/newrecipe', function(req, res) {
-        var ingredientCollection = db.get('ingredient');
-        var resourceCollection = db.get('resource');
-        var processCollection = db.get('process');
-        var templates = {};
-        
-        processCollection.find({}, {}, function(e, processList){
-            ingredientCollection.find({}, {}, function(e, ingredientList){
-                resourceCollection.find({}, {}, function(e, resourceList){
-                    app.render('editprocess/instruction_step_row.jade', {layout: false}, function(err, instruction_step_row){
-                        app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, add_instruction_step_ingredient_row){
-
-                            templates['instruction_step_row'] = {
-                                html: instruction_step_row
-                            };
-                            
-                            templates['add_instruction_step_ingredient_row'] = {
-                                html: add_instruction_step_ingredient_row
-                            };
-                            
-                            res.render('editprocess/edit_process', {
-                                jsParams : {
-                                    templates : templates
-                                },
-                                processList : processList,
-                                ingredientList : ingredientList,
-                                resourceList : resourceList
-                            });
-                        });
-                    });
-                });
-            });
+        collectProcessData(function(data) {
+            res.render('editprocess/edit_process', data);
         });
     });
 
     app.get('/editrecipe/:slug', function(req, res) {
+        var processCollection = db.get('process');
+        
+        processCollection.findOne({'title': req.params.slug}, {}, function(e, process) {
+            collectProcessData(function(data) {
+                data.paramProcess = process;
+                data.jsParams.process = process;
+                res.render('editprocess/edit_process', data);
+            });
+        });
+    });
+
+    function collectProcessData(callback) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
         var processCollection = db.get('process');
-        var templates = {};
         
-        processCollection.findOne({'title': req.params.slug}, {}, function(e, process){
-            processCollection.find({}, {}, function(e, processList){
-                ingredientCollection.find({}, {}, function(e, ingredientList){
-                    resourceCollection.find({}, {}, function(e, resourceList){
-                        app.render('editprocess/instruction_step_row.jade', {layout: false}, function(err, instruction_step_row){
-                            app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, add_instruction_step_ingredient_row){
+        processCollection.find({}, {}, function(e, processList) {
+            ingredientCollection.find({}, {}, function(e, ingredientList) {
+                resourceCollection.find({}, {}, function(e, resourceList) {
+                    app.render('editprocess/instruction_step_row.jade', {layout: false}, function(err, instruction_step_row) {
+                        app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, add_instruction_step_ingredient_row) {
+                            app.render('editprocess/add_instruction_step_resource_row.jade', {layout: false}, function(err, add_instruction_step_resource_row) {
+                                app.render('editprocess/add_instruction_step_prerequisite_row.jade', {layout: false}, function(err, add_instruction_step_prerequisite_row) {
+                                    app.render('editprocess/instruction_step_ingredient_row.jade', {layout: false}, function(err, instruction_step_ingredient_row) {
+                                        app.render('editprocess/instruction_step_resource_row.jade', {layout: false}, function(err, instruction_step_resource_row) {
+                                            app.render('editprocess/instruction_step_prerequisite_row.jade', {layout: false}, function(err, instruction_step_prerequisite_row) {
 
-                                templates['instruction_step_row'] = {
-                                    html: instruction_step_row
-                                };
-                                
-                                templates['add_instruction_step_ingredient_row'] = {
-                                    html: add_instruction_step_ingredient_row
-                                };
-                                
-                                res.render('editprocess/edit_process', {
-                                    jsParams : {
-                                        templates : templates,
-                                        process : process,
-                                        ingredientList : ingredientList,
-                                    },
-                                    paramProcess : process,
-                                    processList : processList,
-                                    ingredientList : ingredientList,
-                                    resourceList : resourceList
+                                                var templates = {
+                                                    instruction_step_row: {
+                                                        html: instruction_step_row
+                                                    },
+                                                    add_instruction_step_ingredient_row : {
+                                                        html: add_instruction_step_ingredient_row
+                                                    },
+                                                    add_instruction_step_resource_row : {
+                                                        html: add_instruction_step_resource_row
+                                                    },
+                                                    add_instruction_step_prerequisite_row : {
+                                                        html: add_instruction_step_prerequisite_row
+                                                    },
+                                                    instruction_step_ingredient_row : {
+                                                        html: instruction_step_ingredient_row
+                                                    },
+                                                    instruction_step_resource_row : {
+                                                        html: instruction_step_resource_row
+                                                    },
+                                                    instruction_step_prerequisite_row : {
+                                                        html: instruction_step_prerequisite_row
+                                                    },
+                                                };
+                                                
+                                                var ret = {
+                                                    jsParams : {
+                                                        templates : templates,
+                                                        availableProcessList : processList,
+                                                        availableIngredientList : ingredientList,
+                                                        availableResourceList : resourceList
+                                                    },
+                                                    availableProcessList : processList,
+                                                    availableIngredientList : ingredientList,
+                                                    availableResourceList : resourceList
+                                                };
+                                                
+                                                callback(ret);
+                                            });
+                                        });
+                                    });
                                 });
                             });
                         });
@@ -88,8 +96,8 @@ module.exports = function(app, db, upload, easyimage) {
                 });
             });
         });
-    });
-
+    };
+    
     app.get('/recipes', function(req, res) {
         var processCollection = db.get('process');
         processCollection.find({}, {}, function(e, processList){
@@ -195,11 +203,13 @@ module.exports = function(app, db, upload, easyimage) {
 
         var collection = db.get('ingredient');
 
-        collection.insert({
-            "id" : title,
-            "title" : title,
-            "description" : description
-        }, function (err, doc) {
+        var entity = {
+            id : title,
+            title : title,
+            description : description
+        };
+        
+        collection.insert(entity, function (err, doc) {
             if (err) {
                 res.send("There was a problem adding the information to the database.");
             }
@@ -208,6 +218,7 @@ module.exports = function(app, db, upload, easyimage) {
                 app.render('editprocess/ingredient_box', {object: doc, layout: false}, function(err, html){
                     var response = {
                         result: 1,
+                        entity: entity,
                         html: html
                     };
                     res.send(response);

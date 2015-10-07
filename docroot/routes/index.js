@@ -24,22 +24,25 @@ module.exports = function(app, db, upload, easyimage) {
         processCollection.find({}, {}, function(e, processList){
             ingredientCollection.find({}, {}, function(e, ingredientList){
                 resourceCollection.find({}, {}, function(e, resourceList){
-                    app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, html){
-                        // templates.push({
-                            // name: 'add_instruction_step_ingredient_row',
-                            // html: html
-                        // });
-                        templates['add_instruction_step_ingredient_row'] = {
-                            html: html
-                        };
-                        
-                        res.render('editprocess/edit_process', {
-                            jsParams : {
-                                templates : templates
-                            },
-                            processList : processList,
-                            ingredientList : ingredientList,
-                            resourceList : resourceList
+                    app.render('editprocess/instruction_step_row.jade', {layout: false}, function(err, instruction_step_row){
+                        app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, add_instruction_step_ingredient_row){
+
+                            templates['instruction_step_row'] = {
+                                html: instruction_step_row
+                            };
+                            
+                            templates['add_instruction_step_ingredient_row'] = {
+                                html: add_instruction_step_ingredient_row
+                            };
+                            
+                            res.render('editprocess/edit_process', {
+                                jsParams : {
+                                    templates : templates
+                                },
+                                processList : processList,
+                                ingredientList : ingredientList,
+                                resourceList : resourceList
+                            });
                         });
                     });
                 });
@@ -51,14 +54,36 @@ module.exports = function(app, db, upload, easyimage) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
         var processCollection = db.get('process');
+        var templates = {};
         
         processCollection.findOne({'title': req.params.slug}, {}, function(e, process){
-            ingredientCollection.find({}, {}, function(e, ingredientList){
-                resourceCollection.find({}, {}, function(e, resourceList){
-                    res.render('editprocess/edit_process', {
-                        "paramProcess" : process,
-                        "ingredientList" : ingredientList,
-                        "resourceList" : resourceList
+            processCollection.find({}, {}, function(e, processList){
+                ingredientCollection.find({}, {}, function(e, ingredientList){
+                    resourceCollection.find({}, {}, function(e, resourceList){
+                        app.render('editprocess/instruction_step_row.jade', {layout: false}, function(err, instruction_step_row){
+                            app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, add_instruction_step_ingredient_row){
+
+                                templates['instruction_step_row'] = {
+                                    html: instruction_step_row
+                                };
+                                
+                                templates['add_instruction_step_ingredient_row'] = {
+                                    html: add_instruction_step_ingredient_row
+                                };
+                                
+                                res.render('editprocess/edit_process', {
+                                    jsParams : {
+                                        templates : templates,
+                                        process : process,
+                                        ingredientList : ingredientList,
+                                    },
+                                    paramProcess : process,
+                                    processList : processList,
+                                    ingredientList : ingredientList,
+                                    resourceList : resourceList
+                                });
+                            });
+                        });
                     });
                 });
             });
@@ -90,17 +115,19 @@ module.exports = function(app, db, upload, easyimage) {
 
     app.post('/addprocess', function(req, res) {
         var formData;
-        var data = {};
+        var dbData = {};
+        
         if (req.body !== undefined) {
             formData = req.body;
-            data.slug = data.title;
-            data.title = formData.title;
-            data.description = formData.description;
+            
+            dbData.slug = formData.title;
+            dbData.title = formData.title;
+            dbData.description = formData.description;
         } else {
             // todo: some error
         }
         
-        console.log(formData);
+        // console.log(formData);
         
         // todo: validation, formatting
 /*        
@@ -114,14 +141,14 @@ module.exports = function(app, db, upload, easyimage) {
 */
         var processCollection = db.get('process');
 
-        processCollection.update({ title: formData.title }, formData, {upsert: true}, function (err, doc) {
+        processCollection.update({ title: dbData.title }, formData, {upsert: true}, function (err, doc) {
             if (err) {
                 // If it failed, return error
                 res.send("There was a problem adding the information to the database.");
             }
             else {
                 // And forward to success page
-                res.redirect("recipe/" + formData.title);
+                res.redirect("recipe/" + dbData.title);
             }
         });
 

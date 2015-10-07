@@ -1,16 +1,22 @@
-$color00 :  #ff8500;
-$color01 :  #f78000;
-$color02 :  #e98fe2;
-$color03 :  #ffe100;
-$color04 :  #f7d900;
-$color05 :  #e9d32e;
-$color06 :  #d80062;
-$color07 :  #cf005e;
-$color08 :  #c4276e;
-$color09 :  #0478a4;
-$color10 :  #01709b;
-$color11 :  #227392;
-$black :  #000000;
+$color00 : #ff8500;
+$color01 : #f78000;
+$color02 : #e98fe2;
+$color03 : #ffe100;
+$color04 : #f7d900;
+$color05 : #e9d32e;
+$color06 : #d80062;
+$color07 : #cf005e;
+$color08 : #c4276e;
+$color09 : #0478a4;
+$color10 : #01709b;
+$color11 : #227392;
+
+$black : #000000;
+$gray : #696969;
+$lightgray : #ccc;
+$dustywhite : #ccc;
+$linen: #faf0e6;
+$eerie: #1b1b1b;
 
 @mixin asap($weight) {
     font-family: 'Asap';
@@ -67,7 +73,7 @@ h2 {
     @include roboto-condensed(300);
     margin-left: 10px;
     font-size: 2em;
-    color: #606060;
+    color: $gray;
     font-weight: normal;
     border-bottom: 1px solid #c8c8c8;
 }
@@ -76,7 +82,7 @@ h3 {
     @include roboto-condensed(400);
     margin-left: 20px;
     font-size: 1.6em;
-    color: #606060;
+    color: $gray;
     font-weight: normal;
     border-bottom: 1px solid #c8c8c8;
 }
@@ -97,11 +103,13 @@ p {
     font-size: 1.4em;
     line-height: 1.4em;
 
-    a {
-        @include roboto-condensed(400);
-        font-size: 17px;
-        color: $color09;
-    }
+}
+
+a {
+    @include roboto-condensed(400);
+    font-size: 17px;
+    color: $gray;
+    cursor: pointer;
 }
 
 li.border-bottom {
@@ -113,137 +121,123 @@ div.content {
 }
 
 ul.head-menu {
+
     border-bottom: 1px solid #c8c8c8;
     list-style-type: none;    
-    padding-top: 5px;
+    padding-top: 0;
     padding-bottom: 5px;
     margin-bottom: 0;
     
     li {
-        height: 300px;
         
         &.logo {
-            background-image: url('/images/logo02c_smaller.png');
+            background-image: url('/images/cookhat_thin.png');
             background-repeat: no-repeat;
-            
-            @media only screen and (max-width: 768px) {
-                text-align: center;
-            }
-            
-            div.image {
-                float: left;
-                width: 300px;
-                height: 100%;                
-            }
+            height: 160px;
+            margin-bottom: 10px;
             
             div.text {
-                float: left;
-                width: 300px;
-                border-radius: 4px;
-                margin-top: 220px;
+                width: 230px;
+                background-color: $black;
+                border-radius: 10px;
+                margin-left: -30px;
+                margin-top: 80px;
+                padding: 5px 5px 2px 10px;
                 font-family: "Lucida Console", Monaco, monospace;
-                letter-spacing: 1em;
-                
-                .title {
-                    background-color: #ffffff;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                }
+                letter-spacing: 0.8em;
+                /*text-transform: uppercase;*/
                 
                 span.tag1 {
                     color: $color00;
-                    font-size: 2em;
+                    font-size: 1.6em;
                 }
                 
                 span.tag2 {
                     color: $color09;
-                    font-size: 1.5em;
+                    font-size: 1.2em;
+                }
+                
+            }
+        }
+        
+        &.actions {
+            padding-right: 0;
+            
+            .menu {
+                
+                ul {
+                    height: 42px;
+                    background-color: $black;
+                    margin: 0;
+                    padding: 0;
+                    list-style-type: none;
+                    border-bottom: 5px solid $lightgray;
+                    
+                    li {
+                        display: block;
+                        
+                        a {
+                            float: left;
+                            height: 37px;
+                            margin: 0;
+                            padding: 12px 30px 0 30px; 
+                            border-radius: 0px;
+                            color: $linen;
+                            /*font-family: "Lucida Console", Monaco, monospace;*/
+                            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                            
+                            
+                            &:hover {
+                                background-color: $gray;
+                                text-decoration: none;
+                            }
+                        }
+                    }
                 }
                 
             }
             
-            div.head-main {
-            
-                float: left;
-                margin-top: 10px;
-                margin-left: 20px;
-
-                .search, .advanced-search {
-
-                    @media only screen and (min-width: 768px) {
-                        margin-top: 10px;
-                    }
+            .search {
                 
-                    @media only screen and (max-width: 768px) {
-                        margin-top: 45px;
-                    }
-                
-                }
-                
-                .search {
+                .basic-search {
                     
-                    input.search {
-                        border-left-width: 15px;
+                    input.basic-search {
+                        margin: 86px 0 0 0;
+                        border-width: 1px 1px 1px 15px;
                         border-radius: 0 4px 4px 0;
+                        border-color: $gray $gray $gray $gray;
                         font-size: 2em;
-                        color: #606060;
+                        color: $gray;
+                        padding: 0 0 0 0.3em;
                         
                         &:focus {
-                            border: 1px solid #b3a3b0;
+                            border: 1px solid $black;
                             border-left-width: 15px;
                             box-shadow: 0 0 5px rgba(179, 163, 176, 0.5);
-                            /*box-shadow: 0 0 5px rgba(255, 127, 0, 0.5);*/
                         }
                     }
                     
                 }
-
-                .advanced-search {
-                }
                 
-                @media only screen and (max-width: 768px) {
-                    .head-images {
-                        display: none;
-                    }
-                }
-                
-                @media only screen and (min-width: 768px) {
-                    
-                    .head-images {
-
-                        margin-top: 30px;
-                        margin-left: 15px;
-                        border-radius: 4px;
-                        /*background-color: #c8c8c8;*/
-                        background-color: $color00;
-                        
-                        img {
-                            float: left;
-                            width: 230px;
-                            height: 150px;
-                            margin: 5px 20px 5px 0;
-                            border: 2px #ffffff solid;
-                            border-radius: 4px;
-                        }
-                        
-                    }
+                &.advanced-search {
                 }
                 
             }
             
         }
-        
+
         &.profil {
 
+            background-color: $black;
+            border-bottom: 5px solid $lightgray;
+            
             a {
+                float: right;
                 display: block;
-                width: 54px;
-                margin: 0;
+                width: 100%;
+                margin-top: 0px;
                 color: #404040;
-                border-width: 5px;
-                border-style: solid;
-                border-color: #ffffff;
-                padding: 4px;
+                padding: 5px;
 
                 &:hover {
                     text-decoration: none;
@@ -251,8 +245,8 @@ ul.head-menu {
                 }
                 
                 img {
-                    width: 40px;
-                    height: 40px;
+                    width: 27px;
+                    height: 27px;
                 }
             }
         }
@@ -347,7 +341,7 @@ div.ingredients-resources {
     
     pre {
         background-color: #ffffff;
-        border-color: #000000;
+        border-color: $black;
         color: $color00;
     }
     

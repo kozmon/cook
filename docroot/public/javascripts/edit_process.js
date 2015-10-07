@@ -1,9 +1,19 @@
+var availableIngredientList = [];
+
 $(document).ready(function() {
 
     initFields();
     
     if (params.process) {
         addInstructionStepsFromRequest();
+    }
+
+    for (var i=0;i<params.ingredientList.length;i++) {
+        availableIngredientList.push({
+            value: params.ingredientList[i].title,
+            label: params.ingredientList[i].title,
+            id: params.ingredientList[i].id
+        });
     }
 
 });
@@ -16,30 +26,45 @@ $(document).ready(function() {
 function createInstructionStepListRow(list) {
     // get and set the id of the last inserted row
     var lastId = parseInt($(list).attr('data-last-id'));
-    
-    var li = $('<li class="instruction-step list-group-item" data-id="' + lastId + '"></li>').appendTo($(list));
-    
-    // add hidden fields to store the data
-    $(li).append('<input type="hidden" class="text" name="step[' + lastId + '][text]" value="" />');
-    $(li).append('<input type="hidden" class="duration" name="step[' + lastId + '][duration]" value="" />');
-    $(li).append('<input type="hidden" class="attendance-rate" name="step[' + lastId + '][attendance]" value="" />');
 
-    var row = $('<div class="row"></div>').appendTo($(li).draggable({
+    var li = $(params.templates['instruction_step_row'].html).appendTo($(list));
+
+    $(li).attr('data-id', lastId);
+    $(li).find('input.text').attr('name', 'step[' + lastId + '][text]');
+    $(li).find('input.duration').attr('name', 'step[' + lastId + '][duration]');
+    $(li).find('input.attendance-rate').attr('name', 'step[' + lastId + '][attendance]');
+    
+    $(li).draggable({
         appendTo: "body",
         helper: "clone",
         handle: "div.move-box"
-    }));
-
-    $('<div class="col-md-1 move-box">').appendTo(row).append('<p>M</p>');
-    $('<div class="col-md-2">').appendTo(row).append('<p><span class="text"></span></p>');
-    $('<div class="col-md-1">').appendTo(row).append('<span class="attendance-rate"></span>');
-    var listContainer = $('<div class="col-md-7">').appendTo(row);
-    $('<div class="col-md-1">').appendTo(row).append('<input type="button" class="remove form-control icon delete" value="" />').on("click", function() {
+    });
+    
+    $(li).find('input.remove').on("click", function() {
         $(li).remove();
     });
+    
+    // // add hidden fields to store the data
+    // $(li).append('<input type="hidden" class="text" name="step[' + lastId + '][text]" value="" />');
+    // $(li).append('<input type="hidden" class="duration" name="step[' + lastId + '][duration]" value="" />');
+    // $(li).append('<input type="hidden" class="attendance-rate" name="step[' + lastId + '][attendance]" value="" />');
 
-    var ingredientList = $('<ul class="ingredient-list" data-last-id="0" ></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
-    var resourceList = $('<ul class="resource-list" data-last-id="0"></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
+    // var row = $('<div class="row"></div>').appendTo($(li).draggable({
+        // appendTo: "body",
+        // helper: "clone",
+        // handle: "div.move-box"
+    // }));
+
+    // $('<div class="col-md-1 move-box">').appendTo(row).append('<p>M</p>');
+    // $('<div class="col-md-2">').appendTo(row).append('<p><span class="text"></span></p>');
+    // $('<div class="col-md-1">').appendTo(row).append('<span class="attendance-rate"></span>');
+    // var listContainer = $('<div class="col-md-7">').appendTo(row);
+    // $('<div class="col-md-1">').appendTo(row).append('<input type="button" class="remove form-control icon delete" value="" />').on("click", function() {
+        // $(li).remove();
+    // });
+
+    // var ingredientList = $('<ul class="ingredient-list" data-last-id="0" ></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
+    // var resourceList = $('<ul class="resource-list" data-last-id="0"></ul>').appendTo($('<div class="col-md-12"></div>').appendTo($('<div class="row"></div>').appendTo(listContainer)));
     
     $(list).sortable("refresh");
     $(list).attr('data-last-id', lastId + 1);
@@ -55,7 +80,6 @@ function createInstructionStepListRow(list) {
 function copyInstructionStepDataToList(data, list, stepId) {
     // finds the needed step from the list
     var li = $(list).find('li[data-id="' + stepId + '"]');
-    
     // sets head data
     $(li).find('input.text').val(data.text);
     $(li).find('input.duration').val(data.duration);
@@ -178,7 +202,19 @@ function addResourceRowToInstructionStepForm(list, data) {
 function addIngredientRowToInstructionStepForm(list, data) {
     $(list).find('li').addClass('border-bottom');
     var li = $( "<li></li>" ).appendTo($(list));
-    $(params.templates['add_instruction_step_ingredient_row'].html).appendTo(li).find('span.title').html(data.title);
+    $(params.templates['add_instruction_step_ingredient_row'].html).appendTo(li);
+    $(li).find('span.title').html(data.title);
+    $(li).find('input.id').val(data.id);
+    $(li).find('input.amount').val(data.amount);
+    $(li).find('input.unit').val(data.unit);
+    $(li).find('input.comment').val(data.comment);
+    
+    $(li).find('label.optional').attr('for', 'selected-ingredient-' + $(li).index() + '-' + data.id);
+    $(li).find('input.optional').attr('id', 'selected-ingredient-' + $(li).index() + '-' + data.id);
+
+    if (data.optional === 'true') {
+        $(li).find('input.optional').prop('checked', 'checked');
+    }
     
 /*
     var hideFields = ' ';
@@ -187,7 +223,6 @@ function addIngredientRowToInstructionStepForm(list, data) {
     }
     
     var optionalValue = ' ';
-    if (data.optional === 'true') {
         optionalValue = 'checked="checked"' + optionalValue;
     }
     
@@ -261,6 +296,7 @@ function fillFormFromInstructionStep(form, li) {
 }
 
 function addInstructionStepsFromRequest() {
+    var process = params.process;
     for (var i=0;i<process.step.length;i++) {
         var rowId = createInstructionStepListRow($('div.instruction-step-list ul.instruction-step-list'));
         copyInstructionStepDataToList(process.step[i], $('div.instruction-step-list ul.instruction-step-list'), rowId);
@@ -450,7 +486,7 @@ function collectDataFromInstructionStepForm(form) {
             comment: $(element).find('.comment').val()
         });
     });
-    
+
     return formData;
 }
 
@@ -503,18 +539,6 @@ function addResource() {
     });
 }
 
-var availableIngredientList = [
-    {value: 'alma', label: 'alma', id: 1},
-    {value: 'arany', label: 'arany', id: 2},
-    {value: 'alfa', label: 'alfa', id: 3},
-];
-
-/*
-var ingredientList = [
-    'alma', 'alfa'
-];
-*/
-
 function setAutocompleteField(field, type) {
     $(field).autocomplete({
         source: availableIngredientList,
@@ -533,19 +557,16 @@ function setAutocompleteField(field, type) {
             
             addIngredientRowToInstructionStepForm($('div.add-instruction-step div.ingredient-list ul'), data).find('input.amount').focus();
             
-            console.log($(this).val());
             $(this).val('');
         }
     });
 }
 
 function initAddInstructionStepAutocompleteFields() {
-//    console.log(ingredientList);
     $("div.add-instruction-step input.select-ingredient").autocomplete({
         source: availableIngredientList,
         minLength: 1,
         select: function(event, ui) {
-//            console.log(ui.item);
             var data = {
                 id : ui.item.id,
                 title : ui.item.label,

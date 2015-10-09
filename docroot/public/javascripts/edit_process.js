@@ -499,62 +499,6 @@ function collectDataFromInstructionStepForm(form) {
 function submitProcessForm() {
 }
 
-function addIngredient() {
-    var data = {
-        title : $('form.new-ingredient input[name="title"]').val(),
-        description : $('form.new-ingredient input[name="description"]').val()
-    };
-
-    $.ajax({
-        url: "/addingredient",
-        type : "POST",
-        dataType: "json",
-        data: data,
-        success: function(res) {
-            $('form.new-ingredient input.title').val('');
-            $('form.new-ingredient input.description').val('');
-
-            availableIngredientList.push({
-                value: res.entity.title,
-                title: res.entity.title,
-                id: res.entity.id
-            });
-
-            $('.ingredient-list input.add-ingredient').autocomplete({
-                source: availableIngredientList
-            });
-            
-            $('ul.available-ingredient-list').append($('<li></li>').append($(res.html).draggable({
-                appendTo: "body",
-                helper: "clone"
-            })));
-        }
-    });
-}
-
-function addResource() {
-    var data = {
-        title : $('form.new-resource input[name="title"]').val(),
-        description : $('form.new-resource input[name="description"]').val()
-    };
-
-    $.ajax({
-        url: "/addresource",
-        type : "POST",
-        dataType: "json",
-        data: data,
-        success: function(res) {
-            $('form.new-resource input.title').val('');
-            $('form.new-resource input.description').val('');
-            
-            $('ul.available-resource-list').append($('<li></li>').append($(res.html).draggable({
-                appendTo: "body",
-                helper: "clone"
-            })));
-        }
-    });
-}
-
 function setAutocompleteField(field, type) {
     var source;
     switch (type) {
@@ -605,29 +549,3 @@ function getKeyByValue(list, value) {
     }
 }
 
-/*
-    $( ".form-instruction-step .input-add-resource" ).autocomplete({
-        source: function( request, response ) {
-            $.ajax({
-                url: "/resourcelist",
-                dataType: "jsonp",
-                data: {
-                    q: request.term
-                },
-                success: function( data ) {
-                    response(data);
-                }
-            });
-        },
-        minLength: 2,
-        select: function( event, ui ) {
-            log( ui.item ? "Selected: " + ui.item.label : "Nothing selected, input was " + this.value);
-        },
-        open: function() {
-            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-        },
-        close: function() {
-            $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-        }
-    });
-*/

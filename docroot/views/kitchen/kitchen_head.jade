@@ -1,0 +1,11 @@
+div(class='form-horizontal')
+    h2 tell us about your kitchen
+    input(type="hidden", class="process-id", name="process-id", value="#{paramProcess && paramProcess.title ? paramProcess.title : ''}")
+    div(class='form-group')
+        label(for="title", class="col-md-2 control-label ") title
+        div(class='col-md-10')
+            input(type="text", class="form-control ", placeholder="title", name="title", id="title", value="#{paramProcess && paramProcess.title ? paramProcess.title : ''}")
+    div(class='form-group')
+        label(for="description", class="col-md-2 control-label ") desc.
+        div(class='col-md-10')
+            textarea(class="form-control", placeholder="description", name="description", id="description") #{paramProcess && paramProcess.description ? paramProcess.description : ''}

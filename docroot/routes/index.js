@@ -17,7 +17,7 @@ module.exports = function(app, db, upload, easyimage) {
 
     app.get('/newrecipe', function(req, res) {
         collectProcessData(function(data) {
-            res.render('editprocess/edit_process', data);
+            res.render('process/edit_process', data);
         });
     });
 
@@ -28,11 +28,56 @@ module.exports = function(app, db, upload, easyimage) {
             collectProcessData(function(data) {
                 data.paramProcess = process;
                 data.jsParams.process = process;
-                res.render('editprocess/edit_process', data);
+                res.render('process/edit_process', data);
             });
         });
     });
 
+    app.get('/newkitchen', function(req, res) {
+        collectKitchenData(function(data) {
+            data.paramKitchen = kitchen;
+            data.jsParams.kitchen = kitchen;
+            res.render('kitchen/edit_kitchen', data);
+        });
+    });
+
+    app.get('/editkitchen/:slug', function(req, res) {
+        var kitchenCollection = db.get('kitchen');
+        
+        kitchenCollection.findOne({'title': req.params.slug}, {}, function(e, kitchen) {
+            collectKitchenData(function(data) {
+                data.paramKitchen = kitchen;
+                data.jsParams.kitchen = kitchen;
+                res.render('kitchen/edit_kitchen', data);
+            });
+        });
+    });
+
+    function collectKitchenData(callback) {
+        var ingredientCollection = db.get('ingredient');
+        var resourceCollection = db.get('resource');
+        
+        ingredientCollection.find({}, {}, function(e, ingredientList) {
+            resourceCollection.find({}, {}, function(e, resourceList) {
+
+                var templates = {
+                };
+                
+                var ret = {
+                    jsParams : {
+                        templates : templates,
+                        availableIngredientList : ingredientList,
+                        availableResourceList : resourceList
+                    },
+                    availableIngredientList : ingredientList,
+                    availableResourceList : resourceList
+                };
+                                            
+                callback(ret);
+            });
+        });
+    };
+    
     function collectProcessData(callback) {
         var ingredientCollection = db.get('ingredient');
         var resourceCollection = db.get('resource');
@@ -41,13 +86,13 @@ module.exports = function(app, db, upload, easyimage) {
         processCollection.find({}, {}, function(e, processList) {
             ingredientCollection.find({}, {}, function(e, ingredientList) {
                 resourceCollection.find({}, {}, function(e, resourceList) {
-                    app.render('editprocess/instruction_step_row.jade', {layout: false}, function(err, instruction_step_row) {
-                        app.render('editprocess/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, add_instruction_step_ingredient_row) {
-                            app.render('editprocess/add_instruction_step_resource_row.jade', {layout: false}, function(err, add_instruction_step_resource_row) {
-                                app.render('editprocess/add_instruction_step_prerequisite_row.jade', {layout: false}, function(err, add_instruction_step_prerequisite_row) {
-                                    app.render('editprocess/instruction_step_ingredient_row.jade', {layout: false}, function(err, instruction_step_ingredient_row) {
-                                        app.render('editprocess/instruction_step_resource_row.jade', {layout: false}, function(err, instruction_step_resource_row) {
-                                            app.render('editprocess/instruction_step_prerequisite_row.jade', {layout: false}, function(err, instruction_step_prerequisite_row) {
+                    app.render('process/instruction_step_row.jade', {layout: false}, function(err, instruction_step_row) {
+                        app.render('process/add_instruction_step_ingredient_row.jade', {layout: false}, function(err, add_instruction_step_ingredient_row) {
+                            app.render('process/add_instruction_step_resource_row.jade', {layout: false}, function(err, add_instruction_step_resource_row) {
+                                app.render('process/add_instruction_step_prerequisite_row.jade', {layout: false}, function(err, add_instruction_step_prerequisite_row) {
+                                    app.render('process/instruction_step_ingredient_row.jade', {layout: false}, function(err, instruction_step_ingredient_row) {
+                                        app.render('process/instruction_step_resource_row.jade', {layout: false}, function(err, instruction_step_resource_row) {
+                                            app.render('process/instruction_step_prerequisite_row.jade', {layout: false}, function(err, instruction_step_prerequisite_row) {
 
                                                 var templates = {
                                                     instruction_step_row: {
@@ -215,7 +260,7 @@ module.exports = function(app, db, upload, easyimage) {
             }
             else {
                 // http://stackoverflow.com/questions/18065812/render-view-into-a-variable-in-expressjs-for-ajax-response
-                app.render('editprocess/ingredient_box', {object: doc, layout: false}, function(err, html){
+                app.render('process/ingredient_box', {object: doc, layout: false}, function(err, html){
                     var response = {
                         result: 1,
                         entity: entity,
@@ -242,7 +287,7 @@ module.exports = function(app, db, upload, easyimage) {
                 res.send("There was a problem adding the information to the database.");
             }
             else {
-                app.render('editprocess/resource_box', {object: doc, layout: false}, function(err, html){
+                app.render('process/resource_box', {object: doc, layout: false}, function(err, html){
                     var response = {
                         result: 1,
                         html: html

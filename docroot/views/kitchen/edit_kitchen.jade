@@ -3,6 +3,9 @@ extends ../layout
 block head
     script(type='text/javascript').
         var params = '#{jsParams}' ? !{JSON.stringify(jsParams)} : undefined;
+    script(type='text/javascript' src='/javascripts/common.js')
+    script(type='text/javascript' src='/javascripts/ingredient.js')
+    script(type='text/javascript' src='/javascripts/resource.js')
     script(type='text/javascript' src='/javascripts/edit_kitchen.js')
 
 block content
@@ -12,14 +15,23 @@ block content
                 form(method="post", action="/addkitchen")
                     div(class='row')
                         div(class='col-md-6')
-                            div(class='box-container')
-                                div(class='box-inner')
-                                    include ./kitchen_head.jade
+                            div(class='row')
+                                div(class='col-md-12')
+                                    div(class='box-container')
+                                        div(class='box-inner')
+                                            include ./kitchen_head.jade
+
+                            div(class='row')
+                                div(class='col-md-12')
+                                    div(class='box-container')
+                                        div(class='box-inner resource-list')
+                                            h3 selected resources
+                                            ul
+                                            input(type="text", class="form-control add-resource no-post", placeholder="add a resource")
                     
-                        div(class='col-md-6')
+                        div(class='col-md-6 available-resource-list')
                             div(class='box-container')
                                 div(class='box-inner')
-                                    include ./add_instruction_step.jade
                                             
                     div(class='row')
                         div(class='col-md-12  new-recipe-submit')

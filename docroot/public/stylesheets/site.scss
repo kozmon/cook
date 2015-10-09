@@ -274,20 +274,13 @@ div.box-container {
     border-style: solid;
     border-width: 1px 0 0 1px;
     box-shadow: 4px 4px 4px #c8c8c8;
+    border-color: #c8c8c8;
 
     div.box-inner {
     }
 
 }
 
-div.process-head {
-
-    div.box-container {
-        border-color: #c8c8c8;
-    }
-    
-}
-    
 div.add-instruction-step {
     color: $color03;
     
@@ -297,10 +290,6 @@ div.add-instruction-step {
         color: $color00;
     }
     
-    div.box-container {
-        border-color: #c8c8c8;
-    }
-
     div.resource-list ul, div.ingredient-list ul, div.prerequisite-list ul {
         list-style-type: none;
         
@@ -318,7 +307,6 @@ div.add-instruction-step {
 div.instruction-step-list {    
     
     div.box-container {
-        border-color: #c8c8c8;
         
         ul {
             list-style-type: decimal;
@@ -343,11 +331,8 @@ li.instruction-step {
 }
 
 div.new-recipe-submit {
-    color: $color03;
     
-    div.box-container {
-        border-color: #c8c8c8;
-    }
+    color: $color03;
     
 }
 
@@ -360,17 +345,9 @@ div.ingredients-resources {
         color: $color00;
     }
     
-    div.box-container {
-        border-color: #c8c8c8;
-    }
-    
 }
 
 div.available-ingredient-list {
-    
-    div.box-container {
-        border-color: #c8c8c8;
-    }
     
     ul.available-ingredient-list {
         list-style-type: none;
@@ -384,10 +361,6 @@ div.available-ingredient-list {
 
 div.available-resource-list {
 
-    div.box-container {
-        border-color: #c8c8c8;
-    }
-    
     ul.available-resource-list {
         list-style-type: none;
         
@@ -400,10 +373,6 @@ div.available-resource-list {
 
 div.new-resource {
     
-    div.box-container {
-        border-color: #c8c8c8;
-    }
-    
     ul {
         list-style-type: none;
     }
@@ -411,11 +380,8 @@ div.new-resource {
 }
 
 div.new-ingredient {
-    color: $color03;
     
-    div.box-container {
-        border-color: #c8c8c8;
-    }
+    color: $color03;
     
 }
 

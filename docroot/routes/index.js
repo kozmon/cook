@@ -35,8 +35,6 @@ module.exports = function(app, db, upload, easyimage) {
 
     app.get('/newkitchen', function(req, res) {
         collectKitchenData(function(data) {
-            data.paramKitchen = kitchen;
-            data.jsParams.kitchen = kitchen;
             res.render('kitchen/edit_kitchen', data);
         });
     });

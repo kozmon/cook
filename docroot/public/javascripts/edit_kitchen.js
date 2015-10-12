@@ -6,52 +6,22 @@ $(document).ready(function() {
 //        loadKitchenFromRequest();
     }
 
-    initAvailableIngredientAutocompleteSource(params.availableIngredientList);
-    initAvailableResourceAutocompleteSource(params.availableResourceList);
+    ResourceContainer.initAvailableResourceAutocompleteSource(params.availableResourceList);
+    IngredientContainer.initAvailableIngredientAutocompleteSource(params.availableIngredientList);
 
 });
 
 function initFields() {
-    setAutocompleteField($('.resource-list input.add-resource'), 'resource');
-}
-
-function setAutocompleteField(field, type) {
-    var source;
-    switch (type) {
-        case 'ingredient':
-            source = availableIngredientList;
-            break;
-        case 'resource':
-            source = availableResourceList;
-            break;
-    }
-    
-    $(field).autocomplete({
-        source: source,
-        minLength: 1,
-        select: function(event, ui) {
-            event.preventDefault();
-        
-            var data = {
-                id : ui.item.id,
-                title : ui.item.label,
-                amount: '',
-                unit: '',
-                comment: '',
-                optional: false
-            };
-            
-            switch (type) {
-                case 'ingredient':
-                    addIngredientRowToInstructionStepForm($('div.ingredient-list ul'), data).find('input.amount').focus();
-                    break;
-                case 'resource':
-                    addResourceRowToInstructionStepForm($('div.resource-list ul'), data).find('input.amount').focus();
-                    break;
-            }
-            
-            $(this).val('');
-        }
+    $('form.new-ingredient input.submit').on('click', function() {
+        IngredientContainer.save($('form.new-ingredient'));
     });
+        
+    $('form.new-resource input.submit').on('click', function() {
+        ResourceContainer.save($('form.new-resource'));
+    });
+        
+    IngredientContainer.setAutocompleteField($('.ingredient-list input.add-ingredient'));
+    ResourceContainer.setAutocompleteField($('.resource-list input.add-resource'));
+    
 }
 

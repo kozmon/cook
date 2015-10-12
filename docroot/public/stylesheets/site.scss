@@ -281,29 +281,16 @@ div.box-container {
 
 }
 
-div.add-instruction-step {
-    color: $color03;
+div.resource-list ul, div.ingredient-list ul, div.prerequisite-list ul {
+    list-style-type: none;
     
-    pre {
-        background-color: #ffffff;
-        border-color: #c8c8c8;
-        color: $color00;
+    span.title {
+        color: #888888;
+        font-weight: normal;
+        font-size: 1.4em;
     }
-    
-    div.resource-list ul, div.ingredient-list ul, div.prerequisite-list ul {
-        list-style-type: none;
-        
-        span.title {
-            color: #888888;
-            font-weight: normal;
-            font-size: 1.4em;
-        }
-        
-        
-    }
-        
 }
-
+    
 div.instruction-step-list {    
     
     div.box-container {

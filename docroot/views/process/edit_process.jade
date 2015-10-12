@@ -3,9 +3,9 @@ extends ../layout
 block head
     script(type='text/javascript').
         var params = '#{jsParams}' ? !{JSON.stringify(jsParams)} : undefined;
-    script(type='text/javascript' src='/javascripts/ingredient.js')
-    script(type='text/javascript' src='/javascripts/resource.js')
-    script(type='text/javascript' src='/javascripts/process.js')
+    script(type='text/javascript' src='/javascripts/IngredientContainer.js')
+    script(type='text/javascript' src='/javascripts/ResourceContainer.js')
+    script(type='text/javascript' src='/javascripts/ProcessContainer.js')
     script(type='text/javascript' src='/javascripts/edit_process.js')
 
 block content
@@ -44,22 +44,12 @@ block content
             div(class='col-md-6 available-ingredient-list')
                 div(class='box-container')
                     div(class='box-inner')
-                        h2 available ingredients
-                        ul.available-ingredient-list
-                            if availableIngredientList
-                                each object, i in availableIngredientList
-                                    li
-                                        include ../ingredient/ingredient_box.jade
+                        include ../ingredient/available_ingredient_list.jade
                                     
             div(class='col-md-6 available-resource-list')
                 div(class='box-container')
                     div(class='box-inner')
-                        h2 available resources
-                        ul.available-resource-list
-                            if availableResourceList
-                                each object, i in availableResourceList
-                                    li
-                                        include ../resource/resource_box.jade
+                        include ../resource/available_resource_list.jade
 
         div(class='row')
             div(class='col-md-6 new-ingredient')

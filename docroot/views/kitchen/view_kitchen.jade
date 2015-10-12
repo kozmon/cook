@@ -1,0 +1,17 @@
+extends ../layout
+
+block head
+    script(type='text/javascript' src='/javascripts/lib/mespeak/mespeak.js')
+    script(type='text/javascript' src='/javascripts/view_kitchen.js')
+
+block content        
+    div(class='container-fluid content')
+        div(class='row')
+            div(class='col-xs-12')
+                p #{paramKitchen.title}
+                p #{paramKitchen.description}
+                
+        div(class='row')
+            div(class='col-xs-12')
+                a(href="/editkitchen/" + paramKitchen.title) edit
+                

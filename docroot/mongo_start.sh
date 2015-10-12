@@ -1,1 +1,1 @@
-mongod --dbpath d:\\Langs\\projects\\cook\\docroot\\data
+mongod --dbpath c:\\Langs\\projects\\cook\\docroot\\data

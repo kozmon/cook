@@ -3,9 +3,9 @@ extends ../layout
 block head
     script(type='text/javascript').
         var params = '#{jsParams}' ? !{JSON.stringify(jsParams)} : undefined;
-    script(type='text/javascript' src='/javascripts/common.js')
-    script(type='text/javascript' src='/javascripts/ingredient.js')
-    script(type='text/javascript' src='/javascripts/resource.js')
+    script(type='text/javascript' src='/javascripts/IngredientContainer.js')
+    script(type='text/javascript' src='/javascripts/ResourceContainer.js')
+    script(type='text/javascript' src='/javascripts/KitchenContainer.js')
     script(type='text/javascript' src='/javascripts/edit_kitchen.js')
 
 block content
@@ -28,6 +28,14 @@ block content
                                             h3 selected resources
                                             ul
                                             input(type="text", class="form-control add-resource no-post", placeholder="add a resource")
+                    
+                            div(class='row')
+                                div(class='col-md-12')
+                                    div(class='box-container')
+                                        div(class='box-inner ingredient-list')
+                                            h3 selected ingredients
+                                            ul
+                                            input(type="text", class="form-control add-ingredient no-post", placeholder="add an ingredient")
                     
                         div(class='col-md-6 available-resource-list')
                             div(class='box-container')

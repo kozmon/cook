@@ -84,6 +84,8 @@ ResourceContainer.save = function(form) {
  * creates and fills an editable row to an resourcelist
  */
 ResourceContainer.addEditableRowToList = function(list, data) {
+    var lastId = parseInt($(list).attr('data-last-id'));
+
     // adds border to all elements except the newly inserted one
     $(list).find('li').addClass('border-bottom');
     var li = $( "<li></li>" ).appendTo($(list));
@@ -91,8 +93,8 @@ ResourceContainer.addEditableRowToList = function(list, data) {
     
     // if data is set => fill the fields
     if (data) {
-        $(li).find('span.title').html(data.title);
         $(li).find('input.id').val(data.id);
+        $(li).find('span.title').html(data.title);
         $(li).find('input.amount').val(data.amount);
         $(li).find('input.unit').val(data.unit);
         $(li).find('input.comment').val(data.comment);
@@ -103,12 +105,21 @@ ResourceContainer.addEditableRowToList = function(list, data) {
         if (data.optional === 'true') {
             $(li).find('input.optional').prop('checked', 'checked');
         }
+
+        $(li).find('input.id').attr('name', 'resource[' + lastId + '][id]').val(data.id);
+        $(li).find('input.title').attr('name', 'resource[' + lastId + '][title]').val(data.title);
+        $(li).find('input.amount').attr('name', 'resource[' + lastId + '][amount]').val(data.amount);
+        $(li).find('input.unit').attr('name', 'resource[' + lastId + '][unit]').val(data.unit);
+        $(li).find('input.comment').attr('name', 'resource[' + lastId + '][comment]').val(data.comment);
+        $(li).find('input.optional').attr('name', 'resource[' + lastId + '][optional]').val(data.optional);
     }
 
     $(li).find('.delete').on('click', function() {
         $(li).remove();
     });
     
+    $(list).attr('data-last-id', lastId + 1);
+
     return li;
 };
 
@@ -122,19 +133,21 @@ ResourceContainer.addStaticRowToList = function(list, data, stepId) {
     var li = $('<li></li>').appendTo($(list)).append($(params.templates['resource_row'].html));
     // $(params.templates['resource_row'].html).appendTo(li);
 
-    $(li).find('span.title').html(data.title);
-    $(li).find('span.amount').html(data.amount);
-    $(li).find('span.unit').html(data.unit);
-    $(li).find('span.comment').html(data.comment);
-    
-    // sets data for form posts
-    if (stepId !== undefined) {
-        $(li).find('input.id').attr('name', 'step[' + stepId + '][resource][' + lastId + '][id]').val(data.id);
-        $(li).find('input.title').attr('name', 'step[' + stepId + '][resource][' + lastId + '][title]').val(data.title);
-        $(li).find('input.amount').attr('name', 'step[' + stepId + '][resource][' + lastId + '][amount]').val(data.amount);
-        $(li).find('input.unit').attr('name', 'step[' + stepId + '][resource][' + lastId + '][unit]').val(data.unit);
-        $(li).find('input.comment').attr('name', 'step[' + stepId + '][resource][' + lastId + '][comment]').val(data.comment);
-        $(li).find('input.optional').attr('name', 'step[' + stepId + '][resource][' + lastId + '][optional]').val(data.optional);
+    if (data) {
+        $(li).find('span.title').html(data.title);
+        $(li).find('span.amount').html(data.amount);
+        $(li).find('span.unit').html(data.unit);
+        $(li).find('span.comment').html(data.comment);
+        
+        // sets data for form posts
+        if (stepId !== undefined) {
+            $(li).find('input.id').attr('name', 'step[' + stepId + '][resource][' + lastId + '][id]').val(data.id);
+            $(li).find('input.title').attr('name', 'step[' + stepId + '][resource][' + lastId + '][title]').val(data.title);
+            $(li).find('input.amount').attr('name', 'step[' + stepId + '][resource][' + lastId + '][amount]').val(data.amount);
+            $(li).find('input.unit').attr('name', 'step[' + stepId + '][resource][' + lastId + '][unit]').val(data.unit);
+            $(li).find('input.comment').attr('name', 'step[' + stepId + '][resource][' + lastId + '][comment]').val(data.comment);
+            $(li).find('input.optional').attr('name', 'step[' + stepId + '][resource][' + lastId + '][optional]').val(data.optional);
+        }
     }
     
     $(list).attr('data-last-id', lastId + 1);

@@ -3,7 +3,7 @@ $(document).ready(function() {
     initFields();
     
     if (params.kitchen) {
-//        loadKitchenFromRequest();
+        KitchenContainer.loadEditableDataFromRequest();
     }
 
     ResourceContainer.initAvailableResourceAutocompleteSource(params.availableResourceList);
@@ -12,16 +12,8 @@ $(document).ready(function() {
 });
 
 function initFields() {
-    $('form.new-ingredient input.submit').on('click', function() {
-        IngredientContainer.save($('form.new-ingredient'));
-    });
-        
-    $('form.new-resource input.submit').on('click', function() {
-        ResourceContainer.save($('form.new-resource'));
-    });
-        
-    IngredientContainer.setAutocompleteField($('.ingredient-list input.add-ingredient'));
-    ResourceContainer.setAutocompleteField($('.resource-list input.add-resource'));
-    
+    IngredientContainer.initFields();
+    ResourceContainer.initFields();
+//    KitchenContainer.initFields();
 }
 

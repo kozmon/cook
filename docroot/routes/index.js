@@ -206,7 +206,13 @@ module.exports = function(app, db, upload, easyimage) {
     }
     
     app.get('/recipes', function(req, res) {
+        var q = req.query.q;
+        
         var processCollection = db.get('process');
+        
+        if (q == 'ownkitchen') {
+        }
+        
         processCollection.find({}, {}, function(e, processList){
             res.render('process/process_list', {
                 "processList" : processList

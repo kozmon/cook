@@ -39,7 +39,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var routes = require('./routes/index')(app, db, upload, easyimg);
+require('./routes/index')(app, db, upload, easyimg);
+require('./routes/ingredient')(app, db, upload, easyimg);
+require('./routes/resource')(app, db, upload, easyimg);
+require('./routes/process')(app, db, upload, easyimg);
+require('./routes/kitchen')(app, db, upload, easyimg);
 
 app.use(function(req,res,next){
     req.db = db;

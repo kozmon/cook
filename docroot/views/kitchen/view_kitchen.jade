@@ -16,14 +16,14 @@ block content
                     ul
                         each resource, i in paramKitchen.resource
                             li(class="resource")
-                                p #{resource.title}: #{resource.amount} #{resource.unit} #{resource.comment != '' ? '(' + resource.comment + ')' : ''}
+                                p #{resource.title}: #{resource.amount} #{resource.unit} #{resource.comment != '' ? '(' + resource.comment + ')' : ''} #{resource.optional != undefined ? '[optional]' : ''}
                 
                 if (paramKitchen.ingredient)
                     h3 ingredients:
                     ul
                         each ingredient, i in paramKitchen.ingredient
                             li(class="ingredient")
-                                p #{ingredient.title}: #{ingredient.amount} #{ingredient.unit} #{ingredient.comment != '' ? '(' + ingredient.comment + ')' : ''}
+                                p #{ingredient.title}: #{ingredient.amount} #{ingredient.unit} #{ingredient.comment != '' ? '(' + ingredient.comment + ')' : ''} #{ingredient.optional != undefined ? '[optional]' : ''}
                 
         div(class='row')
             div(class='col-xs-12')

@@ -1,0 +1,7 @@
+search types
+    - for exact matches (ie. for kitchen): will find recipes only including ingredients and resources that i have
+        - ie: i have flour 50 dkg, water, salt, 5 eggs -> returns some noodles etc.
+    - for having n matching ingredients, resources
+        - ie: search for: 'flour', 'eggs' -> returns everything that includes flour and eggs
+    - for categories, tags
+    

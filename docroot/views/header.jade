@@ -17,15 +17,17 @@ header
                         li(class="last")
                             a(href="#") abc
             
-            form
+            form(action="/recipes")
                 div(class="row search")
                     div(class="col-md-6 basic-search")
-                        input(type="text" class="basic-search form-control" placeholder="find recipes")
+                        input(type="text" class="basic-search form-control" name="qt" placeholder="find recipes")
                         input(type="submit" class="form-control" value="go")
                         input(type="button" class="form-control" value="advanced" data-toggle="collapse" data-target="#advanced-search-form" aria-expanded="false" aria-controls="advanced-search-form")
                     div(class="col-md-6 advanced-search")
-                        div(class="form collapse" id="advanced-search-form")
-                            input(type="button" class="form-control" value="search for my kitchen")
+                        div(class="form collapse in" id="advanced-search-form")
+                            input(type="text" class="ingredient-search form-control" name="qi" placeholder="find by ingredients")
+                            label(for="kitchen-search") for my kitchen
+                            input(type="checkbox" class="kitchen-search" name="kitchen-search" id="kitchen-search")
         
         li(class="col-md-1 profil")
             a(href="/")

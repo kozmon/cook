@@ -3,9 +3,6 @@ extends ../layout
 block head
     script(type='text/javascript').
         var params = '#{jsParams}' ? !{JSON.stringify(jsParams)} : undefined;
-    script(type='text/javascript' src='/javascripts/IngredientContainer.js')
-    script(type='text/javascript' src='/javascripts/ResourceContainer.js')
-    script(type='text/javascript' src='/javascripts/ProcessContainer.js')
     script(type='text/javascript' src='/javascripts/edit_process.js')
 
 block content
